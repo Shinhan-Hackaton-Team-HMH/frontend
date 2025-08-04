@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -10,6 +10,28 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-spoqa: 'SpoqaHanSansNeo-Regular', sans-serif;
+  --text-Headline: 24px;
+  --text-Headline--line-height: 32px;
+  --text-Headline--font-weight: 500;
+  --text-TitleMD: 18px;
+  --text-TitleMD--line-height: 26px;
+  --text-TitleMD--font-weight: 500;
+  --text-TitleSM: 16px;
+  --text-TitleSM--line-height: 22px;
+  --text-TitleSM--font-weight: 400;
+  --text-ButtonMD: 17px;
+  --text-ButtonMD--line-height: 24px;
+  --text-ButtonMD--font-weight: 500;
+  --text-BodyMD: 15px;
+  --text-BodyMD--line-height: 20px;
+  --text-BodyMD--font-weight: 400;
+  --text-BodySM: 14px;
+  --text-BodySM--line-height: 20px;
+  --text-BodySM--font-weight: 400;
+  --text-Caption: 12px;
+  --text-Caption--line-height: 16px;
+  --text-Caption--font-weight: 400;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,6 +39,14 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+@font-face {
+  font-family: 'SpoqaHanSansNeo-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
