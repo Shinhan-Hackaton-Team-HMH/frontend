@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative flex flex-col items-center justify-center">
       <div className="text-Headline">this is spoqa</div>
       <Link
         href={
@@ -12,6 +12,29 @@ export default function Home() {
       >
         Naver Url Scheme
       </Link>
+      <Link
+        href={
+          'nmap://search?query=%EA%B0%95%EB%82%A8%EC%97%AD&appname=com.example.myapp'
+        }
+        className="text-Body"
+      >
+        강남역 검색창
+      </Link>
+      <Link
+        href={'nmap://search?query=싸다김밥 명동역점&appname=com.example.myapp'}
+        className="text-Body"
+      >
+        싸다김밥 명동역점 한글 인코딩 전
+      </Link>
+      <Link
+        href={
+          'nmap://search?query=%EC%8B%B8%EB%8B%A4%EA%B9%80%EB%B0%A5%20%EB%AA%85%EB%8F%99%EC%97%AD%EC%A0%90&appname=com.example.myapp'
+        }
+        className="text-Body"
+      >
+        싸다김밥 명동역점 한글 인코딩 후
+      </Link>
+      <div className="w-48 h-32 text-black bg-white">맵임 </div>
     </div>
   );
 }
