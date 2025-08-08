@@ -12,18 +12,11 @@ import * as THREE from 'three';
 import * as tf from '@tensorflow/tfjs';
 
 declare global {
-  interface Window {
-    MINDAR: {
-      IMAGE: {
-        Controller: typeof ImageController;
-        Compiler: typeof ImageCompiler;
-        UI: typeof UI;
-        MindARThree: typeof ImageThree;
-        THREE: THREE;
-        tf: tf;
-      };
-    };
-  }
+  type RequestType<T> = T extends (arg: infer R, ...args: any[]) => any
+    ? R
+    : never;
+
+  type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Kakao: any;
