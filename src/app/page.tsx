@@ -6,7 +6,7 @@ export default function Home() {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
         redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
-        scope: 'profile_nickname,profile_image', // Add desired scopes
+        // scope: 'profile_nickname,profile_image', // Add desired scopes
       });
     } else {
       console.error('Kakao SDK not loaded or initialized.');
