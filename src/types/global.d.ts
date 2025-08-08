@@ -2,12 +2,9 @@
 export {};
 
 declare global {
-  interface Window {
-    MINDAR: {
-      IMAGE: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        MindARThree: any;
-      };
-    };
-  }
+  type RequestType<T> = T extends (arg: infer R, ...args: any[]) => any
+    ? R
+    : never;
+
+  type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
 }

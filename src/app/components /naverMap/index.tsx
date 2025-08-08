@@ -1,8 +1,6 @@
-import NaverNews from '@/app/components /naverNews';
-import Weather from '@/app/components /weather';
 import Link from 'next/link';
 
-export default function Home() {
+export function NaverMap() {
   return (
     <div className="w-full h-full relative flex flex-col items-center justify-center">
       <div className="text-Headline">this is spoqa</div>
@@ -37,8 +35,6 @@ export default function Home() {
         싸다김밥 명동역점 한글 인코딩 후
       </Link>
       <div className="w-48 h-32 text-black bg-white">맵임 </div>
-      <Weather />
-      <NaverNews />
     </div>
   );
 }
