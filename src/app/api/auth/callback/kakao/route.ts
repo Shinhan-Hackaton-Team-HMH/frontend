@@ -24,12 +24,17 @@ export async function GET(req: NextRequest) {
       new URL('/auth/login-error?message=no_code', req.url),
     );
   }
-  const tokenResponse = await fetch(`${serverURL}/auth/callback?code=${code}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+  const url = `${serverURL}/auth/callback/kakao?code=${code}`;
+  console.log(url);
+  const tokenResponse = await fetch(
+    `${serverURL}/auth/callback/kakao?code=${code}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
     },
-  });
+  );
   const tokenData = await tokenResponse.json();
   console.log(tokenData);
   return NextResponse.redirect(new URL('/', req.url));
