@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
     },
   );
   const tokenData = await tokenResponse.json();
-  console.log(tokenData);
+  console.log('tokenData : ', tokenData);
   return NextResponse.redirect(new URL('/', req.url));
 
   // console.log(req);

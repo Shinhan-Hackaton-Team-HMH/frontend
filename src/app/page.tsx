@@ -1,7 +1,11 @@
 // app/components/KakaoLoginButton.tsx
 'use client';
 
+import DetectionVideo from '@/components/detection';
+import { useRouter } from 'next/navigation';
+
 export default function Home() {
+  const router = useRouter();
   const handleKakaoLogin = () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
@@ -14,24 +18,28 @@ export default function Home() {
   };
 
   return (
-    <button
-      onClick={handleKakaoLogin}
-      style={{
-        backgroundColor: '#FEE500',
-        border: 'none',
-        borderRadius: '8px',
-        padding: '10px 20px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '10px',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        color: '#3C1E1E',
-      }}
-    >
-      Login with Kakao
-    </button>
+    <>
+      <button
+        onClick={handleKakaoLogin}
+        style={{
+          backgroundColor: '#FEE500',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '10px 20px',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          color: '#3C1E1E',
+        }}
+      >
+        Login with Kakao
+      </button>
+      {/* <button onClick={handleGoogleLogin}>Google Login </button> */}
+      {/* <DetectionVideo /> */}
+    </>
   );
 }
