@@ -1,10 +1,11 @@
 // app/api/auth/callback/route.ts
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
+
+  console.log('code', code);
 
   if (!code) {
     return NextResponse.json(
@@ -19,10 +20,10 @@ export async function GET(request: Request) {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
-        client_id: process.env.GOOGLE_CLIENT_ID!,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+        client_secret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!,
         code,
-        redirect_uri: 'http://localhost:3000/api/auth/callback',
+        redirect_uri: 'http://localhost:3000/api/auth/callback/google',
         grant_type: 'authorization_code',
       }),
     });

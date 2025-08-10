@@ -1,4 +1,3 @@
-// app/components/KakaoScriptLoader.tsx
 'use client';
 
 import Script from 'next/script';
@@ -18,7 +17,7 @@ export default function KakaoScriptLoader() {
   return (
     <Script
       src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js" // Use the latest version
-      integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh" // Replace with actual integrity hash
+      integrity={`${process.env.NEXT_PUBLIC_INTEGRITY}`} // Replace with actual integrity hash
       crossOrigin="anonymous"
       onLoad={() => {
         // This is an additional check, useEffect handles the primary initialization
