@@ -1,11 +1,10 @@
 // app/components/KakaoLoginButton.tsx
 'use client';
 
-import DetectionVideo from '@/components/detection';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const router = useRouter();
+  // const router = useRouter();
   const handleKakaoLogin = () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({

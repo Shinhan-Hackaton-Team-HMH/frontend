@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     const callbackData = await request.json();
 
     // 콜백 데이터에서 'status' 필드를 추출합니다.
-    const { status, taskId, videoUrl, errorMessage, ...rest } = callbackData;
+    const { status, taskId, videoUrl, errorMessage } = callbackData;
 
     console.log(`--- Vidu AI Callback Received ---`);
     console.log(`Task ID: ${taskId}`);

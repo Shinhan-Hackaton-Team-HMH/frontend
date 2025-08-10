@@ -1,7 +1,7 @@
 // pages/api/stream-check-s3-video.ts
 
 import ffmpeg from 'fluent-ffmpeg';
-import ffmpegPath from '@ffmpeg-installer/ffmpeg';
+// import ffmpegPath from '@ffmpeg-installer/ffmpeg';
 import { NextRequest } from 'next/server';
 
 // ffmpeg 바이너리 경로 설정
@@ -106,7 +106,9 @@ export async function GET(req: NextRequest) {
     console.log(`Frame Rate: ${frameRate?.toFixed(2) || 'N/A'} fps`);
     console.log(`Duration: ${videoDurationSeconds.toFixed(2)} seconds`);
     console.log(
-      `File Size: ${fileSize ? (fileSize / (1024 * 1024)).toFixed(2) + ' MB' : 'N/A'}`,
+      `File Size: ${
+        fileSize ? (fileSize / (1024 * 1024)).toFixed(2) + ' MB' : 'N/A'
+      }`,
     );
     console.log('------------------------------------');
 
@@ -128,7 +130,13 @@ export async function GET(req: NextRequest) {
       if (fileSize > MAX_FILE_SIZE_BYTES) {
         return Response.json(
           {
-            message: `파일 용량이 너무 큽니다. 최대 ${(MAX_FILE_SIZE_BYTES / (1024 * 1024)).toFixed(0)}MB까지 허용됩니다. (현재: ${(fileSize / (1024 * 1024)).toFixed(2)}MB)`,
+            message: `파일 용량이 너무 큽니다. 최대 ${(
+              MAX_FILE_SIZE_BYTES /
+              (1024 * 1024)
+            ).toFixed(0)}MB까지 허용됩니다. (현재: ${(
+              fileSize /
+              (1024 * 1024)
+            ).toFixed(2)}MB)`,
             details: {
               currentSizeMB: (fileSize / (1024 * 1024)).toFixed(2),
               maxSizeBytes: MAX_FILE_SIZE_BYTES,
@@ -152,7 +160,9 @@ export async function GET(req: NextRequest) {
     ) {
       return Response.json(
         {
-          message: `지원되지 않는 비디오 코덱입니다. 허용되는 코덱: ${ALLOWED_VIDEO_CODECS.join(', ')}. (현재: ${videoCodec})`,
+          message: `지원되지 않는 비디오 코덱입니다. 허용되는 코덱: ${ALLOWED_VIDEO_CODECS.join(
+            ', ',
+          )}. (현재: ${videoCodec})`,
           details: {
             currentCodec: videoCodec,
             allowedCodecs: ALLOWED_VIDEO_CODECS,
@@ -169,7 +179,9 @@ export async function GET(req: NextRequest) {
     ) {
       return Response.json(
         {
-          message: `지원되지 않는 오디오 코덱입니다. 허용되는 코덱: ${ALLOWED_AUDIO_CODECS.join(', ')}. (현재: ${audioCodec})`,
+          message: `지원되지 않는 오디오 코덱입니다. 허용되는 코덱: ${ALLOWED_AUDIO_CODECS.join(
+            ', ',
+          )}. (현재: ${audioCodec})`,
           details: {
             currentCodec: audioCodec,
             allowedCodecs: ALLOWED_AUDIO_CODECS,
@@ -188,7 +200,9 @@ export async function GET(req: NextRequest) {
     ) {
       return Response.json(
         {
-          message: `프레임 레이트가 허용 범위를 벗어납니다. ${MIN_FRAME_RATE}-${MAX_FRAME_RATE}fps가 허용됩니다. (현재: ${frameRate.toFixed(2)}fps)`,
+          message: `프레임 레이트가 허용 범위를 벗어납니다. ${MIN_FRAME_RATE}-${MAX_FRAME_RATE}fps가 허용됩니다. (현재: ${frameRate.toFixed(
+            2,
+          )}fps)`,
           details: {
             currentFrameRate: frameRate.toFixed(2),
             allowedRange: `${MIN_FRAME_RATE}-${MAX_FRAME_RATE}fps`,
@@ -210,7 +224,9 @@ export async function GET(req: NextRequest) {
     ) {
       return Response.json(
         {
-          message: `영상 길이가 허용 범위를 벗어납니다. ${MIN_FILE_DURATION_SECONDS}초-${MAX_FILE_DURATION_SECONDS}초가 허용됩니다. (현재: ${videoDurationSeconds.toFixed(2)}초)`,
+          message: `영상 길이가 허용 범위를 벗어납니다. ${MIN_FILE_DURATION_SECONDS}초-${MAX_FILE_DURATION_SECONDS}초가 허용됩니다. (현재: ${videoDurationSeconds.toFixed(
+            2,
+          )}초)`,
           details: {
             currentDuration: videoDurationSeconds.toFixed(2),
             allowedRange: `${MIN_FILE_DURATION_SECONDS}-${MAX_FILE_DURATION_SECONDS}s`,
