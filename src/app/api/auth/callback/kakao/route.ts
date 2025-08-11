@@ -24,18 +24,38 @@ export async function GET(req: NextRequest) {
       new URL('/auth/login-error?message=no_code', req.url),
     );
   }
-  const url = `${serverURL}/auth/callback/kakao?code=${code}`;
-  console.log(url);
-  const tokenResponse = await fetch(
-    `${serverURL}/auth/callback/kakao?code=${code}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
+  // const url = `${serverURL}/auth/callback/kakao?code=${code}`;
+  // console.log(url);
+  // const tokenResponse = await fetch(
+  //   `${serverURL}/auth/callback/kakao?code=${code}`,
+  //   {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+  //     },
+  //   },
+  // );
+
+  // 1. 카카오로부터 받은 code를 백엔드에 POST로 보낼 주소
+  const backendUrl = `${serverURL}/api/auth/kakao/token-exchange`; // 백엔드의 새로운 POST 엔드포인트
+
+  // 2. 백엔드로 POST 요청을 보냅니다.
+  const postResponse = await fetch(backendUrl, {
+    method: 'POST', // GET이 아닌 POST로 변경
+    headers: {
+      'Content-Type': 'application/json', // 데이터를 JSON 형식으로 보냄을 알림
     },
-  );
-  const tokenData = await tokenResponse.json();
+    body: JSON.stringify({ code: code }), // code를 JSON 객체로 만들어서 보냄
+  });
+
+  // 3. 백엔드로부터 응답을 받습니다.
+  if (!postResponse.ok) {
+    console.error('백엔드에서 토큰 교환 실패');
+    return NextResponse.redirect(
+      new URL('/auth/login-error?message=token_exchange_failed', req.url),
+    );
+  }
+  const tokenData = await postResponse.json();
   console.log('tokenData : ', tokenData);
   return NextResponse.redirect(new URL('/', req.url));
   // try {
