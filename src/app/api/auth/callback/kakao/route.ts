@@ -24,20 +24,7 @@ export async function GET(req: NextRequest) {
       new URL('/auth/login-error?message=no_code', req.url),
     );
   }
-  // const url = `${serverURL}/auth/callback/kakao?code=${code}`;
-  // console.log(url);
-  // const tokenResponse = await fetch(
-  //   `${serverURL}/auth/callback/kakao?code=${code}`,
-  //   {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-  //     },
-  //   },
-  // );
-
-  // 1. 카카오로부터 받은 code를 백엔드에 POST로 보낼 주소
-  const backendUrl = `${serverURL}/api/auth/kakao/token-exchange`; // 백엔드의 새로운 POST 엔드포인트
+  const backendUrl = `${serverURL}/auth/callback/kakao/token-exchange`; // 백엔드의 새로운 POST 엔드포인트
 
   // 2. 백엔드로 POST 요청을 보냅니다.
   const postResponse = await fetch(backendUrl, {
@@ -58,6 +45,20 @@ export async function GET(req: NextRequest) {
   const tokenData = await postResponse.json();
   console.log('tokenData : ', tokenData);
   return NextResponse.redirect(new URL('/', req.url));
+  // const url = `${serverURL}/auth/callback/kakao?code=${code}`;
+  // console.log(url);
+  // const tokenResponse = await fetch(
+  //   `${serverURL}/auth/callback/kakao?code=${code}`,
+  //   {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+  //     },
+  //   },
+  // );
+
+  // 1. 카카오로부터 받은 code를 백엔드에 POST로 보낼 주소
+
   // try {
   //   // 1. 인가 코드로 액세스 토큰 요청
   //   const tokenResponse = await fetch('https://kauth.kakao.com/oauth/token', {
