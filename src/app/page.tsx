@@ -3,6 +3,7 @@
 
 // import DetectionVideo from '@/components/detection';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const K_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
@@ -25,6 +26,22 @@ export default function Home() {
     window.location.href = kakaoURL;
   };
 
+  const [connected, setConnected] = useState(false);
+  useEffect(() => {
+    const response = () =>
+      fetch(`${process.env.sercerURL}/auth`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data) {
+            setConnected(true);
+          } else {
+            setConnected(false);
+          }
+          console.log('data: ', data);
+        });
+    response();
+  }, []);
+
   return (
     <>
       <button
@@ -46,6 +63,11 @@ export default function Home() {
       >
         Login with Kakao
       </button>
+      {connected && (
+        <p style={{ color: 'green', marginTop: '10px', fontSize: '100px' }}>
+          Successfully connected to Server
+        </p>
+      )}
       {/* <button onClick={handleGoogleLogin}>Google Login </button> */}
       {/* <DetectionVideo /> */}
     </>
