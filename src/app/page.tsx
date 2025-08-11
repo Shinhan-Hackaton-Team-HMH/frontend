@@ -1,19 +1,28 @@
 // app/components/KakaoLoginButton.tsx
 'use client';
 
+import DetectionVideo from '@/components/detection';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const K_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+  // const K_REDIRECT_URI = `http://localhost:3000/api/auth/callback/kakao`;
+  const K_REDIRECT_URI = `https://frontend-five-sepia-55.vercel.app/api/auth/callback/kakao`;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${K_REDIRECT_URI}&response_type=code`;
+
   // const router = useRouter();
+  // console.log('kakaoURL: ', kakaoURL);
+
   const handleKakaoLogin = () => {
-    if (window.Kakao) {
-      window.Kakao.Auth.authorize({
-        redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
-        // scope: 'profile_nickname,profile_image', // Add desired scopes
-      });
-    } else {
-      console.error('Kakao SDK not loaded or initialized.');
-    }
+    // if (window.Kakao) {
+    //   window.Kakao.Auth.authorize({
+    //     redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
+    //     // scope: 'profile_nickname,profile_image', // Add desired scopes
+    //   });
+    // } else {
+    //   console.error('Kakao SDK not loaded or initialized.');
+    // }
+    window.location.href = kakaoURL;
   };
 
   return (
@@ -38,7 +47,7 @@ export default function Home() {
         Login with Kakao
       </button>
       {/* <button onClick={handleGoogleLogin}>Google Login </button> */}
-      {/* <DetectionVideo /> */}
+      <DetectionVideo />
     </>
   );
 }

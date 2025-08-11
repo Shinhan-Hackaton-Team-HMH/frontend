@@ -38,8 +38,6 @@ export async function GET(req: NextRequest) {
   const tokenData = await tokenResponse.json();
   console.log('tokenData : ', tokenData);
   return NextResponse.redirect(new URL('/', req.url));
-
-  // console.log(req);
   // try {
   //   // 1. 인가 코드로 액세스 토큰 요청
   //   const tokenResponse = await fetch('https://kauth.kakao.com/oauth/token', {
@@ -49,8 +47,8 @@ export async function GET(req: NextRequest) {
   //     },
   //     body: new URLSearchParams({
   //       grant_type: 'authorization_code',
-  //       client_id: KAKAO_REST_API_KEY as string,
-  //       redirect_uri: KAKAO_REDIRECT_URI as string,
+  //       client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string,
+  //       redirect_uri: process.env.KAKAO_REDIRECT_URI as string,
   //       code: code,
   //     }).toString(),
   //   });
