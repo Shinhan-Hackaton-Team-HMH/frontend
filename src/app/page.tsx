@@ -29,7 +29,7 @@ export default function Home() {
   const [connected, setConnected] = useState(false);
   useEffect(() => {
     const response = () =>
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_UR}/auth`)
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth`)
         .then((response) => response.json())
         .then((data) => {
           if (data) {
