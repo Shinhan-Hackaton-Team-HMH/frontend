@@ -30,11 +30,10 @@ export async function GET(req: NextRequest) {
 
   // 2. 백엔드로 POST 요청을 보냅니다.
   const postResponse = await fetch(backendUrl, {
-    method: 'POST', // GET이 아닌 POST로 변경
+    method: 'GET', // GET이 아닌 POST로 변경
     headers: {
       'Content-Type': 'application/json', // 데이터를 JSON 형식으로 보냄을 알림
     },
-    body: JSON.stringify({ code: code }), // code를 JSON 객체로 만들어서 보냄
   });
 
   // 3. 백엔드로부터 응답을 받습니다.
