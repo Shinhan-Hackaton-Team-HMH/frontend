@@ -20,7 +20,6 @@ export default function KakaoRedirectClient() {
       try {
         const postResponse = await fetch(backendUrl, {
           method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
         });
         if (!postResponse.ok) {
           console.error('백엔드에서 토큰 교환 실패');
@@ -40,7 +39,6 @@ export default function KakaoRedirectClient() {
         router.replace('/error=network_error');
       }
     };
-    // 즉시 실행
     run();
   }, [code, router]);
 
