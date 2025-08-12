@@ -11,34 +11,25 @@ export default function Home() {
   const K_REDIRECT_URI = `https://frontend-five-sepia-55.vercel.app/api/auth/callback/kakao`;
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${K_REDIRECT_URI}&response_type=code`;
 
-  // const router = useRouter();
-  // console.log('kakaoURL: ', kakaoURL);
-
   const handleKakaoLogin = () => {
-    // if (window.Kakao) {
-    //   window.Kakao.Auth.authorize({
-    //     redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
-    //     // scope: 'profile_nickname,profile_image', // Add desired scopes
-    //   });
-    // } else {
-    //   console.error('Kakao SDK not loaded or initialized.');
-    // }
     window.location.href = kakaoURL;
   };
 
   const [connected, setConnected] = useState(false);
   useEffect(() => {
-    const response = () =>
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data) {
-            setConnected(true);
-          } else {
-            setConnected(false);
-          }
-          console.log('data: ', data);
-        });
+    console.log('Fetching...');
+    const response = async () => {
+      try {
+        // 프록시 경로를 사용
+        const res = await fetch(`/proxy/auth`);
+        console.log('Response data:', res);
+        const data = await res.json();
+        console.log('Response data:', data);
+        setConnected(true);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
     response();
   }, []);
 
@@ -68,7 +59,6 @@ export default function Home() {
           Successfully connected to Server
         </p>
       )}
-      {/* <button onClick={handleGoogleLogin}>Google Login </button> */}
       {/* <DetectionVideo /> */}
     </>
   );

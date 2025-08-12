@@ -24,8 +24,9 @@ export async function GET(req: NextRequest) {
       new URL('/auth/login-error?message=no_code', req.url),
     );
   }
-  const backendUrl = `${serverURL}/auth/callback/kakao/token-exchange`; // 백엔드의 새로운 POST 엔드포인트
+  // const backendUrl = `${serverURL}/auth/callback/kakao/token-exchange`; // 백엔드의 새로운 POST 엔드포인트
 
+  const backendUrl = '/proxy/auth/callback/kakao/token-exchange';
   // 2. 백엔드로 POST 요청을 보냅니다.
   const postResponse = await fetch(backendUrl, {
     method: 'POST', // GET이 아닌 POST로 변경
