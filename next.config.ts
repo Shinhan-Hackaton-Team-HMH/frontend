@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/proxy/:path*',
-        destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/:path*`, // 환경 변수 사용
+        destination: `http://${process.env.NEXT_PUBLIC_EC2_IP}/api/:path*`, // 환경 변수 사용
       },
     ];
   },
