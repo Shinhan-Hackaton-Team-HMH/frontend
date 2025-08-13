@@ -1,6 +1,7 @@
 // app/components/KakaoLoginButton.tsx
 'use client';
 
+import Link from 'next/link';
 // import DetectionVideo from '@/components/detection';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -61,6 +62,7 @@ export default function Home() {
           Successfully connected to Server
         </p>
       )}
+      <Link href={'baemin:// '}></Link>
       {/* <DetectionVideo /> */}
     </>
   );
