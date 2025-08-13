@@ -62,7 +62,7 @@ export default function Home() {
           Successfully connected to Server
         </p>
       )}
-      <Link href={'baemin:// '}></Link>
+      <Link href={'baemin:// '}>배민이동</Link>
       {/* <DetectionVideo /> */}
     </>
   );
