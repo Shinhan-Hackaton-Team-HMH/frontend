@@ -1,6 +1,8 @@
 // app/components/KakaoLoginButton.tsx
 'use client';
 
+import NaverImageSearch from '@/app/components/naverSearch/index';
+
 export default function Home() {
   const handleKakaoLogin = () => {
     if (window.Kakao) {
@@ -14,24 +16,27 @@ export default function Home() {
   };
 
   return (
-    <button
-      onClick={handleKakaoLogin}
-      style={{
-        backgroundColor: '#FEE500',
-        border: 'none',
-        borderRadius: '8px',
-        padding: '10px 20px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '10px',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        color: '#3C1E1E',
-      }}
-    >
-      Login with Kakao
-    </button>
+    <>
+      <button
+        onClick={handleKakaoLogin}
+        style={{
+          backgroundColor: '#FEE500',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '10px 20px',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          color: '#3C1E1E',
+        }}
+      >
+        Login with Kakao
+      </button>
+      <NaverImageSearch />
+    </>
   );
 }
