@@ -17,28 +17,26 @@ export default function KakaoRedirectClient() {
       }
       console.log('리다이렉트 접속 (client)');
       const backendUrl = `/proxy/auth/callback/kakao?code=${code}`;
-      try {
-        const postResponse = await fetch(backendUrl, {
-          method: 'GET',
-        });
-        if (!postResponse.ok) {
-          console.error('백엔드에서 토큰 교환 실패');
-          router.replace('/error=token_exchange_failed');
-          return;
-        }
-        console.log(postResponse);
-        const tokenData = await postResponse.json();
-        console.log(tokenData);
-        const token = tokenData.token as string | undefined;
-        if (!token) {
-          console.error('토큰이 응답에 없습니다.');
-          router.replace('/error=missing_token');
-          return;
-        }
+
+      const postResponse = await fetch(backendUrl, {
+        method: 'GET',
+      });
+      console.log(postResponse);
+      if (!postResponse.ok) {
+        console.error('백엔드에서 토큰 교환 실패');
+        router.replace('/error=token_exchange_failed');
+        return;
+      }
+      const tokenData = await postResponse.json();
+      console.log('tokenData: ', tokenData, typeof tokenData);
+      const token = tokenData.token;
+      console.log('token: ', token, typeof token);
+      if (!token) {
+        console.error('토큰이 응답에 없습니다.');
+        router.replace('/error=missing_token');
+        return;
+      } else {
         router.replace('/');
-      } catch (error) {
-        console.error('네트워크 또는 기타 에러 발생:', error);
-        router.replace('/error=network_error');
       }
     };
     run();
