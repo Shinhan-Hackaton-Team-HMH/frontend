@@ -2,13 +2,16 @@
 'use client';
 
 import NaverImageSearch from '@/app/components/naverSearch/index';
+import { useRouter } from 'next/navigation';
+
 
 export default function Home() {
+  // const router = useRouter();
   const handleKakaoLogin = () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
         redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
-        scope: 'profile_nickname,profile_image', // Add desired scopes
+        // scope: 'profile_nickname,profile_image', // Add desired scopes
       });
     } else {
       console.error('Kakao SDK not loaded or initialized.');
@@ -36,7 +39,7 @@ export default function Home() {
       >
         Login with Kakao
       </button>
-      <NaverImageSearch />
-    </>
+      {/* <button onClick={handleGoogleLogin}>Google Login </button> */}
+      {/* <DetectionVideo /> */}
   );
 }
