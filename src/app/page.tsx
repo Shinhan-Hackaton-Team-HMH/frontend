@@ -1,6 +1,6 @@
-// app/components/KakaoLoginButton.tsx
 'use client';
 
+import MapInteraction from '@/components/map';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={handleKakaoLogin}
         style={{
           backgroundColor: '#FEE500',
@@ -36,9 +36,7 @@ export default function Home() {
         }}
       >
         Login with Kakao
-      </button>
-      {/* <button onClick={handleGoogleLogin}>Google Login </button> */}
-      {/* <DetectionVideo /> */}
+      </button> */}
     </>
   );
 }

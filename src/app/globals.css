@@ -1,44 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&display=swap');
 @import 'tailwindcss';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-spoqa: 'SpoqaHanSansNeo-Regular', sans-serif;
-  --text-Headline: 24px;
-  --text-Headline--line-height: 32px;
-  --text-Headline--font-weight: 500;
-  --text-TitleMD: 18px;
-  --text-TitleMD--line-height: 26px;
-  --text-TitleMD--font-weight: 500;
-  --text-TitleSM: 16px;
-  --text-TitleSM--line-height: 22px;
-  --text-TitleSM--font-weight: 400;
-  --text-ButtonMD: 17px;
-  --text-ButtonMD--line-height: 24px;
-  --text-ButtonMD--font-weight: 500;
-  --text-BodyMD: 15px;
-  --text-BodyMD--line-height: 20px;
-  --text-BodyMD--font-weight: 400;
-  --text-BodySM: 14px;
-  --text-BodySM--line-height: 20px;
-  --text-BodySM--font-weight: 400;
-  --text-Caption: 12px;
-  --text-Caption--line-height: 16px;
-  --text-Caption--font-weight: 400;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --primary: #6846f4;
+  /* --text-Strong: #0b0e0f; */
+  --text-assistive: #6f7173;
+  --text-inverse: #f4f8ff;
+  --deep-blue-70: #7a7dff;
+  --deep-blue-60: #6846f4;
 }
 
 @font-face {
@@ -49,8 +20,104 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Y-Spotlight';
+  src: url('../../public/fonts/spotlight/Y-Spotlight.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-text-Strong: #0b0e0f;
+  --color-primary: var(--primary);
+  --color-assistive: var(--text-assistive);
+  --color-text-Inverse: var(--text-inverse);
+  --color-deep-blue-70: var(--deep-blue-70);
+  --color-deep-blue-60: var(--deep-blue-60);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-spoqa: 'SpoqaHanSansNeo-Regular', sans-serif;
+  --font-spotlight: 'Y-Spotlight', sans-serif;
+  --font-Bevan: 'Bevan', sans-serif;
+
+  --text-Headline: 24px;
+  --text-Headline--line-height: 32px;
+  --text-Headline--font-weight: 500;
+
+  --text-TitleMD: 18px;
+  --text-TitleMD--line-height: 26px;
+  --text-TitleMD--font-weight: 500;
+
+  --text-TitleSM: 16px;
+  --text-TitleSM--line-height: 22px;
+  --text-TitleSM--font-weight: 400;
+
+  --text-ButtonMD: 17px;
+  --text-ButtonMD--line-height: 24px;
+  --text-ButtonMD--font-weight: 500;
+
+  --text-BodyMD: 15px;
+  --text-BodyMD--line-height: 20px;
+  --text-BodyMD--font-weight: 400;
+
+  --text-BodySM: 14px;
+  --text-BodySM--line-height: 20px;
+  --text-BodySM--font-weight: 400;
+
+  --text-StatsLG: 36px;
+  --text-StatsLG: 32px;
+  --text-StatsLG--font-weight: 500;
+
+  --text-StatsXL: 48px;
+  --text-StatsXL: 48px;
+  --text-StatsXL--font-weight: 700;
+
+  --text-Caption: 12px;
+  --text-Caption--line-height: 16px;
+  --text-Caption--font-weight: 400;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.text-assistive {
+  @apply text-[#6F7173] text-sm font-spoqa font-normal;
+}
+
+.shadow-section {
+  @apply shadow-[0_0_30px_0_rgba(19,1,154,0.05)]  backdrop-blur-[15px] rounded-3xl;
+}
+
+@utility container {
+  /* 컨테이너를 중앙 정렬합니다. */
+  margin-inline: auto;
+  max-width: 1200px;
+  /* 좌우 패딩을 설정합니다. (예: 모바일에서는 1rem, 큰 화면에서는 2rem) */
+  /* padding-inline: 1rem; */
+  @media (width >= 640px) {
+    max-width: 600px;
+  }
+  @media (width >= 768px) {
+    max-width: 720px;
+  }
+  @media (width >= 1024px) {
+    max-width: 1200px;
+  }
+  /* @media (width >= 1536px) {
+    max-width: 1320px;
+  } */
 }
