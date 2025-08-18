@@ -169,7 +169,7 @@ export async function POST(req: Request) {
     });
     const textFlat =
       textContentResult?.flatMap((value) => value?.text || '') || [];
-    const textSimilarity = groupSimilarTexts(textFlat, 0.9);
+    const textSimilarity = groupSimilarTexts(textFlat, 0.6);
 
     return NextResponse.json({
       explicit: explicitResults,

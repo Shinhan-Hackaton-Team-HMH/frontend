@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 export default function DetectionVideo() {
-  const [gcsUri, setGcsUri] = useState('gs://hmh_bucket/drug1 .jpeg');
+  const [gcsUri, setGcsUri] = useState('gs://hmh_bucket/ad_1.mp4');
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [error, setError] = useState('');
