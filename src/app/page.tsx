@@ -1,6 +1,7 @@
 // app/components/KakaoLoginButton.tsx
 'use client';
 
+import CrawlingNaver from '@/app/components/naverCrawl';
 import NaverImageSearch from '@/app/components/naverSearch/index';
 
 export default function Home() {
@@ -36,7 +37,11 @@ export default function Home() {
       >
         Login with Kakao
       </button>
+      {/* <button onClick={handleGoogleLogin}>Google Login </button> */}
+      {/* <DetectionVideo /> */}
+
       <NaverImageSearch />
+      <CrawlingNaver />
     </>
   );
 }

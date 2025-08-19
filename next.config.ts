@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'ldb-phinf.pstatic.net',
+        hostname: 'search.pstatic.net',
         port: '',
         pathname: '/**',
       },
