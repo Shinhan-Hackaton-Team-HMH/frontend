@@ -79,8 +79,6 @@ export default function MapInteraction({ setMapModal }: MapInteractionDetail) {
     };
   }, [isDragging, lastPos]);
 
-  console.log(scale);
-
   return (
     <div className="w-full h-full overflow-hidden bg-transparent flex items-center justify-center select-none">
       <div

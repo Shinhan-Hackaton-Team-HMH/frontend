@@ -26,6 +26,13 @@ export default function MainPage() {
       <Header />
       <section className="flex flex-row gap-3 w-full relative">
         <div
+          className={` bg-white shadow-section  ${
+            mapModal ? 'absolute w-10/12 max-w-[1200px] top-0 left-0' : 'w-1/2'
+          }`}
+        >
+          <MapInteraction setMapModal={setMapModal} />
+        </div>
+        <div
           className={`flex flex-col gap-7 p-6 shadow-section bg-white w-1/2`}
         >
           <span className="text-primary text-StatsLG font-normal font-spotlight">
@@ -45,15 +52,6 @@ export default function MainPage() {
               <Card key={index} client={value.client} title={value.title} />
             ))}
           </div>
-        </div>
-        <div
-          className={` bg-white shadow-section  ${
-            mapModal
-              ? 'absolute w-full max-w-[1200px] top-0 right-0 z-50'
-              : 'w-1/2'
-          }`}
-        >
-          <MapInteraction setMapModal={setMapModal} />
         </div>
       </section>
       <section className="flex flex-col relative justify-center items-center mt-[23px] mb-[101px]">
