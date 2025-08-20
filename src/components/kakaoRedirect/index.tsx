@@ -24,16 +24,14 @@ export default function KakaoRedirectClient() {
       console.log(postResponse);
       if (!postResponse.ok) {
         console.error('백엔드에서 토큰 교환 실패');
-        router.replace('/error=token_exchange_failed');
+        router.replace('/?error=token_exchange_failed');
         return;
       }
-      const tokenData = await postResponse.json();
-      console.log('tokenData: ', tokenData, typeof tokenData);
-      const token = tokenData.token;
-      console.log('token: ', token, typeof token);
-      if (!token) {
+      const userId = await postResponse.json();
+
+      if (!userId) {
         console.error('토큰이 응답에 없습니다.');
-        router.replace('/error=missing_token');
+        router.replace('/error=userId');
         return;
       } else {
         router.replace('/');
