@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={handleKakaoLogin}
         style={{
           backgroundColor: '#FEE500',
@@ -56,6 +56,14 @@ export default function Home() {
         }}
       >
         Login with Kakao
+      </button> */}
+      {/* {connected && (
+        <p style={{ color: 'green', marginTop: '10px', fontSize: '100px' }}>
+          Successfully connected to Server
+        </p>
+      )} */}
+      {/* <Link href={'baemin:// '}>배민이동</Link> */}
+      <DetectionVideo />
       </button>
       {connected && (
         <p style={{ color: 'green', marginTop: '10px', fontSize: '100px' }}>
