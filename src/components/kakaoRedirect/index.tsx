@@ -27,7 +27,7 @@ export default function KakaoRedirectClient() {
         router.replace('/?error=token_exchange_failed');
         return;
       }
-      const userId = await postResponse.json();
+      const { userId } = await postResponse.json();
 
       if (!userId) {
         console.error('토큰이 응답에 없습니다.');
