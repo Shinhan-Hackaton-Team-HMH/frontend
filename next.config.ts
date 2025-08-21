@@ -15,8 +15,8 @@ const nextConfig: NextConfig = {
         destination: `http://${process.env.NEXT_PUBLIC_EC2_IP}/api/auth`,
       },
       {
-        source: '/proxy/api',
-        destination: `http://${process.env.NEXT_PUBLIC_EC2_IP}/api/*`,
+        source: '/proxy/api/:path',
+        destination: `http://${process.env.NEXT_PUBLIC_EC2_IP}/api/:path*`,
       },
     ];
   },

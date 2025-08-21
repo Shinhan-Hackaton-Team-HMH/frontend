@@ -30,6 +30,7 @@ export default function ImageCropper({ adImages, setAdImages }: CroppedProps) {
     if (typeof cropperRef.current?.cropper !== 'undefined') {
       const cropper = cropperRef.current?.cropper;
       setCropData(cropper.getCroppedCanvas().toDataURL());
+      console.log('base64: ', cropper.getCroppedCanvas().toDataURL());
       setAdImages((prev) => [
         ...prev,
         base64ToFile(
@@ -58,6 +59,7 @@ export default function ImageCropper({ adImages, setAdImages }: CroppedProps) {
     return new File([u8arr], filename, { type: mime });
   };
 
+  console.log('images: ', adImages);
   return (
     <>
       <div className="w-2xl relative">

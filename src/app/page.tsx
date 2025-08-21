@@ -159,17 +159,17 @@ export default function Home() {
           onChange={handleInputChange}
         />
       </section>
-      {/* <section className="flex flex-col gap-20">
+      <section className="flex flex-col gap-20">
         <ImageCropper adImages={adImage} setAdImages={setAdImage} />
+        {/* <ImageCropper adImages={adImage} setAdImages={setAdImage} />
         <ImageCropper adImages={adImage} setAdImages={setAdImage} />
-        <ImageCropper adImages={adImage} setAdImages={setAdImage} />
-        <ImageCropper adImages={adImage} setAdImages={setAdImage} />
+        <ImageCropper adImages={adImage} setAdImages={setAdImage} /> */}
         <div className="mt-20 flex flex-row gap-1 ">this is cropped images</div>
         {adImage &&
           adImage.map((value, index) => {
             return <img key={index} src={value} alt="" />;
           })}
-      </section> */}
+      </section>
     </>
   );
 }
