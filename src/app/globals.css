@@ -175,3 +175,8 @@ body {
   box-shadow: 0 0 30px 0 rgba(19, 1, 154, 0.05);
   backdrop-filter: blur(15px);
 }
+@utility input-focus {
+  border: var(--Border-Line-1, 1px) solid var(--Line-Primary, #6846f4);
+  background: var(--Fill-Normal-Inverse, #fff);
+  box-shadow: 0 0 8px 0 rgba(104, 70, 244, 0.4);
+}
