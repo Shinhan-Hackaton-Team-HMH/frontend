@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const serverURL = process.env.NEXT_PUBLIC_SERVER_URL;
+const serverURL = process.env.SERVER_URL;
 
 /**
  * 카카오 로그인 콜백을 처리하는 GET 요청 핸들러입니다.

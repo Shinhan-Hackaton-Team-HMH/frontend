@@ -126,11 +126,11 @@
   --text-BodySM--font-weight: 400;
 
   --text-StatsLG: 36px;
-  --text-StatsLG: 32px;
+  --text-StatsLG--line-height: 32px;
   --text-StatsLG--font-weight: 500;
 
   --text-StatsXL: 48px;
-  --text-StatsXL: 48px;
+  --text-StatsXL--line-height: 48px;
   --text-StatsXL--font-weight: 700;
 
   --text-Caption: 12px;

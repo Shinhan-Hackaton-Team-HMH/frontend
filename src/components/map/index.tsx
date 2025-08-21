@@ -1,5 +1,12 @@
 'use client';
-import { useRef, useState, useEffect, SetStateAction, Dispatch } from 'react';
+import {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  SetStateAction,
+  Dispatch,
+} from 'react';
 import { Map } from 'lucide-react';
 import Image from 'next/image';
 
@@ -55,33 +62,33 @@ export default function MapInteraction({
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.preventDefault(); // prevent text/image selection
+    e.preventDefault();
     setIsDragging(true);
     setLastPos({ x: e.clientX, y: e.clientY });
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const dx = e.clientX - lastPos.x;
-    const dy = e.clientY - lastPos.y;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const dx = e.clientX - lastPos.x;
+      const dy = e.clientY - lastPos.y;
+      setPosition((prev) => clampPosition(prev.x + dx, prev.y + dy));
+      setLastPos({ x: e.clientX, y: e.clientY });
+    },
+    [isDragging, lastPos.x, lastPos.y],
+  );
 
-    setPosition((prev) => clampPosition(prev.x + dx, prev.y + dy));
-    setLastPos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseUp = useCallback(() => setIsDragging(false), []);
 
   useEffect(() => {
-    const move = (e: MouseEvent) => handleMouseMove(e);
-    const up = () => handleMouseUp();
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', up);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
     return () => {
-      window.removeEventListener('mousemove', move);
-      window.removeEventListener('mouseup', up);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, lastPos]);
+  }, [handleMouseMove, handleMouseUp]);
 
   return (
     <div className="w-full h-full overflow-hidden bg-transparent flex items-center justify-center select-none rounded-[20px]">
@@ -109,9 +116,7 @@ export default function MapInteraction({
           <button
             onClick={() => setScale((s) => Math.min(MAX_SCALE, s + 0.2))}
             className="size-6 bg-white/80 rounded-md shadow hover:bg-white"
-          >
-            +
-          </button>
+          ></button>
           <button
             onClick={() => setScale((s) => Math.max(MIN_SCALE, s - 0.2))}
             className="size-6 bg-white/80 rounded-md shadow hover:bg-white"

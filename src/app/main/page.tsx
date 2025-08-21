@@ -1,7 +1,7 @@
 'use client';
 
 import Card, { CardDetail } from '@/components/card';
-import Footer from '@/components/footer/indext';
+import Footer from '@/components/footer';
 import GlitchyNumber from '@/components/glitchy_text';
 import Header from '@/components/header';
 import MapInteraction from '@/components/map';
@@ -73,7 +73,7 @@ export default function MainPage() {
               </div>
             </div>
             <div className="w-[400px] h-[160px] flex flex-col justify-center items-center gap-5">
-              <div className="text-text-Strong text-TitleMD. text-center">
+              <div className="text-text-Strong text-TitleMD text-center">
                 일일 광고 재생시간
               </div>
               <div className="text-StatsLG text-deep-blue-70">
