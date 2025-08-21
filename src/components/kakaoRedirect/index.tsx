@@ -35,6 +35,7 @@ export default function KakaoRedirectClient() {
         return;
       } else {
         router.replace('/');
+        window.localStorage.setItem('userId', userId);
       }
     };
     run();

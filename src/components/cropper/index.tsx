@@ -1,9 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Dispatch, SetStateAction } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import Image from 'next/image';
 import 'react-cropper/node_modules/cropperjs/dist/cropper.css';
 
-export default function ImageCropper() {
+interface CroppedProps {
+  adImages: File[];
+  setAdImages: Dispatch<SetStateAction<File[]>>;
+}
+
+export default function ImageCropper({ adImages, setAdImages }: CroppedProps) {
   const [image, setImage] = useState(
     'https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg',
   );
@@ -25,12 +30,37 @@ export default function ImageCropper() {
     if (typeof cropperRef.current?.cropper !== 'undefined') {
       const cropper = cropperRef.current?.cropper;
       setCropData(cropper.getCroppedCanvas().toDataURL());
+      setAdImages((prev) => [
+        ...prev,
+        base64ToFile(
+          cropper.getCroppedCanvas().toDataURL(),
+          adImages.length.toString(),
+        ),
+      ]);
     }
+  };
+
+  const base64ToFile = (base64: string, filename: string): File => {
+    // Split the base64 string into metadata and data
+    const arr = base64.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+
+    // Decode base64
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    // Create File
+    return new File([u8arr], filename, { type: mime });
   };
 
   return (
     <>
-      <div className="w-2xl">
+      <div className="w-2xl relative">
         <input type="file" onChange={onChange} />
         <button>Use default img</button>
         <br />
@@ -49,15 +79,33 @@ export default function ImageCropper() {
           dragMode={'move'}
           checkOrientation={true}
         />
+        <button style={{ float: 'right' }} onClick={getCropData}>
+          Crop Image
+        </button>
+        {cropData && (
+          <>
+            <img
+              className="absolute w-full h-full left-0 top-0 bg-red-300"
+              src={cropData}
+              alt=""
+            />
+            <button
+              className="absolute bottom-2 right-2 z-30 bg-white"
+              onClick={() => setCropData('')}
+            >
+              Roll back
+            </button>
+          </>
+        )}
       </div>
-      <div>
-        {/* <div className="box" style={{ width: '50%', float: 'right' }}>
+      {/* <div>
+        <div className="box" style={{ width: '50%', float: 'right' }}>
           <h1>Preview</h1>
           <div
             className="img-preview"
             style={{ width: '30%', float: 'left', height: 300 }}
           />
-        </div> */}
+        </div>
         <div className="box" style={{ width: '50%', float: 'right' }}>
           <h1>
             <span>Crop</span>
@@ -76,7 +124,7 @@ export default function ImageCropper() {
           )}
         </div>
       </div>
-      <br style={{ clear: 'both' }} />
+      <br style={{ clear: 'both' }} /> */}
     </>
   );
 }
