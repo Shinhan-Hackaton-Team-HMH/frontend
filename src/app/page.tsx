@@ -42,7 +42,7 @@ export default function Home() {
       formData.append('file', businessImage);
 
       const response = await axios.post(
-        `${process.env.SERVER_URL}/upload/image/${a}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/upload/image/${a}`,
         formData,
         {
           headers: {
@@ -68,7 +68,7 @@ export default function Home() {
     }));
   };
 
-  const K_REST_API_KEY = process.env.KAKAO_REST_API_KEY;
+  const K_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 
   const K_REDIRECT_URI = `https://frontend-five-sepia-55.vercel.app/auth/callback/kakao`;
 

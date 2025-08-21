@@ -8,11 +8,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/proxy/auth/:path*',
-        destination: `http://${process.env.EC2_IP}/api/auth/:path*`,
+        destination: `http://${process.env.NEXT_PUBLIC_EC2_IP}/api/auth/:path*`,
       },
       {
         source: '/proxy/base',
-        destination: `http://${process.env.EC2_IP}/api/auth`,
+        destination: `http://${process.env.NEXT_PUBLIC_EC2_IP}/api/auth`,
       },
     ];
   },
