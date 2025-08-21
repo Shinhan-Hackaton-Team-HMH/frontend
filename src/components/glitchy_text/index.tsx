@@ -23,7 +23,6 @@ export default function GlitchyReveal({
   const [display, setDisplay] = useState<string[]>([]);
   const [done, setDone] = useState(false);
 
-  // target → string 변환
   const targetStr =
     typeof target === 'number' ? target.toLocaleString() : String(target);
 
@@ -71,7 +70,7 @@ export default function GlitchyReveal({
       {display.map((c, i) => (
         <motion.span
           key={i}
-          animate={{ opacity: done ? 1 : [0.4, 1, 0.7, 1] }}
+          animate={{ opacity: 1 }}
           transition={{ repeat: done ? 0 : Infinity, duration: 0.25 }}
         >
           {c}

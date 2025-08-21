@@ -1,15 +1,19 @@
 'use client';
 import { useRef, useState, useEffect, SetStateAction, Dispatch } from 'react';
-
+import { Map } from 'lucide-react';
 import Image from 'next/image';
 
 interface MapInteractionDetail {
+  mapModal: boolean;
   setMapModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function MapInteraction({ setMapModal }: MapInteractionDetail) {
+export default function MapInteraction({
+  mapModal,
+  setMapModal,
+}: MapInteractionDetail) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [scale, setScale] = useState<number>(1);
+  const [scale, setScale] = useState<number>(mapModal ? 1.4 : 1.2);
   const [position, setPosition] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -80,7 +84,7 @@ export default function MapInteraction({ setMapModal }: MapInteractionDetail) {
   }, [isDragging, lastPos]);
 
   return (
-    <div className="w-full h-full overflow-hidden bg-transparent flex items-center justify-center select-none">
+    <div className="w-full h-full overflow-hidden bg-transparent flex items-center justify-center select-none rounded-[20px]">
       <div
         ref={containerRef}
         onWheel={handleWheel}
@@ -117,10 +121,11 @@ export default function MapInteraction({ setMapModal }: MapInteractionDetail) {
         </div>
         <div className="absolute w-full bottom-4 flex justify-center">
           <button
-            className="px-6 py-3 bg-white rounded-full z-40"
+            className="px-6 py-3 bg-white rounded-full z-40 flex items-center justify-center gap-2.5"
             onClick={() => setMapModal((prev) => !prev)}
           >
-            지도 전체보기
+            {mapModal ? '돌아가기' : '지도 전체보기'}
+            <Map />
           </button>
         </div>
       </div>

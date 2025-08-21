@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&display=swap');
 @import 'tailwindcss';
+@layer theme, base, components, utilities;
 
 :root {
   --background: #ffffff;
@@ -22,8 +23,64 @@
 
 @font-face {
   font-family: 'Y-Spotlight';
-  src: url('../../public/fonts/spotlight/Y-Spotlight.ttf') format('ttf');
+  src: url('/fonts/spotlight/Y-Spotlight.ttf') format('truetype');
   font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bookk_bold';
+  src: url('/fonts/BookkMyungjo_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bookk_light';
+  src: url('/fonts/BookkMyungjo_light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'cafe24';
+  src: url('/fonts/Cafe24.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'eujiro';
+  src: url('/fonts/EULJIRO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'orangina';
+  src: url('/fonts/Orangina-Demo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'pyeonchang';
+  src: url('/fonts/PyeongChangPeace-Bold.otf') format('otf');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'pyeonchang';
+  src: url('/fonts/PyeongChangPeace-Light.otf') format('otf');
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
@@ -91,15 +148,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.text-assistive {
-  @apply text-[#6F7173] text-sm font-spoqa font-normal;
-}
-
-.shadow-section {
-  @apply shadow-[0_0_30px_0_rgba(19,1,154,0.05)]  backdrop-blur-[15px] rounded-3xl;
+  font-family: SpoqaHanSansNeo-Regular, Arial, Helvetica, sans-serif;
 }
 
 @utility container {
@@ -120,4 +169,9 @@ body {
   /* @media (width >= 1536px) {
     max-width: 1320px;
   } */
+}
+
+.shadow-section {
+  box-shadow: 0 0 30px 0 rgba(19, 1, 154, 0.05);
+  backdrop-filter: blur(15px);
 }
