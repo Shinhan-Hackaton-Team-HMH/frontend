@@ -42,7 +42,8 @@ export default function Home() {
       formData.append('file', businessImage);
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/upload/image/${a}`,
+        ///proxy/auth/callback/kakao?code=${code}`;
+        `/proxy/api/upload/image/${a}`,
         formData,
         {
           headers: {
