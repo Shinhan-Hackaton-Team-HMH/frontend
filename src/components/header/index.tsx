@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function Header() {
   return (
-    <div className="flex justify-between w-full items-center py-2.5">
+    <div className="flex justify-between w-full items-center py-2">
       <Image
         src={'/logo/kt_logo.svg'}
         width={120}
