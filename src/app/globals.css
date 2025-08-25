@@ -247,6 +247,7 @@
   --text-BodyMD: 15px;
   --text-BodyMD--line-height: 20px;
   --text-BodyMD--font-weight: 400;
+  --text-BodyMD--letter-spacing: -0.6px;
 
   --text-BodySM: 14px;
   --text-BodySM--line-height: 20px;

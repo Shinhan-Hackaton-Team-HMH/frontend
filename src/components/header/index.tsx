@@ -5,12 +5,14 @@ import Image from 'next/image';
 export default function Header() {
   return (
     <div className="flex justify-between w-full items-center py-2">
-      <Image
-        src={'/logo/kt_logo.svg'}
-        width={120}
-        height={120}
-        alt={'kt-logo'}
-      />
+      <Link href={'/'}>
+        <Image
+          src={'/logo/kt_logo.svg'}
+          width={120}
+          height={120}
+          alt={'kt-logo'}
+        />
+      </Link>
       <div className="flex flex-row justify-center items-center gap-12">
         <Link href={''}>서비스 소개</Link>
         <Link href={''}>가이드</Link>
