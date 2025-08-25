@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 export default function NaverImageSearch() {
   const [imageList, setImageList] = useState<string[]>([]);
+  const [image, setImage] = useState('');
   const [searchTerm, setSearchTerm] = useState(''); // input의 값
   const [query, setQuery] = useState(''); // API 요청에 사용할 값
 
@@ -43,6 +44,10 @@ export default function NaverImageSearch() {
     }
   };
 
+  const handleImageClick = (image: string) => {
+    setImage(image);
+  };
+
   return (
     <div className="grid grid-cols-5 gap-4 p-4">
       <div className="col-span-5 flex gap-2">
@@ -66,14 +71,16 @@ export default function NaverImageSearch() {
             key={index}
             className="w-full aspect-w-1 aspect-h-1 overflow-hidden rounded-lg"
           >
-            <Image
-              src={value}
-              alt={`검색된 이미지 ${index + 1}`}
-              width={200}
-              height={200}
-              layout="responsive"
-              objectFit="cover"
-            />
+            <button onClick={() => handleImageClick(value)}>
+              <Image
+                src={value}
+                alt={`검색된 이미지 ${index + 1}`}
+                width={200}
+                height={200}
+                layout="responsive"
+                objectFit="cover"
+              />
+            </button>
           </div>
         ))
       ) : (

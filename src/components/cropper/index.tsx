@@ -3,10 +3,18 @@ import Cropper, { ReactCropperElement } from 'react-cropper';
 import Image from 'next/image';
 import 'react-cropper/node_modules/cropperjs/dist/cropper.css';
 
-export default function ImageCropper() {
-  const [image, setImage] = useState(
-    'https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg',
-  );
+interface CropperProps {
+  imageSrc: string;
+  setImageList: React.Dispatch<React.SetStateAction<File[]>>;
+  order: number;
+}
+
+export default function ImageCropper({
+  imageSrc,
+  setImageList,
+  order,
+}: CropperProps) {
+  const [image, setImage] = useState(imageSrc);
   const [cropData, setCropData] = useState('');
   const cropperRef = useRef<ReactCropperElement>(null);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +35,24 @@ export default function ImageCropper() {
       setCropData(cropper.getCroppedCanvas().toDataURL());
     }
   };
+
+  function dataURLtoFile(dataUrl: string, fileName: string): File {
+    const arr = dataUrl.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    if (!mimeMatch) throw new Error('Invalid dataURL');
+    const mime = mimeMatch[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], fileName, { type: mime });
+  }
+
+  const file = dataURLtoFile(cropData, 'cropped.png');
 
   return (
     <>

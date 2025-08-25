@@ -58,6 +58,7 @@ export default function CrawlingNaver() {
           type="text"
           onChange={handleInputChange}
           className="bg-white text-black w-1/2"
+          value={searchKeyword}
         />
         <button onClick={handleCrawl}>CRAWL</button>
       </div>

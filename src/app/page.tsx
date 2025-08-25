@@ -5,11 +5,14 @@ import axios, { AxiosProgressEvent } from 'axios';
 import CrawlingNaver from '@/app/components/naverCrawl';
 import NaverImageSearch from '@/app/components/naverSearch/index';
 import Link from 'next/link';
+import ImageCropper from '@/components/cropper';
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadStatus, setUploadStatus] = useState<string>('');
+  const [selectedImage, setSelectedImage] = useState<string>('');
+  const [imageList, setImageList] = useState<File[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -86,6 +89,7 @@ export default function App() {
 
       <NaverImageSearch />
       <CrawlingNaver />
+      {/* <ImageCropper imageSrc={''} setImageList={setImageList} /> */}
       {uploadStatus && <p>{uploadStatus}</p>}
     </div>
   );
