@@ -1,72 +1,92 @@
-// app/components/KakaoLoginButton.tsx
 'use client';
+import React, { useState, useEffect } from 'react';
+import axios, { AxiosProgressEvent } from 'axios';
 
 import CrawlingNaver from '@/app/components/naverCrawl';
 import NaverImageSearch from '@/app/components/naverSearch/index';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
-export default function Home() {
-  const K_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+export default function App() {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [uploadStatus, setUploadStatus] = useState<string>('');
 
-  const K_REDIRECT_URI = `https://frontend-five-sepia-55.vercel.app/auth/callback/kakao`;
-
-  // const K_REDIRECT_URI = `http://localhost:3000/auth/callback/kakao`;
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${K_REDIRECT_URI}&response_type=code`;
-
-  const handleKakaoLogin = () => {
-    window.location.href = kakaoURL;
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setSelectedFile(file);
+    setUploadStatus(''); // 파일 선택 시 상태 초기화
   };
 
-  const [connected, setConnected] = useState(false);
+  const handleUploadClick = () => {
+    if (selectedFile) {
+      setIsUploading(true);
+      setUploadStatus('업로드 중...');
+    }
+  };
+
   useEffect(() => {
-    console.log('Fetching...');
-    const response = async () => {
+    const uploadImage = async () => {
+      if (!isUploading || !selectedFile) return;
+
+      const formData = new FormData();
+      formData.append('files', selectedFile);
+      formData.append('files', selectedFile);
+      formData.append('files', selectedFile);
+      formData.append('files', selectedFile);
       try {
-        // 프록시 경로를 사용
-        const res = await fetch(`/proxy/base`);
-        console.log('Response data:', res);
-        const data = await res.json();
-        console.log('Response data:', data);
-        setConnected(true);
+        const response = await axios.post(
+          '/proxy/auth/post/test/multiple',
+          formData,
+          {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=<calculated when request is sent>',
+            },
+            onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+              if (progressEvent.total) {
+                const percentCompleted = Math.round(
+                  (progressEvent.loaded * 100) / progressEvent.total,
+                );
+                setUploadStatus(`업로드 진행률: ${percentCompleted}%`);
+              }
+            },
+          },
+        );
+        console.log('업로드 성공:', response.data);
+        setUploadStatus('✅ 업로드 성공!');
       } catch (error) {
-        console.error('Fetch error:', error);
+        if (axios.isAxiosError(error)) {
+          console.error('업로드 실패:', error.message);
+          setUploadStatus(`❌ 업로드 실패: ${error.message}`);
+        } else {
+          console.error('예상치 못한 오류:', error);
+          setUploadStatus('❌ 업로드 실패!');
+        }
+      } finally {
+        setIsUploading(false);
+        setSelectedFile(null);
       }
     };
-    response();
-  }, []);
+
+    uploadImage();
+  }, [isUploading, selectedFile]);
 
   return (
-    <>
+    <div>
+      <h2>이미지 업로드 컴포넌트</h2>
+      <input type="file" onChange={handleFileChange} accept="image/*" />
       <button
-        onClick={handleKakaoLogin}
-        style={{
-          backgroundColor: '#FEE500',
-          border: 'none',
-          borderRadius: '8px',
-          padding: '10px 20px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '10px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          color: '#3C1E1E',
-        }}
+        onClick={handleUploadClick}
+        disabled={!selectedFile || isUploading}
       >
-        Login with Kakao
+        {isUploading ? '업로드 중...' : '업로드'}
       </button>
-      {connected && (
-        <p style={{ color: 'green', marginTop: '10px', fontSize: '100px' }}>
-          Successfully connected to Server
-        </p>
-      )}
       <Link href={'baemin:// '}>배민이동</Link>
       {/* <DetectionVideo /> */}
 
       <NaverImageSearch />
       <CrawlingNaver />
-    </>
+      {uploadStatus && <p>{uploadStatus}</p>}
+    </div>
   );
 }
