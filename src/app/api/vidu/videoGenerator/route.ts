@@ -13,5 +13,5 @@ export async function POST(request: Request) {
   };
 
   const res = axios.post('https://api.vidu.com/ent/v2/template2video');
-  return Response;
+  return Response.json({ videoSetting });
 }
