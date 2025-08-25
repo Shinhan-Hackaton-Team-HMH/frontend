@@ -2,10 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosProgressEvent } from 'axios';
 
-const ImageUploader: React.FC = () => {
+import CrawlingNaver from '@/app/components/naverCrawl';
+import NaverImageSearch from '@/app/components/naverSearch/index';
+import Link from 'next/link';
+import ImageCropper from '@/components/cropper';
+
+export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadStatus, setUploadStatus] = useState<string>('');
+  const [selectedImage, setSelectedImage] = useState<string>('');
+  const [imageList, setImageList] = useState<File[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -77,9 +84,13 @@ const ImageUploader: React.FC = () => {
       >
         {isUploading ? '업로드 중...' : '업로드'}
       </button>
+      <Link href={'baemin:// '}>배민이동</Link>
+      {/* <DetectionVideo /> */}
+
+      <NaverImageSearch />
+      <CrawlingNaver />
+      {/* <ImageCropper imageSrc={''} setImageList={setImageList} /> */}
       {uploadStatus && <p>{uploadStatus}</p>}
     </div>
   );
-};
-
-export default ImageUploader;
+}

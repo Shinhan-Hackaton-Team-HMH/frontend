@@ -4,6 +4,17 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // swcMinify: true,
   /* config options here */
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'search.pstatic.net',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   async rewrites() {
     return [
       {
