@@ -13,7 +13,6 @@
     "@google-cloud/storage": "^7.16.0",
     "@google-cloud/video-intelligence": "^6.2.0",
     "@google-cloud/vision": "^5.3.3",
-    "@types/fluent-ffmpeg": "^2.1.27",
     "@types/formidable": "^3.4.5",
     "axios": "^1.11.0",
     "cropperjs": "^2.0.1",
@@ -32,6 +31,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/fluent-ffmpeg": "^2.1.27",
     "@types/node": "^20.19.9",
     "@types/react": "^19",
     "@types/react-dom": "^19",
