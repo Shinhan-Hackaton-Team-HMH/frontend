@@ -1,6 +1,6 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import axios, { AxiosProgressEvent } from 'axios';
+import React, { useState } from 'react';
+// import axios, { AxiosProgressEvent } from 'axios';
 
 const ImageUploader: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

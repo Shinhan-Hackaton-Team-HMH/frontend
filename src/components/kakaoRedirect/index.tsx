@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useUserStore from '@/store/useUserStore';
 

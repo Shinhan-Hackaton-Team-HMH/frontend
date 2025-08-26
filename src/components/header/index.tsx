@@ -1,6 +1,8 @@
+'use client';
+
 import DropDown, {
   DropDownDetail,
-  DropDownItems,
+  // DropDownItems,
 } from '@/components/common/dropdown';
 import Link from 'next/link';
 import { useState } from 'react';

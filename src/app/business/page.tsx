@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { Dot, X } from 'lucide-react';
 import { ArrowLeft } from 'lucide-react';
@@ -36,7 +36,7 @@ interface RegisterStatus {
 export default function BussinessRegisterPage() {
   const [valid, setValid] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [dragging, setDragging] = useState(false);
+  // const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileType, setFileType] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -54,6 +54,10 @@ export default function BussinessRegisterPage() {
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 
+  useEffect(() => {
+    if (error) alert(error);
+  }, [error]);
+
   const validateFile = (file: File) => {
     if (!allowedTypes.includes(file.type)) {
       setError('Only PNG, JPG, and PDF files are allowed.');
@@ -66,17 +70,17 @@ export default function BussinessRegisterPage() {
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    setDragging(true);
+    // setDragging(true);
   };
 
   const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    setDragging(false);
+    // setDragging(false);
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    setDragging(false);
+    // setDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
       if (validateFile(file)) {
@@ -156,6 +160,7 @@ export default function BussinessRegisterPage() {
           },
         },
       );
+      console.log('파일 업로드 성공:', response);
       setRegisterStatus({ status: 'SUBMITTED' });
     } catch (error) {
       console.error('파일 업로드 중 오류 발생:', error);
