@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import useUserStore from '@/store/useUserStore';
 
 export default function KakaoRedirectClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get('code') ?? undefined;
-  console.log(code);
+  const setUserId = useUserStore((state) => state.setUserId);
+
   useEffect(() => {
     const run = async () => {
       if (!code) {
@@ -28,6 +30,7 @@ export default function KakaoRedirectClient() {
         return;
       }
       const { userId } = await postResponse.json();
+      setUserId(userId);
 
       if (!userId) {
         console.error('토큰이 응답에 없습니다.');
@@ -38,7 +41,7 @@ export default function KakaoRedirectClient() {
       }
     };
     run();
-  }, [code, router]);
+  }, [code, router, setUserId]);
 
   // 간단한 로딩 UI
   return <></>;
