@@ -1,6 +1,6 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import axios, { AxiosProgressEvent } from 'axios';
+import React, { useState } from 'react';
+// import axios, { AxiosProgressEvent } from 'axios';
 
 const ImageUploader: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -20,52 +20,52 @@ const ImageUploader: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const uploadImage = async () => {
-      if (!isUploading || !selectedFile) return;
+  // useEffect(() => {
+  //   const uploadImage = async () => {
+  //     if (!isUploading || !selectedFile) return;
 
-      const formData = new FormData();
-      formData.append('files', selectedFile);
-      formData.append('files', selectedFile);
-      formData.append('files', selectedFile);
-      formData.append('files', selectedFile);
-      try {
-        const response = await axios.post(
-          '/proxy/auth/post/test/multiple',
-          formData,
-          {
-            headers: {
-              'Content-Type':
-                'multipart/form-data; boundary=<calculated when request is sent>',
-            },
-            onUploadProgress: (progressEvent: AxiosProgressEvent) => {
-              if (progressEvent.total) {
-                const percentCompleted = Math.round(
-                  (progressEvent.loaded * 100) / progressEvent.total,
-                );
-                setUploadStatus(`업로드 진행률: ${percentCompleted}%`);
-              }
-            },
-          },
-        );
-        console.log('업로드 성공:', response.data);
-        setUploadStatus('✅ 업로드 성공!');
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error('업로드 실패:', error.message);
-          setUploadStatus(`❌ 업로드 실패: ${error.message}`);
-        } else {
-          console.error('예상치 못한 오류:', error);
-          setUploadStatus('❌ 업로드 실패!');
-        }
-      } finally {
-        setIsUploading(false);
-        setSelectedFile(null);
-      }
-    };
+  //     const formData = new FormData();
+  //     formData.append('files', selectedFile);
+  //     formData.append('files', selectedFile);
+  //     formData.append('files', selectedFile);
+  //     formData.append('files', selectedFile);
+  //     try {
+  //       const response = await axios.post(
+  //         '/proxy/auth/post/test/multiple',
+  //         formData,
+  //         {
+  //           headers: {
+  //             'Content-Type':
+  //               'multipart/form-data; boundary=<calculated when request is sent>',
+  //           },
+  //           onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+  //             if (progressEvent.total) {
+  //               const percentCompleted = Math.round(
+  //                 (progressEvent.loaded * 100) / progressEvent.total,
+  //               );
+  //               setUploadStatus(`업로드 진행률: ${percentCompleted}%`);
+  //             }
+  //           },
+  //         },
+  //       );
+  //       console.log('업로드 성공:', response.data);
+  //       setUploadStatus('✅ 업로드 성공!');
+  //     } catch (error) {
+  //       if (axios.isAxiosError(error)) {
+  //         console.error('업로드 실패:', error.message);
+  //         setUploadStatus(`❌ 업로드 실패: ${error.message}`);
+  //       } else {
+  //         console.error('예상치 못한 오류:', error);
+  //         setUploadStatus('❌ 업로드 실패!');
+  //       }
+  //     } finally {
+  //       setIsUploading(false);
+  //       setSelectedFile(null);
+  //     }
+  //   };
 
-    uploadImage();
-  }, [isUploading, selectedFile]);
+  //   uploadImage();
+  // }, [isUploading, selectedFile]);
 
   return (
     <div>

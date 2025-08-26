@@ -16,11 +16,11 @@ export default function LoginPage() {
               </div>
               <div className="flex flex-col gap-2 items-start">
                 <InputTextField
-                  text={'아이디를 입력해주세요'}
+                  label={'아이디를 입력해주세요'}
                   placeholder={'아이디를 입력해주세요'}
                 />
                 <InputTextField
-                  text={'아이디를 입력해주세요'}
+                  label={'아이디를 입력해주세요'}
                   placeholder={'아이디를 입력해주세요'}
                 />
                 <div className="w-full h-4 flex flex-row justify-between items-center  text-text-assistive text-Caption ">

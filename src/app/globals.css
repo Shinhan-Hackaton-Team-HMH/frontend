@@ -247,6 +247,7 @@
   --text-BodyMD: 15px;
   --text-BodyMD--line-height: 20px;
   --text-BodyMD--font-weight: 400;
+  --text-BodyMD--letter-spacing: -0.6px;
 
   --text-BodySM: 14px;
   --text-BodySM--line-height: 20px;
@@ -307,4 +308,18 @@ body {
   border: var(--Border-Line-1, 1px) solid var(--Line-Primary, #6846f4);
   background: var(--Fill-Normal-Inverse, #fff);
   box-shadow: 0 0 8px 0 rgba(104, 70, 244, 0.4);
+}
+
+@utility animate-float {
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(100px);
+  }
 }
