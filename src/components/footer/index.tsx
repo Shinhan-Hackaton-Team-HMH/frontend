@@ -14,7 +14,7 @@ export default function Footer() {
             height={120}
             alt={'kt-logo'}
           />
-          <div className="flex flex-row gap-3 text-BodySM text-assistive mt-6.5">
+          <div className="flex flex-row gap-3 text-BodySM text-text-assistive mt-6.5">
             <div className="flex flex-col gap-3">
               <span>대표 번호</span>
               <span>이메일</span>
@@ -29,7 +29,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col text-BodyMD text-assistive gap-3">
+        <div className="flex flex-col text-BodyMD text-text-assistive gap-3">
           <div className="flex flex-row justify-between w-full">
             <div>광고상담 문의</div>
             <ChevronRight className="size-5" />

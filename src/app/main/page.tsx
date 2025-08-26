@@ -40,10 +40,10 @@ export default function MainPage() {
                 : 'flex-1/2 opacity-100'
             }`}
           >
-            <span className="text-primary text-StatsLG font-normal font-spotlight tracking-[-1.28px]">
+            <span className="text-text-primary text-StatsLG font-normal font-spotlight tracking-[-1.28px]">
               원스탑 광고 솔루션
             </span>
-            <span className="text-assistive text-TitleMD">
+            <span className="text-text-assistive text-TitleMD">
               광고 제작부터 송출까지 한번에
             </span>
             <div className="grid grid-cols-2 gap-2">
@@ -56,27 +56,27 @@ export default function MainPage() {
         <section className="flex flex-col relative justify-center items-center mt-[23px] mb-[101px] w-full">
           <div className="flex rounded-[20px] bg-[#FFF] justify-center items-center w-full shadow-section py-[3px]">
             <div className="w-[400px] h-[160px] flex flex-col justify-center items-center gap-5">
-              <div className="text-text-Strong text-TitleMD text-center">
+              <div className="text-text-strong text-TitleMD text-center">
                 일일 광고 재생시간
               </div>
-              <div className="text-StatsLG text-deep-blue-70">
+              <div className="text-StatsLG text-text-dark-primary">
                 <GlitchyNumber target={566314} duration={1000} />
-                <span className="text-TitleMD text-primary">시간</span>
+                <span className="text-TitleMD text-text-primary">시간</span>
               </div>
             </div>
             <div className="w-[400px] h-[160px] flex flex-col justify-center items-center gap-5">
-              <div className="text-text-Strong text-Headline text-center ">
+              <div className="text-text-strong text-Headline text-center ">
                 일일 광고 재생시간
               </div>
-              <div className="text-primary text-StatsXL">
+              <div className="text-text-primary text-StatsXL">
                 <GlitchyNumber target={20403097} duration={1000} />명
               </div>
             </div>
             <div className="w-[400px] h-[160px] flex flex-col justify-center items-center gap-5">
-              <div className="text-text-Strong text-TitleMD text-center">
+              <div className="text-text-strong text-TitleMD text-center">
                 일일 광고 재생시간
               </div>
-              <div className="text-StatsLG text-deep-blue-70">
+              <div className="text-StatsLG text-text-dark-primary">
                 <GlitchyNumber target={13031310} duration={1000} />개
               </div>
             </div>

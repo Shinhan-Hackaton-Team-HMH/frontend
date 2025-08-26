@@ -76,7 +76,7 @@ export default function MapInteraction({
       setPosition((prev) => clampPosition(prev.x + dx, prev.y + dy));
       setLastPos({ x: e.clientX, y: e.clientY });
     },
-    [isDragging, lastPos.x, lastPos.y],
+    [clampPosition, isDragging, lastPos.x, lastPos.y],
   );
 
   const handleMouseUp = useCallback(() => setIsDragging(false), []);
