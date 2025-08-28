@@ -4,13 +4,16 @@ import DropDown, {
   DropDownDetail,
   // DropDownItems,
 } from '@/components/common/dropdown';
+import useUserStore from '@/store/useUserStore';
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Header() {
   const [isIntroHovered, setIsIntroHovered] = useState(false);
   const [isGuideHovered, setIsGuideHovered] = useState(false);
   const [isCSHovered, setIsCSHovered] = useState(false);
+  const userId = useUserStore((state) => state.userId);
 
   const serviceIntroItems: DropDownDetail[] = [
     {
@@ -63,13 +66,18 @@ export default function Header() {
     },
   ];
   return (
-    <div className="flex justify-between w-full items-center py-2.5">
-      <div>KT 바로광고</div>
-      <div className="flex flex-row justify-center items-center gap-12">
+    <div className="container flex w-full items-center justify-between py-2">
+      <Image
+        src={'/logo/kt_logo.svg'}
+        width={120}
+        height={120}
+        alt={'kt-logo'}
+      />
+      <div className="flex flex-row items-center justify-center gap-12">
         <div
           onMouseEnter={() => setIsIntroHovered(true)}
           onMouseLeave={() => setIsIntroHovered(false)}
-          className="relative text-TitleSM"
+          className="text-TitleSM relative"
         >
           <button> 서비스 소개</button>
           {isIntroHovered && <DropDown items={serviceIntroItems} />}
@@ -77,7 +85,7 @@ export default function Header() {
         <div
           onMouseEnter={() => setIsGuideHovered(true)}
           onMouseLeave={() => setIsGuideHovered(false)}
-          className="relative text-TitleSM"
+          className="text-TitleSM relative"
         >
           <button> 가이드</button>
           {isGuideHovered && <DropDown items={serviceGuideItems} />}
@@ -85,15 +93,23 @@ export default function Header() {
         <div
           onMouseEnter={() => setIsCSHovered(true)}
           onMouseLeave={() => setIsCSHovered(false)}
-          className="relative text-TitleSM"
+          className="text-TitleSM relative"
         >
           <button>고객지원</button>
           {isCSHovered && <DropDown items={customerServiceItems} />}
         </div>
         <Link href={''}>마이페이지</Link>
-        <button className="bg-gradient-to-r from-[#5731F0] to-[#5CFFF1] px-6 py-2 rounded-[1.25rem]">
-          <Link href={''}>광고만들기</Link>
-        </button>
+        <Link href={''}>
+          <button className="bg-primary text-text-inverse flex flex-row items-center justify-center gap-2.5 rounded-[1.25rem] from-[#5731F0] to-[#5CFFF1] px-6 py-2 hover:bg-gradient-to-r">
+            광고만들기
+            <Image
+              src={'/Sparkle.svg'}
+              width={24}
+              height={24}
+              alt={'kt-logo'}
+            />
+          </button>
+        </Link>
       </div>
     </div>
   );

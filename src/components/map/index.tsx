@@ -34,22 +34,25 @@ export default function MapInteraction({
   const MIN_SCALE = 1;
   const MAX_SCALE = 4;
 
-  const clampPosition = (x: number, y: number) => {
-    const container = containerRef.current;
-    if (!container) return { x, y };
+  const clampPosition = useCallback(
+    (x: number, y: number) => {
+      const container = containerRef.current;
+      if (!container) return { x, y };
 
-    const containerRect = container.getBoundingClientRect();
-    const imgWidth = containerRect.width * scale;
-    const imgHeight = containerRect.height * scale;
+      const containerRect = container.getBoundingClientRect();
+      const imgWidth = containerRect.width * scale;
+      const imgHeight = containerRect.height * scale;
 
-    const maxX = (imgWidth - containerRect.width) / 2;
-    const maxY = (imgHeight - containerRect.height) / 2;
+      const maxX = (imgWidth - containerRect.width) / 2;
+      const maxY = (imgHeight - containerRect.height) / 2;
 
-    return {
-      x: Math.max(-maxX, Math.min(maxX, x)),
-      y: Math.max(-maxY, Math.min(maxY, y)),
-    };
-  };
+      return {
+        x: Math.max(-maxX, Math.min(maxX, x)),
+        y: Math.max(-maxY, Math.min(maxY, y)),
+      };
+    },
+    [scale],
+  );
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -91,12 +94,12 @@ export default function MapInteraction({
   }, [handleMouseMove, handleMouseUp]);
 
   return (
-    <div className="w-full h-full overflow-hidden bg-transparent flex items-center justify-center select-none rounded-[20px]">
+    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[20px] bg-transparent select-none">
       <div
         ref={containerRef}
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
-        className="relative w-full h-full overflow-hidden bg-black cursor-grab active:cursor-grabbing rounded-2xl shadow-lg"
+        className="relative h-full w-full cursor-grab overflow-hidden rounded-2xl bg-black shadow-lg active:cursor-grabbing"
       >
         <Image
           src="/map3.png"
@@ -110,23 +113,23 @@ export default function MapInteraction({
             transformOrigin: 'center center',
             transition: isDragging ? 'none' : 'transform 0.1s ease-out',
           }}
-          className="w-full h-full object-cover pointer-events-none"
+          className="pointer-events-none h-full w-full object-cover"
         />
         <div className="absolute bottom-4 left-4 flex flex-col gap-2">
           <button
             onClick={() => setScale((s) => Math.min(MAX_SCALE, s + 0.2))}
-            className="size-6 bg-white/80 rounded-md shadow hover:bg-white"
+            className="size-6 rounded-md bg-white/80 shadow hover:bg-white"
           ></button>
           <button
             onClick={() => setScale((s) => Math.max(MIN_SCALE, s - 0.2))}
-            className="size-6 bg-white/80 rounded-md shadow hover:bg-white"
+            className="size-6 rounded-md bg-white/80 shadow hover:bg-white"
           >
             -
           </button>
         </div>
-        <div className="absolute w-full bottom-4 flex justify-center">
+        <div className="absolute bottom-4 flex w-full justify-center">
           <button
-            className="px-6 py-3 bg-white rounded-full z-40 flex items-center justify-center gap-2.5"
+            className="z-40 flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3"
             onClick={() => setMapModal((prev) => !prev)}
           >
             {mapModal ? '돌아가기' : '지도 전체보기'}

@@ -189,42 +189,41 @@ export default function BussinessRegisterPage() {
 
   return (
     <div className="relative">
-      <div className="flex flex-col container justify-center items-center">
-        <Header />
-        <div className="flex flex-row py-3 relative w-full text-center justify-between items-center text-BodyMD text-text-normal">
-          <ArrowLeft
-            onClick={handlePrevious}
-            className="size-6 m-1 text-icon-normal"
-          />
-          사업자등록증 제출하기
-          <div className="flex flex-row gap-2">
-            <Dot
-              className={`size-2.5 bg-primary rounded-full text-transparent  ${
-                registerStatus.status === 'NOTHING' &&
-                ' outline-1 outline-[#96AAFF] shadow-[0_0_10px_0_rgba(92,255,241,0.70)]'
-              }`}
+      <div className="container flex flex-col items-center justify-center">
+        <div className="shadow-section mb-28 w-full rounded-[20px] p-[60px] pt-0">
+          <div className="text-BodyMD text-text-normal relative mt-3 flex w-full flex-row items-center justify-between text-center">
+            <ArrowLeft
+              onClick={handlePrevious}
+              className="text-icon-normal m-1 size-6"
             />
-            <Dot
-              className={twMerge(
-                'size-2.5 rounded-full text-transparent bg-primary',
-                `${
-                  registerStatus.status === 'FILE' &&
-                  'outline-1 outline-[#96AAFF] shadow-[0_0_10px_0_rgba(92,255,241,0.70)]'
-                }`,
-                `${registerStatus.status === 'NOTHING' && 'bg-inactive'}`,
-              )}
-            />
-            <Dot
-              className={`size-2.5 bg-inactive text-transparent rounded-full ${
-                (registerStatus.status === 'APPLIED' ||
-                  registerStatus.status === 'SUBMITTED') &&
-                'bg-primary outline-1 outline-[#96AAFF] shadow-[0_0_10px_0_rgba(92,255,241,0.70)]'
-              }`}
-            />
+            사업자등록증 제출하기
+            <div className="flex flex-row gap-2">
+              <Dot
+                className={`bg-primary size-2.5 rounded-full text-transparent ${
+                  registerStatus.status === 'NOTHING' &&
+                  'shadow-[0_0_10px_0_rgba(92,255,241,0.70)] outline-1 outline-[#96AAFF]'
+                }`}
+              />
+              <Dot
+                className={twMerge(
+                  'bg-primary size-2.5 rounded-full text-transparent',
+                  `${
+                    registerStatus.status === 'FILE' &&
+                    'shadow-[0_0_10px_0_rgba(92,255,241,0.70)] outline-1 outline-[#96AAFF]'
+                  }`,
+                  `${registerStatus.status === 'NOTHING' && 'bg-inactive'}`,
+                )}
+              />
+              <Dot
+                className={`bg-inactive size-2.5 rounded-full text-transparent ${
+                  (registerStatus.status === 'APPLIED' ||
+                    registerStatus.status === 'SUBMITTED') &&
+                  'bg-primary shadow-[0_0_10px_0_rgba(92,255,241,0.70)] outline-1 outline-[#96AAFF]'
+                }`}
+              />
+            </div>
           </div>
-        </div>
-        <div className="p-[60px] shadow-section rounded-[20px] w-full  mb-28">
-          <section className="flex flex-col w-full justify-starts gap-3">
+          <section className="justify-starts mt-5 flex w-full flex-col gap-3">
             <div className="text-Headline text-text-normal">
               광고집행을 위해 <br />
               사업자등록증 제출이 필요해요.
@@ -233,22 +232,22 @@ export default function BussinessRegisterPage() {
               제출하신 사업자 등록증은 광고 집행 목적으로만 사용돼요.
             </div>
           </section>
-          <section className="flex flex-row gap-6 w-full mt-6">
-            <div className="flex flex-col bg-primary-lighten rounded-xl justify-center items-center py-6 gap-6.5 w-1/2 h-[398px]">
+          <section className="mt-6 flex w-full flex-row gap-6">
+            <div className="bg-primary-lighten flex h-[398px] w-1/2 flex-col items-center justify-center gap-6.5 rounded-xl py-6">
               <Image
                 src="businessModal/businessRegister_example.svg"
                 alt={'bussiness-example'}
                 width={200}
                 height={250}
               />
-              <div className="text-BodyMD text-white bg-primary px-4 py-3 rounded-xl w-[273px] text-center">
+              <div className="text-BodyMD bg-primary w-[273px] rounded-xl px-4 py-3 text-center text-white">
                 화질이 좋지 않거나, 정보가 가려져 있으면 승인이 반려될 수 있어요
               </div>
             </div>
             {(registerStatus.status === 'APPLIED' ||
               registerStatus.status === 'SUBMITTED') &&
             businessInfo ? (
-              <div className="flex flex-col gap-6 w-1/2">
+              <div className="flex w-1/2 flex-col gap-6">
                 <InputTextField
                   label="사업자명"
                   value={businessInfo.biz_name || ''}
@@ -270,7 +269,7 @@ export default function BussinessRegisterPage() {
                   name="biz_number"
                   placeholder="사업자등록번호"
                 />
-                <div className="flex flex-row gap-2 w-full">
+                <div className="flex w-full flex-row gap-2">
                   {/* <div className="flex flex-col gap-2">
                     <div className="text-TitleSM text-text-normal">
                       업종대분류
@@ -307,13 +306,13 @@ export default function BussinessRegisterPage() {
                 />
                 <div className="flex flex-row gap-2">
                   <button
-                    className="w-full text-ButtonMD bg-normal-assistive border border-line-assistive text-text-normal py-[13px] px-6 rounded-xl"
+                    className="text-ButtonMD bg-normal-assistive border-line-assistive text-text-normal w-full rounded-xl border px-6 py-[13px]"
                     onClick={handleFileReset}
                   >
                     재업로드
                   </button>
                   <button
-                    className="w-full text-ButtonMD text-text-inverse bg-primary py-[13px] px-6 rounded-xl"
+                    className="text-ButtonMD text-text-inverse bg-primary w-full rounded-xl px-6 py-[13px]"
                     onClick={handleSubmit}
                   >
                     확인
@@ -321,31 +320,31 @@ export default function BussinessRegisterPage() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-6 text-BodySM text-text-normal justify-between w-1/2">
-                <div className=" p-6 bg-primary-lighten rounded-xl">
+              <div className="text-BodySM text-text-normal flex w-1/2 flex-col justify-between gap-6">
+                <div className="bg-primary-lighten rounded-xl p-6">
                   <div
-                    className="flex flex-col p-8 justify-between items-center h-[234px] input-focus rounded-lg"
+                    className="input-focus flex h-[234px] flex-col items-center justify-between rounded-lg p-8"
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                   >
                     {file && registerStatus.status === 'FILE' ? (
                       <>
-                        <div className="size-[120px] px-[11px] pt-4 pb-2 flex flex-col justify-center items-center gap-2 relative bg-normal-assistive rounded-xl">
-                          <div className="flex justify-center items-center text-BodyMD text-black border border-line-assistive bg-normal-inverse rounded-lg w-14 h-[72px] ">
+                        <div className="bg-normal-assistive relative flex size-[120px] flex-col items-center justify-center gap-2 rounded-xl px-[11px] pt-4 pb-2">
+                          <div className="text-BodyMD border-line-assistive bg-normal-inverse flex h-[72px] w-14 items-center justify-center rounded-lg border text-black">
                             {fileType?.toUpperCase()}
                           </div>
                           <X
-                            className="size-6 absolute top-0 right-0 p-1"
+                            className="absolute top-0 right-0 size-6 p-1"
                             onClick={handleFileReset}
                           />
-                          <div className="w-full flex flex-row justify-center">
+                          <div className="flex w-full flex-row justify-center">
                             <span className="truncate">{fileName}</span>
                             <span>{`.${fileType}`}</span>
                           </div>
                         </div>
                         <label
-                          className="text-BodyMD border border-line-normal rounded-[120px] py-2 px-6 items-center"
+                          className="text-BodyMD border-line-normal items-center rounded-[120px] border px-6 py-2"
                           htmlFor="input-file"
                         >
                           파일 선택하기
@@ -370,7 +369,7 @@ export default function BussinessRegisterPage() {
                         <div>첨부 파일을 마우스로 끌어서 올려주세요. </div>
                         <div className="text-Caption">또는</div>
                         <label
-                          className="text-BodyMD border border-line-normal rounded-[120px] py-2 px-6 items-center"
+                          className="text-BodyMD border-line-normal items-center rounded-[120px] border px-6 py-2"
                           htmlFor="input-file"
                         >
                           파일 선택하기
@@ -385,13 +384,13 @@ export default function BussinessRegisterPage() {
                       </>
                     )}
                   </div>
-                  <div className="text-center mt-6">
+                  <div className="mt-6 text-center">
                     PDF, JPG, PNG 형식의 파일만 업로드 가능해요.
                   </div>
                 </div>
                 <button
                   className={twMerge(
-                    ` text-ButtonMD rounded-xl w-full px-6 text-center py-[13px]`,
+                    `text-ButtonMD w-full rounded-xl px-6 py-[13px] text-center`,
                     valid
                       ? 'bg-primary text-white'
                       : 'text-text-assistive bg-inactive',
