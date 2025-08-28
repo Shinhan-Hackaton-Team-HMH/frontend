@@ -228,9 +228,10 @@
   --font-Bevan: 'Bevan', sans-serif;
 
   /* text-size */
-  --text-Headline: 24px;
+  --text-Headline: 22px;
   --text-Headline--line-height: 32px;
   --text-Headline--font-weight: 500;
+  --text-Headline--letter-spacing: -0.88px;
 
   --text-TitleMD: 18px;
   --text-TitleMD--line-height: 26px;
@@ -322,4 +323,15 @@ body {
   50% {
     transform: translateY(100px);
   }
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
 }
