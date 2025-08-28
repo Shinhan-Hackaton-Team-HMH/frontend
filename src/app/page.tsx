@@ -1,6 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import axios, { AxiosProgressEvent } from 'axios';
+import React, { useState } from 'react';
+import { video } from 'framer-motion/client';
+// import axios, { AxiosProgressEvent } from 'axios';
 
 import CrawlingNaver from '@/app/components/naverCrawl';
 import NaverImageSearch from '@/app/components/naverSearch/index';
@@ -14,76 +15,93 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [imageList, setImageList] = useState<File[]>([]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    setSelectedFile(file);
-    setUploadStatus(''); // 파일 선택 시 상태 초기화
-  };
+  const videos = [
+    {
+      url: 'https://sceokvekldkqtdriqqpo.supabase.co/storage/v1/object/public/videos/AIVIDEOAPI.mp4',
+      text: 'merge 111111',
+    },
+    {
+      url: 'https://sceokvekldkqtdriqqpo.supabase.co/storage/v1/object/public/videos/vidu-video-2915272097231915.mp4',
+      text: 'merge 2222222',
+    },
+    {
+      url: 'https://sceokvekldkqtdriqqpo.supabase.co/storage/v1/object/public/videos/vidu-video-2916927198884254.mp4',
+      text: 'merge 3333333',
+    },
+    {
+      url: 'https://sceokvekldkqtdriqqpo.supabase.co/storage/v1/object/public/videos/AIVIDEOAPI.mp4',
+      text: 'merge 444444',
+    },
+    {
+      url: 'https://sceokvekldkqtdriqqpo.supabase.co/storage/v1/object/public/videos/vidu-video-2915272097231915.mp4',
+      text: 'merge 5555555',
+    },
+    {
+      url: 'https://sceokvekldkqtdriqqpo.supabase.co/storage/v1/object/public/videos/vidu-video-2916927198884254.mp4',
+      text: 'merge 6666666',
+    },
+  ];
 
-  const handleUploadClick = () => {
-    if (selectedFile) {
-      setIsUploading(true);
-      setUploadStatus('업로드 중...');
-    }
-  };
+  // 파일 업로드
+  // videos.forEach((v) => {
+  //   if (v.file) formData.append('files', v.file);
+  // });
 
-  useEffect(() => {
-    const uploadImage = async () => {
-      if (!isUploading || !selectedFile) return;
+  // // URL 배열 (파일 대신 URL일 경우)
+  // formData.append('urls', JSON.stringify(videos.map((v) => v.url || '')));
 
-      const formData = new FormData();
-      formData.append('files', selectedFile);
-      formData.append('files', selectedFile);
-      formData.append('files', selectedFile);
-      formData.append('files', selectedFile);
-      try {
-        const response = await axios.post(
-          '/proxy/auth/post/test/multiple',
-          formData,
-          {
-            headers: {
-              'Content-Type':
-                'multipart/form-data; boundary=<calculated when request is sent>',
-            },
-            onUploadProgress: (progressEvent: AxiosProgressEvent) => {
-              if (progressEvent.total) {
-                const percentCompleted = Math.round(
-                  (progressEvent.loaded * 100) / progressEvent.total,
-                );
-                setUploadStatus(`업로드 진행률: ${percentCompleted}%`);
-              }
-            },
-          },
-        );
-        console.log('업로드 성공:', response.data);
-        setUploadStatus('✅ 업로드 성공!');
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error('업로드 실패:', error.message);
-          setUploadStatus(`❌ 업로드 실패: ${error.message}`);
-        } else {
-          console.error('예상치 못한 오류:', error);
-          setUploadStatus('❌ 업로드 실패!');
-        }
-      } finally {
-        setIsUploading(false);
-        setSelectedFile(null);
-      }
-    };
+  // // 텍스트 배열
+  // formData.append('texts', JSON.stringify(videos.map((v) => v.text)));
 
-    uploadImage();
-  }, [isUploading, selectedFile]);
+  // const handleMerge = async () => {
+  //   const res = await fetch('/api/ffmpeg/editor', {
+  //     method: 'POST',
+  //     body: formData,
+  //   });
+  //   // 응답을 blob으로 변환
+  //   const blob = await res.blob();
+  //   setVideoBlob(blob);
+
+  //   const finalResult = new File([blob], 'merged_video.mp4', {
+  //     type: 'video/mp4',
+  //   });
+  //   setVideoFile(finalResult);
+
+  //   // 브라우저에서 사용 가능한 Object URL 생성
+  //   const url = URL.createObjectURL(blob);
+  //   setVideoUrl(url);
+  //   // const response = await res.json();
+  //   console.log(res);
+  // };
+
+  // const handleProcessVideo = async () => {
+  //   const formData = new FormData();
+  //   formData.append('files', myFile); // 업로드 파일
+  //   formData.append('texts', JSON.stringify(['첫번째 영상 텍스트']));
+
+  //   const res = await fetch('/api/ffmpeg/editor', {
+  //     method: 'POST',
+  //     body: formData,
+  //   });
+
+  //   // 응답을 blob으로 변환
+  //   const blob = await res.blob();
+
+  //   // 브라우저에서 사용 가능한 Object URL 생성
+  //   const url = URL.createObjectURL(blob);
+  //   setVideoUrl(url);
+  // };
+
+  // const handleDownload = () => {
+  //   if (!videoUrl) return;
+  //   const link = document.createElement('a');
+  //   link.href = videoUrl;
+  //   link.download = 'final.mp4';
+  //   link.click();
+  // };
 
   return (
     <div>
-      <h2>이미지 업로드 컴포넌트</h2>
-      <input type="file" onChange={handleFileChange} accept="image/*" />
-      <button
-        onClick={handleUploadClick}
-        disabled={!selectedFile || isUploading}
-      >
-        {isUploading ? '업로드 중...' : '업로드'}
-      </button>
       <Link href={'baemin:// '}>배민이동</Link>
       {/* <DetectionVideo /> */}
 

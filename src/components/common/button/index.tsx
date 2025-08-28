@@ -13,6 +13,7 @@ export default function Button({ text, href, className }: ButtonProps) {
     <button
       className={twMerge(
         'bg-primary hover:bg-gradient-to-r from-[#5731F0] to-[#5CFFF1] px-6 py-2 rounded-[1.25rem] flex flex-row justify-between items-center text-text-inverse w-[145px] h-10',
+        className,
       )}
     >
       <Link href={href}>{text}</Link>
