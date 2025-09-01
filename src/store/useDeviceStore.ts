@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AdPlan, AdResponse } from '@/types/gpt/phrase'; // 타입 따로 분리했다 가정
+import { AdPlan } from '@/types/gpt/phrase'; // 타입 따로 분리했다 가정
 
 interface DeviceStoreState {
   deviceState: AdPlan[];
