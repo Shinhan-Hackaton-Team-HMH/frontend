@@ -36,7 +36,7 @@ export default function Stepper({
         />
         <Dot
           className={`bg-inactive size-2.5 rounded-full text-transparent ${
-            step === 2 &&
+            step >= 2 &&
             'bg-primary shadow-[0_0_10px_0_rgba(92,255,241,0.70)] outline-1 outline-[#96AAFF]'
           }`}
         />

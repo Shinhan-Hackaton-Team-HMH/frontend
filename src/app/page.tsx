@@ -1,12 +1,13 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { video } from 'framer-motion/client';
+import { QRCodeCanvas } from 'qrcode.react';
 // import axios, { AxiosProgressEvent } from 'axios';
 
-import CrawlingNaver from '@/app/components/naverCrawl';
-import NaverImageSearch from '@/app/components/naverSearch/index';
+import NaverImageSearch from '@/components/naver/naverSearch/index';
 import Link from 'next/link';
 import ImageCropper from '@/components/cropper';
+import DeviceItem from '@/components/deviceItems/items';
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -100,15 +101,39 @@ export default function App() {
   //   link.click();
   // };
 
+  const canvas = useRef<HTMLCanvasElement | null>(null);
+  const [pngUrl, setPngUrl] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
+  const aRef = useRef(null);
+  useEffect(() => {
+    if (canvas && canvas.current) {
+      if (canvas.current instanceof HTMLCanvasElement) {
+        setPngUrl(
+          canvas.current
+            .toDataURL('image/png')
+            .replace('image/png', 'image/octet-stream'),
+        );
+      }
+    }
+  }, []);
   return (
     <div>
-      <Link href={'baemin:// '}>배민이동</Link>
+      <Link href={'baemin://14100204'}>배민이동</Link>
       {/* <DetectionVideo /> */}
 
       <NaverImageSearch />
-      <CrawlingNaver />
+      <QRCodeCanvas
+        ref={canvas}
+        className="hidden"
+        id={'qr-code-download'}
+        value={`https://naver.me/G2EoxE4j`}
+      />
+      <a href={pngUrl} download={'qr.png'} className="px-3 py-3" ref={aRef}>
+        QR 코드 저장
+      </a>
       {/* <ImageCropper imageSrc={''} setImageList={setImageList} /> */}
       {uploadStatus && <p>{uploadStatus}</p>}
+      <div className="h-[222px] w-[540px]"></div>
     </div>
   );
 }

@@ -2,13 +2,21 @@
 
 import Stepper from '@/components/common/stepper';
 import MapInteraction from '@/components/map';
-import { useEffect, useRef, useState } from 'react';
+import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import locationData from '@/assets/cities';
 import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
 import { useOnClickOutside } from 'usehooks-ts';
 import { Calendar } from '@/components/ui/calendar';
+import { businessAdMapping, DeviceType } from '@/assets/deviceMatching';
+import DeviceItem from '@/components/deviceItems/items';
+import DeviceResults from '@/components/deviceItems/results';
+import { useBusinessStore } from '@/store/useBusinessStore';
+import axios from 'axios';
+import { useDeviceStore } from '@/store/useDeviceStore';
+import { AdPlan, AdResponse } from '@/types/gpt/phrase';
+// import { AdType } from '@/app/api/gpt/deviceSort/route';
 
 interface Province {
   province_name: string;
@@ -28,35 +36,49 @@ export default function BudgetPage() {
   const [startCalendarFocus, setStartCalendarFocus] = useState(false);
   const [endCalendarFocus, setEndCalendarFocus] = useState(false);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(
+    addDays(startDate as Date, 8),
+  );
   //BUDGET
   const [amount, setAmount] = useState(0);
   const [budget, setBudget] = useState<number | ''>('');
-  //CALENDAR_REF
+  const [budgetInputValid, setBudgetInputValid] = useState(true);
+
+  //CALENDAR-REF
   const startCalendarRef = useRef<HTMLDivElement>(null!);
   const endCalendarRef = useRef<HTMLDivElement>(null!);
   useOnClickOutside(startCalendarRef, () => setStartCalendarFocus(false));
   useOnClickOutside(endCalendarRef, () => setEndCalendarFocus(false));
-
-  //DISPLAY
+  //DISPLAY-Preference
   const [firstDisplay, setFirstDisplay] = useState('');
   const [secondDisplay, setSecondDisplay] = useState('');
-
   const [firstDisplayFocus, setFirstDisplayFocus] = useState(false);
   const [secondDisplayFocus, setSecondDisplayFocus] = useState(false);
   const firstDisplayRef = useRef<HTMLDivElement>(null!);
   const secondDisplayRef = useRef<HTMLDivElement>(null!);
   useOnClickOutside(firstDisplayRef, () => setFirstDisplayFocus(false));
   useOnClickOutside(secondDisplayRef, () => setSecondDisplayFocus(false));
+  //Device-Card
+  const [firstDeviceEdit, setFirstDeviceEdit] = useState(false);
+  const [secondDeviceEdit, setSecondDeviceEdit] = useState(false);
 
+  //DISPLAY-Details
   const displayMachine = ['엘리베이터', ' 버스정류장', 'IPTV'];
+  // const { biz_type, biz_subtype } = useBusinessStore();
+  const biz_type = '한식 일반음식점';
+  const recommendAd: DeviceType = businessAdMapping[biz_type] || '엘리베이터';
+  //TODO  기기 추천 데이터 뽑아오기
+  const deviceState = useDeviceStore((state) => state.deviceState);
+  const setDeviceState = useDeviceStore((state) => state.setDeviceState);
+  const clearDeviceState = useDeviceStore((state) => state.clearDeviceState);
+  const [firstDeviceTotal, setFirstDeviceTotal] = useState(0);
+  const [secondDeviceTotal, setSecondDeviceTotal] = useState(0);
 
   useEffect(() => {
     if (selectedCounty) {
       const province: Province | undefined = locationData.provinces.find(
         (p: Province) => p.province_name === selectedCounty,
       );
-
       if (province) {
         setCities(province.cities);
       } else {
@@ -99,7 +121,8 @@ export default function BudgetPage() {
     !!selectedCounty &&
     !!budget &&
     !!selectedCity &&
-    amount !== 0;
+    amount !== 0 &&
+    budgetInputValid;
 
   const handleBudgetInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/,/g, ''); // 콤마 제거
@@ -111,9 +134,54 @@ export default function BudgetPage() {
       alert('숫자만 입력해주세요.');
       return;
     }
+    if (rawValue && Number(rawValue) % 10000 !== 0) {
+      setBudgetInputValid(false);
+      console.warn('⚠️ 만원 단위로 입력해주세요!');
+    } else setBudgetInputValid(true);
     setBudget(Number(rawValue));
   };
-  const formattedValue = budget === '' ? '' : budget.toLocaleString('ko-KR');
+
+  const priceCalculate = (deviceIndex: number) => {
+    if (!deviceState[deviceIndex]) return;
+    const devicePrice =
+      deviceState[deviceIndex].device === 'IPTV'
+        ? 15
+        : deviceState[deviceIndex].device === '버스정류장'
+          ? 10
+          : 5;
+    return (
+      devicePrice *
+      parseInt(deviceState[0].deviceCount) *
+      deviceState[deviceIndex].timeSlots.length *
+      3 *
+      parseInt(deviceState[deviceIndex].impressions)
+    );
+  };
+  const formattedBudget = budget === '' ? '' : budget.toLocaleString('ko-KR');
+  const totalDevicePrice = firstDeviceTotal + secondDeviceTotal;
+  const subtraction = -(Number(budget) - totalDevicePrice);
+  const formattedSubtraction = subtraction.toLocaleString('ko-KR');
+  const formattedTotal = (Number(budget) + subtraction).toLocaleString('ko-KR');
+
+  // // --- 디버깅 로그 ---
+  // console.log('===== Budget 계산 로그 =====');
+  // console.log('budget (raw):', budget, typeof budget);
+  // console.log('formattedBudget:', formattedBudget);
+
+  // console.log('firstDeviceTotal:', firstDeviceTotal);
+  // console.log('secondDeviceTotal:', secondDeviceTotal);
+  // console.log('totalDevicePrice:', totalDevicePrice);
+
+  // console.log('Number(budget):', Number(budget));
+  // console.log('subtraction (차액):', subtraction);
+  // console.log('formattedSubtraction:', formattedSubtraction);
+
+  // console.log('formattedTotal (최종 합산):', formattedTotal);
+  // console.log('================================');
+
+  const displaySelection = displayMachine.filter((value) => {
+    return value !== firstDisplay && value !== secondDisplay;
+  });
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -121,10 +189,31 @@ export default function BudgetPage() {
   const handlePreviousStep = () => {
     setStep(step - 1);
   };
+  const handleFirstStep = async () => {
+    await fetchRecommendation();
+    if (deviceState) handleNextStep();
+  };
 
-  const displaySelection = displayMachine.filter((value) => {
-    return value !== firstDisplay && value !== secondDisplay;
-  });
+  const fetchRecommendation = async () => {
+    try {
+      const response = await axios.post<AdPlan[]>('/api/gemini/deviceSort', {
+        biz_type,
+        budget: budget.toString(),
+      });
+      setDeviceState(response.data);
+    } catch (error) {
+      console.error('광고 데이터 불러오기 실패:', error);
+    } finally {
+      setFirstDeviceTotal(priceCalculate(0) || 0);
+      setSecondDeviceTotal(priceCalculate(1) || 0);
+    }
+  };
+  function addDays(date: Date, days: number): Date | undefined {
+    if (!date) return undefined;
+    const copy = new Date(date);
+    copy.setDate(copy.getDate() + days);
+    return copy;
+  }
 
   return (
     <div className="container mt-3">
@@ -203,7 +292,7 @@ export default function BudgetPage() {
                       </span>
                       {!cityFocus ? <ChevronDown /> : <ChevronUp />}
                       {cityFocus && (
-                        <div className="ring-line-assistive bg-normal-inverse absolute top-[50px] left-0 z-10 flex h-[358px] w-full flex-col overflow-y-scroll rounded-xl p-1.5 ring-1">
+                        <div className="ring-line-assistive bg-normal-inverse absolute top-[50px] left-0 z-20 flex h-[358px] w-full flex-col overflow-y-scroll rounded-xl p-1.5 ring-1">
                           {cities.map((city: string) => {
                             return (
                               <div
@@ -250,7 +339,7 @@ export default function BudgetPage() {
                     </button>
                     {startCalendarFocus && (
                       <Calendar
-                        className="ring-line-assistive absolute top-full left-0 z-10 w-full rounded-[20px] ring-1"
+                        className="ring-line-assistive absolute top-full left-0 z-20 h-fit w-full rounded-[20px] ring-1"
                         selected={startDate}
                         mode="single"
                         required
@@ -283,11 +372,14 @@ export default function BudgetPage() {
                     </button>
                     {endCalendarFocus && (
                       <Calendar
-                        className="ring-line-assistive absolute top-full left-0 z-50 w-full rounded-[20px] ring-1"
+                        className="ring-line-assistive absolute top-full left-0 z-30 h-fit w-full rounded-[20px] ring-1"
                         selected={endDate}
+                        defaultMonth={addDays(new Date(), 7)}
                         mode="single"
                         required
-                        disabled={{ before: startDate as Date }}
+                        disabled={{
+                          before: addDays(startDate as Date, +7) as Date,
+                        }} // startDate 기준 7일 전 disable
                         onSelect={(date: Date) => {
                           if (date) {
                             setEndDate(date);
@@ -309,7 +401,7 @@ export default function BudgetPage() {
                         placeholder="광고예산을 입력해주세요."
                         className="bg-normal-assistive w-full rounded-xl px-6 py-3.5"
                         onChange={handleBudgetInput}
-                        value={formattedValue}
+                        value={formattedBudget}
                       ></input>
                       <Image
                         src={'/icon/won.svg'}
@@ -319,7 +411,9 @@ export default function BudgetPage() {
                         className="absolute top-[15px] right-4"
                       />
                     </div>
-                    <div className="text-BodySM text-text-assistive">
+                    <div
+                      className={`text-BodySM ${budgetInputValid ? 'text-text-assistive' : 'text-red-400'}`}
+                    >
                       광고예산은 만원단위로 집행됩니다.
                     </div>
                   </div>
@@ -345,7 +439,7 @@ export default function BudgetPage() {
                     }`,
                   )}
                   disabled={!stepTwo_valid}
-                  onClick={handleNextStep}
+                  onClick={handleFirstStep}
                 >
                   다음
                 </button>
@@ -378,7 +472,7 @@ export default function BudgetPage() {
                   </div>
                   <div className="flex flex-row gap-2">
                     <div
-                      className="relative flex h-fit w-fit flex-col gap-2"
+                      className="relative flex w-fit flex-col gap-2"
                       ref={firstDisplayRef}
                     >
                       <button
@@ -391,13 +485,13 @@ export default function BudgetPage() {
                           {firstDisplay === '' ? '엘리베이터' : firstDisplay}
                         </span>
                         <Image
-                          src={`/icon/check_circle_selected.svg`}
+                          src={`/icon/expand.svg`}
                           alt={'chev_icon'}
                           width={24}
                           height={24}
                         />
                         {firstDisplayFocus && (
-                          <div className="ring-line-assistive bg-normal-inverse absolute top-full left-0 flex w-full flex-col rounded-xl p-1.5 ring">
+                          <div className="ring-line-assistive bg-normal-inverse absolute top-13 left-0 flex w-full flex-col rounded-xl p-1.5 ring">
                             {displaySelection.map((value) => {
                               return (
                                 <div
@@ -406,7 +500,7 @@ export default function BudgetPage() {
                                     setFirstDisplay(value);
                                     setFirstDisplayFocus(false);
                                   }}
-                                  className="text-BodyMD hover:bg-inactive py-3 pl-4 text-start"
+                                  className="text-BodyMD hover:bg-inactive rounded-xl py-3 pl-4 text-start"
                                 >
                                   {value}
                                 </div>
@@ -430,13 +524,13 @@ export default function BudgetPage() {
                           {secondDisplay === '' ? '엘리베이터' : secondDisplay}
                         </span>
                         <Image
-                          src={`/icon/check_circle_selected.svg`}
+                          src={`/icon/expand.svg`}
                           alt={'chev_icon'}
                           width={24}
                           height={24}
                         />
                         {secondDisplayFocus && (
-                          <div className="ring-line-assistive bg-normal-inverse absolute top-full left-0 flex w-full flex-col rounded-xl p-1.5 ring">
+                          <div className="ring-line-assistive bg-normal-inverse absolute top-13 left-0 flex w-full flex-col rounded-xl p-1.5 ring">
                             {displaySelection.map((value) => {
                               return (
                                 <div
@@ -460,7 +554,7 @@ export default function BudgetPage() {
                     <div className="text-BodySM">
                       사장님의 업종에 최적화된 광고 송출 기기는?
                     </div>
-                    <div className="text-TitleMD">엘리베이터 TV</div>
+                    <div className="text-TitleMD">{recommendAd}</div>
                   </div>
                 </div>
                 <button
@@ -480,6 +574,146 @@ export default function BudgetPage() {
               </section>
             </div>
           </>
+        )}
+        {step === 2 && deviceState && (
+          <div className="flex w-full flex-col gap-5">
+            <div className="flex w-full flex-row items-center justify-between">
+              <div className="text-Headline text-text-normal">
+                광고 송출 기기를 선택해 주세요.
+              </div>
+              <button className="ring-line-assistive text-BodyMD text-text-normal flex flex-row gap-2 rounded-[120px] px-6 py-2.5 ring">
+                광고 기기 위치보기
+                <Image src={'/icon/map.svg'} alt={''} width={20} height={20} />
+              </button>
+            </div>
+            <div className="bg-primary-lighten flex w-full flex-row rounded-xl py-4 pl-6">
+              <Image
+                src={`/icon/check_circle_selected.svg`}
+                alt={'check_icon'}
+                width={24}
+                height={24}
+              />
+              <div className="text-ButtonMD text-primary ml-4">
+                한식 일반음식점
+              </div>
+              <div className="text-BodyMD text-text-normal ml-2">
+                업종의 추천 광고 기기와 송출 시간이에요
+              </div>
+            </div>
+            <div className="flex w-full flex-row gap-6">
+              <div className="flex w-full flex-col gap-2">
+                <DeviceItem
+                  deviceName={deviceState[0].device}
+                  deviceCount={deviceState[0].deviceCount}
+                  timePeriod={deviceState[0].timeSlots}
+                  exposeCount={deviceState[0].impressions}
+                  budget={deviceState[0].budget}
+                  isEdit={firstDeviceEdit}
+                  setIsEdit={setFirstDeviceEdit}
+                />
+                <DeviceResults
+                  deviceCount={parseInt(deviceState[0].deviceCount)}
+                  impressions={parseInt(deviceState[0].impressions)}
+                  timeSlot={deviceState[0].timeSlots.length * 3}
+                  deviceName={deviceState[0].device}
+                  durationDays={0}
+                  total={firstDeviceTotal}
+                  setDeviceTotal={setFirstDeviceTotal}
+                />
+                <div className="bg-primary-lighten flex w-full flex-row items-center gap-2 rounded-xl py-[15px] pl-4">
+                  <Image
+                    src={'/icon/sparkle_primary.svg'}
+                    alt={''}
+                    width={20}
+                    height={20}
+                    className="p-0.5"
+                  />
+                  <div className="text-BodyMD text-text-normal">
+                    {deviceState[0].reason}
+                  </div>
+                </div>
+              </div>
+              <div className="flex w-full flex-col gap-2">
+                <DeviceItem
+                  deviceName={deviceState[1].device}
+                  deviceCount={deviceState[1].deviceCount}
+                  timePeriod={deviceState[1].timeSlots}
+                  exposeCount={deviceState[1].impressions}
+                  budget={deviceState[1].budget}
+                  isEdit={secondDeviceEdit}
+                  setIsEdit={setSecondDeviceEdit}
+                />
+                <DeviceResults
+                  deviceCount={parseInt(deviceState[1].deviceCount)}
+                  impressions={parseInt(deviceState[1].impressions)}
+                  timeSlot={deviceState[1].timeSlots.length * 3}
+                  deviceName={deviceState[1].device}
+                  durationDays={0}
+                  total={secondDeviceTotal}
+                  setDeviceTotal={setSecondDeviceTotal}
+                />
+                <div className="bg-primary-lighten flex w-full flex-row items-center gap-2 rounded-xl py-[15px] pl-4">
+                  <Image
+                    src={'/icon/sparkle_primary.svg'}
+                    alt={''}
+                    width={20}
+                    height={20}
+                    className="p-0.5"
+                  />
+                  <div className="text-BodyMD text-text-normal">
+                    {deviceState[1].reason}
+                  </div>
+                </div>
+                <div className="mt-6 flex flex-col gap-6">
+                  <button className="ring-line-normal flex w-full flex-row justify-center gap-2 rounded-[120px] py-2.5 ring">
+                    <span>광고 기기 추가하기</span>
+                    <Image
+                      src={'/icon/add.svg'}
+                      alt={''}
+                      width={20}
+                      height={20}
+                    />
+                  </button>
+                  <div className="ring-line-assistive flex flex-col gap-1 rounded-xl p-6 ring">
+                    <div className="flex flex-row items-center justify-between">
+                      <span className="text-BodyMD text-text-normal">
+                        입력 예산
+                      </span>
+                      <span className="text-BodyMD text-text-normal">
+                        {formattedBudget}원
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-end">
+                      {formattedSubtraction}원
+                    </div>
+                    <div className="flex flex-row items-center justify-between">
+                      <span className="text-BodyMD text-text-normal">
+                        최총 예산
+                      </span>
+                      <span className="text-Headline text-text-normal">
+                        {formattedTotal}원
+                      </span>
+                    </div>
+                  </div>
+                  <button className="ring-line-normal flex w-full flex-row justify-center gap-2 rounded-[120px] py-2.5 ring">
+                    <span>총 예산 변경하기</span>
+                    <Image
+                      src={'/icon/edit.svg'}
+                      alt={''}
+                      width={20}
+                      height={20}
+                    />
+                  </button>
+                  <button
+                    className="text-ButtonMD text-text-inverse bg-primary w-full rounded-xl py-[13px]"
+                    onClick={handleNextStep}
+                  >
+                    다음
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </section>
     </div>

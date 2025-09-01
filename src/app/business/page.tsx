@@ -13,16 +13,8 @@ import BusinessConfirmModal from '@/components/modal/businessConfirm';
 import BusinessUploadModal from '@/components/modal/businessUpload';
 import InputTextField from '@/components/common/textfield';
 import useUserStore from '@/store/useUserStore';
-
-interface BusinessInfo {
-  biz_id: number;
-  biz_number: string;
-  biz_name: string;
-  owner_name: string;
-  address: string;
-  biz_type: string;
-  biz_subtype: string;
-}
+import { useBusinessStore } from '@/store/useBusinessStore';
+import { BusinessInfo } from '@/types/business/type';
 
 interface UploadResponse {
   message: string;
@@ -43,7 +35,26 @@ export default function BussinessRegisterPage() {
 
   const userId = useUserStore((state) => state.userId);
 
-  const [businessInfo, setBusinessInfo] = useState<BusinessInfo | null>(null);
+  const biz_id = useBusinessStore((state) => state.biz_id);
+  const biz_name = useBusinessStore((state) => state.biz_name);
+  const owner_name = useBusinessStore((state) => state.owner_name);
+  const biz_number = useBusinessStore((state) => state.biz_number);
+  const biz_type = useBusinessStore((state) => state.biz_type);
+  const biz_subtype = useBusinessStore((state) => state.biz_subtype);
+  const address = useBusinessStore((state) => state.address);
+  const setBusinessInfo = useBusinessStore((state) => state.setBusinessInfo);
+  const clearBusinessInfo = useBusinessStore(
+    (state) => state.clearBusinessInfo,
+  );
+  const businessInfo: BusinessInfo = {
+    biz_id,
+    biz_name,
+    owner_name,
+    biz_number,
+    biz_type,
+    biz_subtype,
+    address,
+  };
 
   const [registerStatus, setRegisterStatus] = useState<RegisterStatus>({
     status: 'NOTHING',
@@ -169,12 +180,16 @@ export default function BussinessRegisterPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setBusinessInfo((info) => {
-      if (!info) return null;
-      return {
-        ...info,
-        [name]: value,
-      };
+    // setBusinessInfo((info) => {
+    //   if (!info) return null;
+    //   return {
+    //     ...info,
+    //     [name]: value,
+    //   };
+    // });
+    setBusinessInfo({
+      ...businessInfo,
+      [name]: value,
     });
   };
 
@@ -183,7 +198,7 @@ export default function BussinessRegisterPage() {
     setValid(false);
     setFileName(null);
     setFileType(null);
-    setBusinessInfo(null);
+    clearBusinessInfo();
     setRegisterStatus({ status: 'NOTHING' });
   };
 

@@ -1,9 +1,7 @@
 'use client';
 
 import Card, { CardDetail } from '@/components/card';
-import Footer from '@/components/footer';
 import GlitchyNumber from '@/components/glitchy_text';
-import Header from '@/components/header';
 import MapInteraction from '@/components/map';
 import { useState } from 'react';
 
@@ -23,24 +21,23 @@ export default function MainPage() {
 
   return (
     <>
-      <div className="flex flex-col container justify-center items-center">
-        <Header />
-        <section className="flex flex-row gap-3 w-full relative h-[492px]">
+      <div className="container flex flex-col items-center justify-center">
+        <section className="relative flex h-[492px] w-full flex-row gap-3">
           <div
-            className={` bg-white transition-all duration-500  rounded-[20px] ${
-              mapModal ? ' flex-1' : 'flex-1/2'
+            className={`rounded-[20px] bg-white transition-all duration-500 ${
+              mapModal ? 'flex-1' : 'flex-1/2'
             }`}
           >
             <MapInteraction mapModal={mapModal} setMapModal={setMapModal} />
           </div>
           <div
-            className={`flex flex-col justify-between gap-[23px] p-6 shadow-section transition-all duration-500  bg-white rounded-[20px] ${
+            className={`shadow-section flex flex-col justify-between gap-[23px] rounded-[20px] bg-white p-6 transition-all duration-500 ${
               mapModal
-                ? 'flex-0 opacity-0 pointer-events-none'
+                ? 'pointer-events-none flex-0 opacity-0'
                 : 'flex-1/2 opacity-100'
             }`}
           >
-            <span className="text-text-primary text-StatsLG font-normal font-spotlight tracking-[-1.28px]">
+            <span className="text-text-primary text-StatsLG font-spotlight font-normal tracking-[-1.28px]">
               원스탑 광고 솔루션
             </span>
             <span className="text-text-assistive text-TitleMD">
@@ -53,9 +50,9 @@ export default function MainPage() {
             </div>
           </div>
         </section>
-        <section className="flex flex-col relative justify-center items-center mt-[23px] mb-[101px] w-full">
-          <div className="flex rounded-[20px] bg-[#FFF] justify-center items-center w-full shadow-section py-[3px]">
-            <div className="w-[400px] h-[160px] flex flex-col justify-center items-center gap-5">
+        <section className="relative mt-[23px] mb-[101px] flex w-full flex-col items-center justify-center">
+          <div className="shadow-section flex w-full items-center justify-center rounded-[20px] bg-[#FFF] py-[3px]">
+            <div className="flex h-[160px] w-[400px] flex-col items-center justify-center gap-5">
               <div className="text-text-strong text-TitleMD text-center">
                 일일 광고 재생시간
               </div>
@@ -64,15 +61,15 @@ export default function MainPage() {
                 <span className="text-TitleMD text-text-primary">시간</span>
               </div>
             </div>
-            <div className="w-[400px] h-[160px] flex flex-col justify-center items-center gap-5">
-              <div className="text-text-strong text-Headline text-center ">
+            <div className="flex h-[160px] w-[400px] flex-col items-center justify-center gap-5">
+              <div className="text-text-strong text-Headline text-center">
                 일일 광고 재생시간
               </div>
               <div className="text-text-primary text-StatsXL">
                 <GlitchyNumber target={20403097} duration={1000} />명
               </div>
             </div>
-            <div className="w-[400px] h-[160px] flex flex-col justify-center items-center gap-5">
+            <div className="flex h-[160px] w-[400px] flex-col items-center justify-center gap-5">
               <div className="text-text-strong text-TitleMD text-center">
                 일일 광고 재생시간
               </div>
@@ -81,8 +78,8 @@ export default function MainPage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-row p-1 gap-[1px] absolute -bottom-8 bg-white rounded-full border border-gray-200">
-            <div className="px-6 py-2.5 bg-[#ECEEF0] rounded-full">
+          <div className="absolute -bottom-8 flex flex-row gap-[1px] rounded-full border border-gray-200 bg-white p-1">
+            <div className="rounded-full bg-[#ECEEF0] px-6 py-2.5">
               실시간 광고 보기
             </div>
             <div className="px-6 py-2.5">통합 이용 가이드</div>
@@ -92,7 +89,6 @@ export default function MainPage() {
           </div>
         </section>
       </div>
-      <Footer />
     </>
   );
 }

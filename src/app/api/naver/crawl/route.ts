@@ -12,7 +12,17 @@ async function getFrameById(
   return await iframeElement.contentFrame();
 }
 
-export async function GET(request: Request) {
+export interface CrawlResponseTypes {
+  images: string[];
+  hours: string[];
+  location: string;
+  storeName: string;
+  storeType: string;
+}
+
+export async function GET(
+  request: Request,
+): Promise<NextResponse<CrawlResponseTypes>> {
   let browser: Browser | null = null;
 
   try {
@@ -22,27 +32,26 @@ export async function GET(request: Request) {
     if (!searchKeyword) {
       return new NextResponse(
         JSON.stringify({ error: '검색어가 필요합니다.' }),
-        { status: 400 },
+        {
+          status: 400,
+        },
       );
     }
 
-    const naverMapSearchUrl = `https://map.naver.com/p/search/${encodeURIComponent(
-      searchKeyword,
-    )}`;
-    browser = await puppeteer.launch({ headless: false });
+    browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(60000);
 
-    await page.goto(naverMapSearchUrl, { waitUntil: 'networkidle0' });
+    await page.goto(searchKeyword, { waitUntil: 'networkidle0' });
 
     // --- 1. searchIframe 프레임 찾기 ---
-    const searchFrame_1 = await getFrameById(page, 'searchIframe');
+    const searchFrame_1 = await getFrameById(page, 'entryIframe');
     if (!searchFrame_1) {
       throw new Error('searchIframe을 찾지 못했습니다.');
     }
 
     // --- 2. anchor 태그 대기 ---
-    const anchorSelector_1 = 'a.place_bluelink.C6RjW.k4f_J';
+    const anchorSelector_1 = 'a.place_thumb.QX0J7';
     await searchFrame_1.waitForSelector(anchorSelector_1, { timeout: 10000 });
 
     // --- 3. href 추출 ---
@@ -50,7 +59,6 @@ export async function GET(request: Request) {
       anchorSelector_1,
       (el: HTMLAnchorElement) => el.href,
     );
-    console.log('검색 결과 링크:', href_1);
 
     // // --- 4. 클릭해서 이동 ---
     // await searchFrame_1.click(anchorSelector_1);
@@ -78,7 +86,6 @@ export async function GET(request: Request) {
       anchorSelector_2,
       (el: HTMLAnchorElement) => el.href,
     );
-    console.log('검색 결과 링크2 :', href_2);
 
     // --- 8. 클릭해서 이동 ---
     await entryFrame.click(anchorSelector_2);
@@ -97,18 +104,66 @@ export async function GET(request: Request) {
     const imgSrcList = await detailFrame.$$eval(
       imgSelector,
       (els: HTMLImageElement[]) => els.map((el) => el.src),
+      { timeout: 10000 },
     );
 
-    console.log('이미지 src 리스트:', imgSrcList);
-    return new NextResponse(JSON.stringify({ images: imgSrcList }), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const homeTab = 'a.tpj9w._tab-menu';
+    await detailFrame.click(homeTab);
+
+    const storeNameSelector = 'span.GHAhO';
+    const storeName = await detailFrame.$$eval(
+      storeNameSelector,
+      (els: HTMLElement[]) => els.map((el) => el.innerText.trim()),
+    );
+
+    //상점 클릭
+    const storeTypeSelector = 'span.lnJFt';
+    const storeType = await detailFrame.$$eval(
+      storeTypeSelector,
+      (els: HTMLElement[]) => els.map((el) => el.innerText.trim()),
+    );
+
+    //영업시간 클릭하기
+    const hourAnchor = 'a.gKP9i.RMgN0';
+    await detailFrame.click(hourAnchor);
+
+    //영업시간 가져오기
+    const hoursSelector = 'div.w9QyJ';
+    const hours = await detailFrame.$$eval(
+      hoursSelector,
+      (els: HTMLElement[]) =>
+        els.map((el) =>
+          Array.from(el.querySelectorAll('*')).map(
+            (child) => child.textContent?.trim() || '',
+          ),
+        ),
+    );
+
+    const locationSelector = 'span.LDgIH';
+    const location = await detailFrame.$$eval(
+      locationSelector,
+      (els: HTMLElement[]) => els.map((el) => el.innerText.trim()),
+    );
+
+    return new NextResponse(
+      JSON.stringify({
+        images: imgSrcList.splice(0, 5),
+        location: location[0],
+        storeName: storeName[0],
+        storeType: storeType[0],
+        hours: hours,
+      }),
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
   } catch (error) {
     console.error('크롤링 오류:', error);
     return new NextResponse(JSON.stringify({ error: '크롤링 실패' }), {
       status: 500,
     });
-  } finally {
-    if (browser) await browser.close();
   }
+  // finally {
+  //   if (browser) await browser.close();
+  // }
 }

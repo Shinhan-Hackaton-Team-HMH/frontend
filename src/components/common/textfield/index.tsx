@@ -13,7 +13,7 @@ export default function InputTextField({
   placeholder,
 }: TextfieldProps) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col gap-2">
       {label && (
         <div className="text-TitleSM text-text-normal mb-2">{label}</div>
       )}
@@ -23,7 +23,7 @@ export default function InputTextField({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full px-6 py-[14px] rounded-xl bg-[#F9FAFB]  focus:ring-0 focus:outline-none  border border-transparent   focus:input-focus truncate"
+        className="focus:input-focus w-full truncate rounded-xl border border-transparent bg-[#F9FAFB] px-6 py-[14px] focus:ring-0 focus:outline-none"
       />
       {/* <div className="text-text-assistive mt-1.5 text-Caption">{text}</div> */}
     </div>
