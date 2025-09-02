@@ -1,3 +1,4 @@
+'use client';
 import KakaoButton from '@/components/common/button/kakaoButton';
 import InputTextField from '@/components/common/textfield';
 import Footer from '@/components/footer';

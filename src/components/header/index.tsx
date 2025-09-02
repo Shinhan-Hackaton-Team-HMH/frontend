@@ -65,6 +65,7 @@ export default function Header() {
       link: '/',
     },
   ];
+
   return (
     <div className="container flex w-full items-center justify-between py-2">
       <Image
@@ -100,15 +101,19 @@ export default function Header() {
         </div>
         <Link href={''}>마이페이지</Link>
         <Link href={''}>
-          <button className="bg-primary text-text-inverse flex flex-row items-center justify-center gap-2.5 rounded-[1.25rem] from-[#5731F0] to-[#5CFFF1] px-6 py-2 hover:bg-gradient-to-r">
-            광고만들기
-            <Image
-              src={'/Sparkle.svg'}
-              width={24}
-              height={24}
-              alt={'kt-logo'}
-            />
-          </button>
+          {userId === '' ? (
+            <>로그인</>
+          ) : (
+            <button className="bg-primary text-text-inverse flex flex-row items-center justify-center gap-2.5 rounded-[1.25rem] from-[#5731F0] to-[#5CFFF1] px-6 py-2 hover:bg-gradient-to-r">
+              광고만들기
+              <Image
+                src={'/Sparkle.svg'}
+                width={24}
+                height={24}
+                alt={'kt-logo'}
+              />
+            </button>
+          )}
         </Link>
       </div>
     </div>

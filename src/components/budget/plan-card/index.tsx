@@ -21,7 +21,7 @@ export default function PlanCard({ basic, plan, setPlan }: BudgetCardProps) {
         features: [
           '광고 스타일 선택 가능',
           '광고 생성 후 평생 소장 가능',
-          '최대 2회 재생성 가능',
+          // '최대 2회 재생성 가능',
         ],
       }
     : {
@@ -32,7 +32,7 @@ export default function PlanCard({ basic, plan, setPlan }: BudgetCardProps) {
         features: [
           '최대 10회 재생성 가능',
           '광고 스타일 선택 가능',
-          '프로 AI 모델 사용으로 고퀄리티 광고 영상 제작',
+          // '프로 AI 모델 사용으로 고퀄리티 광고 영상 제작',
         ],
       };
 

@@ -22,5 +22,3 @@ const useUserStore = create<UserState>()(
 );
 
 export default useUserStore;
-
-//
