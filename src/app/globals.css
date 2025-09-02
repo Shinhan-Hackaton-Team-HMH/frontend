@@ -1,45 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&display=swap');
 @import 'tailwindcss';
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-spoqa: 'SpoqaHanSansNeo-Regular', sans-serif;
-  --text-Headline: 24px;
-  --text-Headline--line-height: 32px;
-  --text-Headline--font-weight: 500;
-  --text-TitleMD: 18px;
-  --text-TitleMD--line-height: 26px;
-  --text-TitleMD--font-weight: 500;
-  --text-TitleSM: 16px;
-  --text-TitleSM--line-height: 22px;
-  --text-TitleSM--font-weight: 400;
-  --text-ButtonMD: 17px;
-  --text-ButtonMD--line-height: 24px;
-  --text-ButtonMD--font-weight: 500;
-  --text-BodyMD: 15px;
-  --text-BodyMD--line-height: 20px;
-  --text-BodyMD--font-weight: 400;
-  --text-BodySM: 14px;
-  --text-BodySM--line-height: 20px;
-  --text-BodySM--font-weight: 400;
-  --text-Caption: 12px;
-  --text-Caption--line-height: 16px;
-  --text-Caption--font-weight: 400;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@layer theme, base, components, utilities;
 
 @font-face {
   font-family: 'SpoqaHanSansNeo-Regular';
@@ -49,8 +10,335 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Y-Spotlight';
+  src: url('/fonts/spotlight/Y-Spotlight.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bookk_bold';
+  src: url('/fonts/BookkMyungjo_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bookk_light';
+  src: url('/fonts/BookkMyungjo_light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'cafe24';
+  src: url('/fonts/Cafe24.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'eujiro';
+  src: url('/fonts/EULJIRO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'orangina';
+  src: url('/fonts/Orangina-Demo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'pyeonchang';
+  src: url('/fonts/PyeongChangPeace-Bold.otf') format('otf');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'pyeonchang';
+  src: url('/fonts/PyeongChangPeace-Light.otf') format('otf');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #050809ff;
+  --background-alternative: #f9fafbff;
+  --background-dark-alternative: #0b0e0fff;
+
+  /* text */
+  --text-normal: #3d3f41ff;
+  --text-dark-normal: #eceef0ff;
+  --text-strong: #0b0e0f;
+  --text-dark-strong: #f9fafbff;
+  --text-assistive: #888a8cff;
+  --text-dark-assistive: #a1a3a5ff;
+  --text-inverse: #ffffff;
+  --text-dark-inverse: #f4f8ff;
+  --text-primary: #6846f4ff;
+  --text-dark-primary: #6846f4ff;
+  /* fill */
+  --primary-darken: #13019aff;
+  --primary: #6846f4ff;
+
+  --primary-lighten: #f4f8ffff;
+  --primary-dark-lighten: #96aaffff;
+
+  --nomal-strong: #0b0e0fff;
+  --nomal-dark-strong: #f9fafbff;
+
+  --normal-assistive: #f9fafbff;
+  --normal-dark-assistive: #babcbeff;
+
+  --normal-inverse: #ffffff;
+  --normal-dark-inverse: #050809ff;
+
+  --interaction-pressed: #eceef0ff;
+  --interaction-dark-pressed: #ffffff;
+
+  --gradient-1: #5731f0ff;
+  --gradient-dark-1: #ffffff;
+
+  --gradient-100: #5cfff1ff;
+  --gradient-dark-100: #ffffff;
+
+  --alpha: #ffffffb2;
+  --alpha-dark: #ffffffff;
+
+  /* line */
+  --line-primary: #6846f4ff;
+  --line-dark-primary: #7a7dffff;
+
+  --line-normal: #d3d5d7ff;
+  --line-dark-normal: #3d3f41ff;
+
+  --line-assistive: #eceef0ff;
+  --line-dark-assistive: #242628ff;
+
+  /* icon  */
+  --icon-primary: #6846f4ff;
+  --icon-dark-primary: #6846f4ff;
+
+  --icon-normal: #56585aff;
+  --icon-dark-normal: #d3d5d7ff;
+
+  --icon-assistive: #888a8cff;
+  --icon-dark-assistive: #a1a3a5ff;
+
+  --icon-inverse: #ffffff;
+  --icon-dark-inverse: #ffffff;
+
+  /* status */
+  --status-error: #ff4242ff;
+  --status-success: #00e676ff;
+  --status-notification: #ff8b1fff;
+
+  /* inactive */
+  --inactive: #eceef0ff;
+  --inactive-dark: #ffffffff;
+
+  --deep-blue-70: #7a7dff;
+  --deep-blue-60: #6846f4;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-background-alternative: var(--background-alternative);
+  --color-background-dark-alternative: var(--background-dark-alternative);
+
+  /* text */
+  --color-text-normal: var(--text-normal);
+  --color-text-dark-normal: var(--text-dark-normal);
+  --color-text-strong: var(--text-strong);
+  --color-text-dark-strong: var(--text-dark-strong);
+  --color-text-assistive: var(--text-assistive);
+  --color-text-dark-assistive: var(--text-dark-assistive);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-dark-inverse: var(--text-dark-inverse);
+  --color-text-primary: var(--text-primary);
+  --color-text-dark-primary: var(--text-dark-primary);
+
+  /* fill */
+  --color-primary-darken: var(--primary-darken);
+  --color-primary: var(--primary);
+  --color-primary-lighten: var(--primary-lighten);
+  --color-primary-dark-lighten: var(--primary-dark-lighten);
+  --color-normal-strong: var(--nomal-strong);
+  --color-normal-dark-strong: var(--nomal-dark-strong);
+  --color-normal-assistive: var(--normal-assistive);
+  --color-normal-dark-assistive: var(--normal-dark-assistive);
+  --color-normal-inverse: var(--normal-inverse);
+  --color-normal-dark-inverse: var(--normal-dark-inverse);
+  --color-interaction-pressed: var(--interaction-pressed);
+  --color-interaction-dark-pressed: var(--interaction-dark-pressed);
+  --color-gradient-1: var(--gradient-1);
+  --color-gradient-dark-1: var(--gradient-dark-1);
+  --color-gradient-100: var(--gradient-100);
+  --color-gradient-dark-100: var(--gradient-dark-100);
+  --color-alpha: var(--alpha);
+  --color-alpha-dark: var(--alpha-dark);
+
+  /* line */
+  --color-line-primary: var(--line-primary);
+  --color-line-dark-primary: var(--line-dark-primary);
+  --color-line-normal: var(--line-normal);
+  --color-line-dark-normal: var(--line-dark-normal);
+  --color-line-assistive: var(--line-assistive);
+  --color-line-dark-assistive: var(--line-dark-assistive);
+
+  /* icon */
+  --color-icon-primary: var(--icon-primary);
+  --color-icon-dark-primary: var(--icon-dark-primary);
+  --color-icon-normal: var(--icon-normal);
+  --color-icon-dark-normal: var(--icon-dark-normal);
+  --color-icon-assistive: var(--icon-assistive);
+  --color-icon-dark-assistive: var(--icon-dark-assistive);
+  --color-icon-inverse: var(--icon-inverse);
+  --color-icon-dark-inverse: var(--icon-dark-inverse);
+
+  /* status */
+  --color-status-error: var(--status-error);
+  --color-status-success: var(--status-success);
+  --color-status-notification: var(--status-notification);
+
+  /* inactive */
+  --color-inactive: var(--inactive);
+  --color-inactive-dark: var(--inactive-dark);
+
+  /* font */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-spoqa: 'SpoqaHanSansNeo-Regular', sans-serif;
+  --font-spotlight: 'Y-Spotlight', sans-serif;
+  --font-Bevan: 'Bevan', sans-serif;
+
+  /* text-size */
+  --text-Headline: 22px;
+  --text-Headline--line-height: 32px;
+  --text-Headline--font-weight: 500;
+  --text-Headline--letter-spacing: -0.88px;
+
+  --text-TitleMD: 18px;
+  --text-TitleMD--line-height: 26px;
+  --text-TitleMD--font-weight: 500;
+
+  --text-TitleSM: 16px;
+  --text-TitleSM--line-height: 22px;
+  --text-TitleSM--font-weight: 400;
+
+  --text-ButtonMD: 16px;
+  --text-ButtonMD--line-height: 22px;
+  --text-ButtonMD--font-weight: 500;
+
+  --text-BodyMD: 15px;
+  --text-BodyMD--line-height: 20px;
+  --text-BodyMD--font-weight: 400;
+  --text-BodyMD--letter-spacing: -0.6px;
+
+  --text-BodySM: 14px;
+  --text-BodySM--line-height: 20px;
+  --text-BodySM--font-weight: 400;
+
+  --text-StatsLG: 36px;
+  --text-StatsLG--line-height: 32px;
+  --text-StatsLG--font-weight: 500;
+
+  --text-StatsXL: 48px;
+  --text-StatsXL--line-height: 48px;
+  --text-StatsXL--font-weight: 700;
+
+  --text-Caption: 12px;
+  --text-Caption--line-height: 16px;
+  --text-Caption--font-weight: 400;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: SpoqaHanSansNeo-Regular, Arial, Helvetica, sans-serif;
+}
+
+@utility container {
+  /* 컨테이너를 중앙 정렬합니다. */
+  margin-inline: auto;
+  max-width: 1200px;
+  /* 좌우 패딩을 설정합니다. (예: 모바일에서는 1rem, 큰 화면에서는 2rem) */
+  /* padding-inline: 1rem; */
+  @media (width >= 640px) {
+    max-width: 600px;
+  }
+  @media (width >= 768px) {
+    max-width: 720px;
+  }
+  @media (width >= 1024px) {
+    max-width: 1200px;
+  }
+  /* @media (width >= 1536px) {
+    max-width: 1320px;
+  } */
+}
+
+@utility shadow-section {
+  box-shadow: 0 0 30px 0 rgba(19, 1, 154, 0.05);
+  backdrop-filter: blur(15px);
+}
+
+@utility input-focus {
+  border: var(--Border-Line-1, 1px) solid var(--Line-Primary, #6846f4);
+  background: var(--Fill-Normal-Inverse, #fff);
+  box-shadow: 0 0 8px 0 rgba(104, 70, 244, 0.4);
+}
+
+@utility animate-float {
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(100px);
+  }
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none; /* 필요 시 */
+  box-shadow: none !important; /* focus:ring 제거 */
 }
