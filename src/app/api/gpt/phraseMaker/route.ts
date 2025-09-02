@@ -4,13 +4,13 @@ import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 const client = new OpenAI({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY });
 
-export async function POST(req: Request): Promise<string[] | NextResponse> {
+export async function POST(req: Request) {
   try {
     const { name, url, biz_type, keywords } = await req.json();
 
     const textLimits = [
-      10, 15, 8, 8, 8, 8, 8, 8, 8, 8, 20, 8, 16, 10, 8, 8, 8, 20, 8, 8, 20, 10,
-      15,
+      8, 15, 6, 6, 6, 6, 6, 6, 9, 6, 20, 6, 18, 10, 8, 10, 8, 10, 8, 8, 12, 5,
+      20, 8, 9, 9, 10, 10, 6, 20, 20,
     ];
 
     const prompt = `
@@ -68,8 +68,6 @@ export async function POST(req: Request): Promise<string[] | NextResponse> {
         'Output Array only. No explanations. no extra text. You are an advertising copywriting expert.',
       input: JSON.stringify(prompt),
     });
-
-    const data = await response.output_text;
 
     // Responses API에서는 output_text 사용
     const rawText = response.output_text || '';

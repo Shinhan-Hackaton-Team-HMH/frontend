@@ -7,7 +7,6 @@ interface TemplateDetail {
 }
 
 export default function TemplateThree({ imageList }: TemplateDetail) {
-  const imgSrc = '/icon/error.svg';
   const [imageStep, setImageStep] = useState(1);
 
   const handleNextStep = () => {

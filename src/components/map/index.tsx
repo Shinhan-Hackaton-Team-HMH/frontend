@@ -118,13 +118,20 @@ export default function MapInteraction({
         <div className="absolute bottom-4 left-4 flex flex-col gap-2">
           <button
             onClick={() => setScale((s) => Math.min(MAX_SCALE, s + 0.2))}
-            className="size-6 rounded-md bg-white/80 shadow hover:bg-white"
-          ></button>
+            className="size-[52px] place-items-center rounded-[120px] bg-white/80 shadow hover:bg-white"
+          >
+            <Image src={'/icon/add.svg'} alt={''} width={24} height={24} />
+          </button>
           <button
             onClick={() => setScale((s) => Math.max(MIN_SCALE, s - 0.2))}
-            className="size-6 rounded-md bg-white/80 shadow hover:bg-white"
+            className="size-[52px] place-items-center rounded-[120px] bg-white/80 shadow hover:bg-white"
           >
-            -
+            <Image
+              src={'/icon/check_small.svg'}
+              alt={''}
+              width={24}
+              height={24}
+            />
           </button>
         </div>
         <div className="absolute bottom-4 flex w-full justify-center">

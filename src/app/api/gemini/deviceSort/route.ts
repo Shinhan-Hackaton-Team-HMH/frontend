@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
-import { AdPlan, AdResponse } from '@/types/gpt/phrase';
+import { AdPlan } from '@/types/gpt/phrase';
 
-export async function POST(req: NextRequest): Promise<AdPlan[] | NextResponse> {
+export async function POST(req: NextRequest) {
   const { biz_type, budget } = await req.json();
   const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 

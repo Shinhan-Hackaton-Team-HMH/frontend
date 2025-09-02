@@ -23,8 +23,10 @@ export default function VideoExpand({
     }
   };
   const handleSelectTemplate = () => {
+    console.log('clicked index: ', index);
     setSelectTemplate(index);
   };
+
   return (
     <video
       key={index}

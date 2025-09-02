@@ -55,10 +55,10 @@ export async function GET(
     await searchFrame_1.waitForSelector(anchorSelector_1, { timeout: 10000 });
 
     // --- 3. href 추출 ---
-    const href_1 = await searchFrame_1.$eval(
-      anchorSelector_1,
-      (el: HTMLAnchorElement) => el.href,
-    );
+    // const href_1 = await searchFrame_1.$eval(
+    //   anchorSelector_1,
+    //   (el: HTMLAnchorElement) => el.href,
+    // );
 
     // // --- 4. 클릭해서 이동 ---
     // await searchFrame_1.click(anchorSelector_1);
@@ -82,10 +82,10 @@ export async function GET(
     await entryFrame.waitForSelector(anchorSelector_2, { timeout: 10000 });
 
     // --- 7. href 추출 ---
-    const href_2 = await entryFrame.$eval(
-      anchorSelector_2,
-      (el: HTMLAnchorElement) => el.href,
-    );
+    // const href_2 = await entryFrame.$eval(
+    //   anchorSelector_2,
+    //   (el: HTMLAnchorElement) => el.href,
+    // );
 
     // --- 8. 클릭해서 이동 ---
     await entryFrame.click(anchorSelector_2);

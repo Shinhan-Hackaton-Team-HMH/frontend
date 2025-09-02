@@ -2,7 +2,7 @@
 
 import Stepper from '@/components/common/stepper';
 import MapInteraction from '@/components/map';
-import { SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import locationData from '@/assets/cities';
 import { twMerge } from 'tailwind-merge';
@@ -12,10 +12,12 @@ import { Calendar } from '@/components/ui/calendar';
 import { businessAdMapping, DeviceType } from '@/assets/deviceMatching';
 import DeviceItem from '@/components/deviceItems/items';
 import DeviceResults from '@/components/deviceItems/results';
-import { useBusinessStore } from '@/store/useBusinessStore';
+//import { useBusinessStore } from '@/store/useBusinessStore';
 import axios from 'axios';
 import { useDeviceStore } from '@/store/useDeviceStore';
-import { AdPlan, AdResponse } from '@/types/gpt/phrase';
+import { AdPlan } from '@/types/gpt/phrase';
+import PlanCard from '@/components/budget/plan-card';
+import { useRouter } from 'next/navigation';
 // import { AdType } from '@/app/api/gpt/deviceSort/route';
 
 interface Province {
@@ -43,7 +45,6 @@ export default function BudgetPage() {
   const [amount, setAmount] = useState(0);
   const [budget, setBudget] = useState<number | ''>('');
   const [budgetInputValid, setBudgetInputValid] = useState(true);
-
   //CALENDAR-REF
   const startCalendarRef = useRef<HTMLDivElement>(null!);
   const endCalendarRef = useRef<HTMLDivElement>(null!);
@@ -61,6 +62,8 @@ export default function BudgetPage() {
   //Device-Card
   const [firstDeviceEdit, setFirstDeviceEdit] = useState(false);
   const [secondDeviceEdit, setSecondDeviceEdit] = useState(false);
+  //Plan
+  const [plan, setPlan] = useState<'NO' | 'BASIC' | 'PREMIUM'>('NO');
 
   //DISPLAY-Details
   const displayMachine = ['엘리베이터', ' 버스정류장', 'IPTV'];
@@ -70,7 +73,7 @@ export default function BudgetPage() {
   //TODO  기기 추천 데이터 뽑아오기
   const deviceState = useDeviceStore((state) => state.deviceState);
   const setDeviceState = useDeviceStore((state) => state.setDeviceState);
-  const clearDeviceState = useDeviceStore((state) => state.clearDeviceState);
+  //const clearDeviceState = useDeviceStore((state) => state.clearDeviceState);
   const [firstDeviceTotal, setFirstDeviceTotal] = useState(0);
   const [secondDeviceTotal, setSecondDeviceTotal] = useState(0);
 
@@ -162,6 +165,11 @@ export default function BudgetPage() {
   const subtraction = -(Number(budget) - totalDevicePrice);
   const formattedSubtraction = subtraction.toLocaleString('ko-KR');
   const formattedTotal = (Number(budget) + subtraction).toLocaleString('ko-KR');
+  const finalPrice = (
+    Number(budget) +
+    subtraction +
+    (plan == 'BASIC' ? 5900 : 14900)
+  ).toLocaleString('ko-KR');
 
   // // --- 디버깅 로그 ---
   // console.log('===== Budget 계산 로그 =====');
@@ -214,6 +222,10 @@ export default function BudgetPage() {
     copy.setDate(copy.getDate() + days);
     return copy;
   }
+  const router = useRouter();
+  const handlePayment = () => {
+    router.push('/plan');
+  };
 
   return (
     <div className="container mt-3">
@@ -715,7 +727,80 @@ export default function BudgetPage() {
             </div>
           </div>
         )}
+        {step === 3 && (
+          <div className="flex w-full flex-col gap-5">
+            <div className="flex w-full flex-row items-center justify-between">
+              <div className="text-Headline text-text-normal">
+                광고 예산 결제
+              </div>
+              <button className="ring-line-assistive text-BodyMD text-text-normal flex flex-row gap-2 rounded-[120px] px-6 py-2.5 ring">
+                광고 기기 위치보기
+                <Image src={'/icon/map.svg'} alt={''} width={20} height={20} />
+              </button>
+            </div>
+            <div className="flex w-full flex-row justify-between gap-9">
+              <div className="flex w-full flex-col gap-6">
+                <div className="text-TitleMD text-text-normal">
+                  광고 지역을 선택해 주세요.
+                </div>
+                <div className="flex flex-col gap-2">
+                  <PlanCard basic={true} plan={plan} setPlan={setPlan} />
+                  <PlanCard basic={false} plan={plan} setPlan={setPlan} />
+                </div>
+              </div>
+              <div className="flex w-full flex-col gap-6">
+                <div className="text-TitleMD text-text-normal">
+                  광고 청약 금액이에요.
+                </div>
+                <div className="ring-line-assistive shadow-section flex flex-col gap-4 rounded-xl bg-white p-5 ring">
+                  <div className="flex w-full flex-row items-center justify-between">
+                    <div className="text-ButtonMD">광고 집행 금액</div>
+                    <div className="text-TitleMD text-text-normal">
+                      {formattedTotal}원
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-row items-center justify-between">
+                    <div className="text-BodyMD text-text-assistive">
+                      {firstDisplay}
+                    </div>
+                    <div className="text-BodyMD text-text-normal">
+                      {firstDeviceTotal}원
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-row items-center justify-between">
+                    <div className="text-BodyMD text-text-assistive">
+                      {secondDisplay}
+                    </div>
+                    <div className="text-BodyMD text-text-normal">
+                      {secondDeviceTotal}원
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-row items-center justify-between">
+                    <div className="text-ButtonMD">광고 생성 금액</div>
+                    <div className="text-TitleMD text-text-normal">
+                      {plan === 'BASIC' ? '5,900' : '14,900'}원
+                    </div>
+                  </div>
+                  <hr className="text-line-assistive w-full" />
+                  <div className="flex w-full flex-row items-center justify-between">
+                    <div>총 결제 금액</div>
+                    <div className="text-Headline text-text-normal">
+                      {finalPrice}원
+                    </div>
+                  </div>
+                </div>
+                <button
+                  className="text-ButtonMD text-text-inverse bg-primary w-full rounded-xl py-[13px]"
+                  onClick={handlePayment}
+                >
+                  결제하기
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     </div>
   );
 }
+// PlanCard

@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Footer from '@/components/footer';
-import Header from '@/components/header';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { Dot, X } from 'lucide-react';
@@ -173,6 +172,7 @@ export default function BussinessRegisterPage() {
       );
       console.log('파일 업로드 성공:', response);
       setRegisterStatus({ status: 'SUBMITTED' });
+      router.push('/budget');
     } catch (error) {
       console.error('파일 업로드 중 오류 발생:', error);
     }

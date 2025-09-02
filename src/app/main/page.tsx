@@ -4,48 +4,87 @@ import Card, { CardDetail } from '@/components/card';
 import GlitchyNumber from '@/components/glitchy_text';
 import MapInteraction from '@/components/map';
 import { useState } from 'react';
+import Image from 'next/image';
+import useUserStore from '@/store/useUserStore';
+import { useRouter } from 'next/navigation';
 
 export default function MainPage() {
   const cardContent: CardDetail[] = [
     {
-      client: '소상공인',
-      title: '예산 맞춤형 광고 만들기',
+      client: '전국 동시 광고',
+      title: '광고 예산 책정 바로가기',
+      small_business: false,
     },
     {
-      client: '기업고객',
-      title: '광고 예산 책정 바로가기',
+      client: '우리 동네 광고',
+      title: '소상공인에게 추천해요',
+      small_business: true,
     },
   ];
 
   const [mapModal, setMapModal] = useState(false);
+  const router = useRouter();
+  const userId = useUserStore((state) => state.userId);
+
+  const handleRoute = () => {
+    if (userId !== '') {
+      router.push('/business');
+    } else router.push('/login');
+  };
 
   return (
     <>
       <div className="container flex flex-col items-center justify-center">
-        <section className="relative flex h-[492px] w-full flex-row gap-3">
+        <section className="relative flex h-[468px] w-full flex-row gap-3">
           <div
             className={`rounded-[20px] bg-white transition-all duration-500 ${
-              mapModal ? 'flex-1' : 'flex-1/2'
+              mapModal ? 'w-full flex-1' : 'flex-1/2'
             }`}
           >
             <MapInteraction mapModal={mapModal} setMapModal={setMapModal} />
           </div>
           <div
-            className={`shadow-section flex flex-col justify-between gap-[23px] rounded-[20px] bg-white p-6 transition-all duration-500 ${
+            className={`flex h-full w-full flex-col gap-3 transition-all duration-500 ${
               mapModal
-                ? 'pointer-events-none flex-0 opacity-0'
+                ? 'pointer-events-none hidden flex-0 opacity-0'
                 : 'flex-1/2 opacity-100'
             }`}
           >
-            <span className="text-text-primary text-StatsLG font-spotlight font-normal tracking-[-1.28px]">
-              원스탑 광고 솔루션
-            </span>
-            <span className="text-text-assistive text-TitleMD">
-              광고 제작부터 송출까지 한번에
-            </span>
-            <div className="grid grid-cols-2 gap-2">
+            <div
+              className={`shadow-section flex flex-col justify-between gap-[22px] rounded-[20px] bg-white p-6`}
+            >
+              <div className="flex flex-col gap-1">
+                <span className="text-text-normal text-Headline">
+                  원스탑 광고 솔루션
+                </span>
+                <span className="text-text-assistive text-BodySM">
+                  광고 제작부터 송출까지 한번에 KT바로광고에서 손쉽게
+                  도와드려요.
+                </span>
+              </div>
+              <button
+                className="flew-row ring-line-assistive flex w-fit items-center gap-2 rounded-[20px] px-6 py-2.5 ring"
+                onClick={handleRoute}
+              >
+                <div className="text-BodyMD text-text-normal">
+                  사업자등록증 제출하기
+                </div>
+                <Image
+                  src={'/icon/arrow_right.svg'}
+                  alt={''}
+                  width={24}
+                  height={24}
+                />
+              </button>
+            </div>
+            <div className="grid h-full grid-cols-2 gap-2">
               {cardContent.map((value, index) => (
-                <Card key={index} client={value.client} title={value.title} />
+                <Card
+                  key={index}
+                  client={value.client}
+                  title={value.title}
+                  small_business={value.small_business}
+                />
               ))}
             </div>
           </div>
