@@ -1,68 +1,13 @@
-// {
-//   "chicken_shop_budget_1000000": {
-//     "bus_shelter": {
-//       "device": "버스정류장",
-//       "deviceCount": "70",
-//       "timeSlots": ["06:00-09:00", "18:00-21:00"],
-//       "impressions": "50",
-//       "budget": "400,000",
-//       "reason": "출퇴근길 직장인 배달 수요 집중 공략"
-//     },
-//     "IPTV": {
-//       "device": "IPTV",
-//       "deviceCount": "노출기준",
-//       "timeSlots": ["18:00-21:00", "21:00-24:00"],
-//       "impressions": "40",
-//       "budget": "600,000",
-//       "reason": "저녁 프라임타임 가정 내 브랜드 인지도 극대화"
-//     }
-//   }
-// }
-
 import { NextResponse } from 'next/server';
-import { z } from 'zod';
 import OpenAI from 'openai';
 
 const client = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
-
-// const RequestSchema = z.object({
-//   biz_type: z.string().min(1, '업종은 필수입니다'),
-//   budget: z.string().regex(/^[0-9]+$/, '예산은 숫자 문자열이어야 합니다'),
-// });
-
-// export const AdTypeSchema = z.enum(['엘리베이터 TV', 'IPTV', '버스정류장']);
-// export type AdType = z.infer<typeof AdTypeSchema>;
-
-// export const AdPlanSchema = z.object({
-//   device: z.preprocess((val) => String(val), AdTypeSchema), // 기기
-//   deviceCount: z.preprocess((val) => String(val), z.string()), // 기기대수
-//   timeSlots: z.preprocess(
-//     (val) => (Array.isArray(val) ? val.map(String) : []),
-//     z.array(z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/)),
-//   ), // 시간대
-//   impressions: z.preprocess((val) => String(val), z.string()), // 노출횟수
-//   budget: z.preprocess(
-//     (val) => (typeof val === 'number' ? val.toLocaleString() : String(val)),
-//     z.string().regex(/^\d{1,3}(,\d{3})*$/),
-//   ), // 집행예산, 1,000 형식
-//   reason: z.preprocess((val) => String(val), z.string()), // 선택이유
-// });
-
-// 전체 응답 스키마
-// export const ResponseSchema = z.record(
-//   z.string(),
-//   z.record(z.string(), AdPlanSchema),
-// );
-
-// export type AdPlan = z.infer<typeof AdPlanSchema>;
-// export type AdResponse = z.infer<typeof ResponseSchema>;
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    // const { biz_type, budget } = RequestSchema.parse(body);
     const { biz_type, budget } = body;
     const prompt = {
       instruction: `${biz_type} 업종, 예산 ${budget}원을 기준으로 광고 집행 계획을 만들어라.`,
