@@ -72,7 +72,7 @@ export default function BudgetPage() {
   //DISPLAY-Details
   const displayMachine = ['엘리베이터', ' 버스정류장', 'IPTV'];
   const { biz_type, biz_subtype, biz_id } = useBusinessStore();
-  const { userId, campaignId } = useUserStore();
+  const { userId } = useUserStore();
   const useBiz_id = useUserStore((state) => state.biz_id);
   // const biz_type = '한식 일반음식점';
   const recommendAd: DeviceType = businessAdMapping[biz_type] || '엘리베이터';
