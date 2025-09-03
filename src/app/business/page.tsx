@@ -33,6 +33,8 @@ export default function BussinessRegisterPage() {
   const [error, setError] = useState<string | null>(null);
 
   const userId = useUserStore((state) => state.userId);
+  const userStatus = useUserStore((state) => state.status);
+  const updateUserStatus = useUserStore((state) => state.updateStatus);
 
   const biz_id = useBusinessStore((state) => state.biz_id);
   const biz_name = useBusinessStore((state) => state.biz_name);
@@ -139,11 +141,11 @@ export default function BussinessRegisterPage() {
           },
         },
       );
+
       console.log('파일 업로드 성공:', response);
       await delay(2000);
       setRegisterStatus({ status: 'APPLIED' });
       setBusinessInfo(response.data.data);
-
       setFile(null);
       setValid(false);
       setFileName(null);
@@ -156,7 +158,6 @@ export default function BussinessRegisterPage() {
   const handleSubmit = async () => {
     if (!businessInfo) return;
     const { biz_id, ...restOfInfo } = businessInfo;
-    console.log(biz_id, restOfInfo);
     try {
       const response = await axios.patch(
         `/proxy/api/upload/businesses/${biz_id}`,

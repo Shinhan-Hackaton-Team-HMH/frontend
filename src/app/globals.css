@@ -325,6 +325,22 @@ body {
   }
 }
 
+@utility animate-bouncing {
+  animation: bouncing 2s ease-in-out infinite;
+}
+
+@keyframes bouncing {
+  0%,
+  100% {
+    transform: translateY(-5%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;

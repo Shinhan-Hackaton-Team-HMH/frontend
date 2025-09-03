@@ -8,9 +8,8 @@ export default function LoginPage() {
   return (
     <>
       <div className="container">
-        <Header />
         <section className="mt-[60px] flex items-start justify-center">
-          <div className="shadow-section mb-[120px] flex h-[530px] w-[600px] flex-col items-center gap-8 rounded-[20px]">
+          <div className="shadow-section mb-[120px] flex h-fit w-[600px] flex-col items-center gap-8 rounded-[20px]">
             <div className="w-[360px]">
               <div className="text-Headline text-text-normal mt-9 mb-8 text-center">
                 통합 로그인
@@ -54,7 +53,6 @@ export default function LoginPage() {
           </div>
         </section>
       </div>
-      <Footer />
     </>
   );
 }

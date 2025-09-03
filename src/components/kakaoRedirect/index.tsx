@@ -9,7 +9,7 @@ export default function KakaoRedirectClient() {
   const searchParams = useSearchParams();
   const code = searchParams.get('code') ?? undefined;
   const setUserId = useUserStore((state) => state.setUserId);
-
+  const setBizId = useUserStore((state) => state.setBizId);
   useEffect(() => {
     const run = async () => {
       if (!code) {
@@ -29,8 +29,9 @@ export default function KakaoRedirectClient() {
         router.replace('/?error=token_exchange_failed');
         return;
       }
-      const { userId } = await postResponse.json();
+      const { userId, biz_Id } = await postResponse.json();
       setUserId(userId);
+      setBizId(biz_Id);
 
       if (!userId) {
         console.error('토큰이 응답에 없습니다.');

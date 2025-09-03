@@ -27,7 +27,7 @@ type SortableItemProps = {
   src: string;
   index: number;
   imageList: string[];
-  setImageList: (imagesList: string[]) => void;
+  setImageList: (imagesList: (File | string)[]) => void;
 };
 
 function SortableItem({
@@ -74,7 +74,7 @@ export default function ImageManageModal({
 }: {
   imageData: string[];
   setImageModal: Dispatch<SetStateAction<boolean>>;
-  setImages: (imagesList: string[]) => void;
+  setImages: (imagesList: (File | string)[]) => void;
 }) {
   const [items, setItems] = useState(
     imageData.map((src, idx) => ({ src, uniqueId: `${src}-${idx}` })),
