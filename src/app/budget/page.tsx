@@ -73,6 +73,7 @@ export default function BudgetPage() {
   const displayMachine = ['엘리베이터', ' 버스정류장', 'IPTV'];
   const { biz_type, biz_subtype, biz_id } = useBusinessStore();
   const { userId, campaignId } = useUserStore();
+  const useBiz_id = useUserStore((state) => state.biz_id);
   // const biz_type = '한식 일반음식점';
   const recommendAd: DeviceType = businessAdMapping[biz_type] || '엘리베이터';
   //TODO  기기 추천 데이터 뽑아오기
@@ -192,7 +193,7 @@ export default function BudgetPage() {
     const ok = await fetchRecommendation();
     if (ok) {
       await axios.post(
-        `/proxy/api/temporary/storage/campaign/setup/${biz_id}`,
+        `/proxy/api/temporary/storage/campaign/setup/${useBiz_id}`,
         {
           cityProvince: selectedCounty,
           cityCoutrynDistrict: selectedCity,

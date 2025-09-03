@@ -179,14 +179,14 @@ export default function MainPage() {
     return res;
   };
 
-  const fetchMedia = async () => {
-    const res = await axios.post(
-      `/proxy/api/temporary/storage/campaign/naver/${campaignId}`,
-    );
-    const { status } = res.data;
-    updateStatus(status);
-    return res;
-  };
+  // const fetchMedia = async () => {
+  //   const res = await axios.post(
+  //     `/proxy/api/temporary/storage/campaign/naver/${campaignId}`,
+  //   );
+  //   const { status } = res.data;
+  //   updateStatus(status);
+  //   return res;
+  // };
 
   const fetchCampaign = async () => {
     const res = await axios.get(
