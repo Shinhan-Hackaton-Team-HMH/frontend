@@ -218,7 +218,10 @@ export default function TemplateO({
 
         {/* 마지막 step에서만 다음 버튼 */}
         {imageStep === 4 && (
-          <button className="bg-primary text-text-inverse w-full rounded-xl py-[13px]">
+          <button
+            className="bg-primary text-text-inverse w-full rounded-xl py-[13px]"
+            onClick={handleFinalSubmit}
+          >
             다음
           </button>
         )}
