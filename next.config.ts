@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // swcMinify: true,
   /* config options here */
+  allowedDevOrigins: ['*'],
   images: {
     remotePatterns: [
       {

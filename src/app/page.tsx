@@ -181,7 +181,7 @@ export default function MainPage() {
 
   const fetchMedia = async () => {
     const res = await axios.post(
-      `/proxy/api/storage/campaign/naver/${campaignId}`,
+      `/proxy/api/temporary/storage/campaign/naver/${campaignId}`,
     );
     const { status } = res.data;
     updateStatus(status);
@@ -189,7 +189,9 @@ export default function MainPage() {
   };
 
   const fetchCampaign = async () => {
-    const res = await axios.get(`/proxy/api/storage/campaign/data/${userId}`);
+    const res = await axios.get(
+      `/proxy/api/temporary/storage/campaign/data/${userId}`,
+    );
     const { status } = res.data;
     updateStatus(status);
     return res;
@@ -197,7 +199,7 @@ export default function MainPage() {
 
   const fetchBroadcast = async () => {
     const res = await axios.get(
-      `/proxy/api/storage/campaign/broadcast/${userId}`,
+      `/proxy/api/temporary/storage/campaign/broadcast/${userId}`,
     );
     const { status } = res.data;
     updateStatus(status);

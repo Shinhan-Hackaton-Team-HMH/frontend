@@ -29,7 +29,7 @@ interface Province {
 
 export default function BudgetPage() {
   //STEPPER
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   //LOCATION
   const [cityFocus, setCityFocus] = useState(false);
@@ -191,13 +191,16 @@ export default function BudgetPage() {
     setIsLoading(true);
     const ok = await fetchRecommendation();
     if (ok) {
-      await axios.post(`/proxy/api/storage/campaign/setup/${biz_id}`, {
-        cityProvince: selectedCounty,
-        cityCoutrynDistrict: selectedCity,
-        startDate: startDate,
-        endDate: endDate,
-        budget: typeof budget == 'string' ? parseInt(budget) : budget,
-      });
+      await axios.post(
+        `/proxy/api/temporary/storage/campaign/setup/${biz_id}`,
+        {
+          cityProvince: selectedCounty,
+          cityCoutrynDistrict: selectedCity,
+          startDate: startDate,
+          endDate: endDate,
+          budget: typeof budget == 'string' ? parseInt(budget) : budget,
+        },
+      );
       handleNextStep();
     }
     setIsLoading(false);
@@ -302,24 +305,27 @@ export default function BudgetPage() {
   //   },
 
   const handlePayment = async () => {
-    await axios.post(`/proxy/api/storage/campaign/budget/${campaignId}`, [
-      {
-        deviceType: deviceState[0].device,
-        deviceCount: deviceState[0].deviceCount,
-        exposureTimeSlots: deviceState[0].timeSlots,
-        exposureCount: deviceState[0].impressions,
-        campaignBudget: deviceState[0].budget,
-        premium: plan === 'PREMIUM',
-      },
-      {
-        deviceType: deviceState[1].device,
-        deviceCount: deviceState[1].deviceCount,
-        exposureTimeSlots: deviceState[1].timeSlots,
-        exposureCount: deviceState[1].impressions,
-        campaignBudget: deviceState[1].budget,
-        premium: plan === 'PREMIUM',
-      },
-    ]);
+    await axios.post(
+      `/proxy/api/temporary/storage/campaign/budget/${campaignId}`,
+      [
+        {
+          deviceType: deviceState[0].device,
+          deviceCount: deviceState[0].deviceCount,
+          exposureTimeSlots: deviceState[0].timeSlots,
+          exposureCount: deviceState[0].impressions,
+          campaignBudget: deviceState[0].budget,
+          premium: plan === 'PREMIUM',
+        },
+        {
+          deviceType: deviceState[1].device,
+          deviceCount: deviceState[1].deviceCount,
+          exposureTimeSlots: deviceState[1].timeSlots,
+          exposureCount: deviceState[1].impressions,
+          campaignBudget: deviceState[1].budget,
+          premium: plan === 'PREMIUM',
+        },
+      ],
+    );
     router.push('/plan');
   };
 

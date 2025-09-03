@@ -174,10 +174,11 @@ export default function PlanPage() {
     }
   };
 
-  const handleStepTwo = () => {
+  const handleStepTwo = async () => {
     if (imageList.length < 5) {
       setImageErrorModal(true);
     }
+    await handleImageSubmit();
     handleNextStep();
   };
 
@@ -207,9 +208,9 @@ export default function PlanPage() {
 
   //미리보기용 영상 템플릿
   const videos = [
-    'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
-    'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
-    'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
+    'https://storage.googleapis.com/hackathon_hmh/generated_video.mp4',
+    'https://storage.googleapis.com/hackathon_hmh/template2.mp4',
+    'https://storage.googleapis.com/hackathon_hmh/sandwichTemplate.mp4',
     'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
   ];
 
