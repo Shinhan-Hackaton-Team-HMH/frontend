@@ -123,11 +123,11 @@ export default function PlanPage() {
         setError('알 수 없는 오류가 발생했습니다.');
       }
     } finally {
-      await axios.post(`/proxy/api/storage/campaign/naver/${campaignId}`, {
-        naverPlaceUrl: naverUrl,
-        keyword: searchKeyword,
-        description: '',
-      });
+      // await axios.post(`/proxy/api/storage/campaign/naver/${campaignId}`, {
+      //   naverPlaceUrl: naverUrl,
+      //   keyword: searchKeyword,
+      //   description: '',
+      // });
       setIsLoading(false);
       handleNextStep();
     }
