@@ -196,7 +196,7 @@ export default function BudgetPage() {
         `/proxy/api/temporary/storage/campaign/setup/${useBiz_id}`,
         {
           cityProvince: selectedCounty,
-          cityCoutrynDistrict: selectedCity,
+          cityCountryDistrict: selectedCity,
           startDate: startDate,
           endDate: endDate,
           budget: typeof budget == 'string' ? parseInt(budget) : budget,
