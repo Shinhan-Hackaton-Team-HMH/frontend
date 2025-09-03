@@ -294,7 +294,7 @@ export default function BudgetPage() {
       setCampaignId(campaignId);
       return res;
     };
-    fetchCampaign;
+    fetchCampaign();
   }, [deviceState]);
 
   function addDays(date: Date, days: number): Date | undefined {
