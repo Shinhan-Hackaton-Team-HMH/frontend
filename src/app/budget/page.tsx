@@ -279,11 +279,22 @@ export default function BudgetPage() {
     );
   };
 
+  const { updateStatus, setCampaignId } = useUserStore();
   useEffect(() => {
     if (deviceState.length > 0) {
       console.log('price1:', priceCalculate(0));
       console.log('price2:', priceCalculate(1));
     }
+    const fetchCampaign = async () => {
+      const res = await axios.get(
+        `/proxy/api/temporary/storage/campaign/data/${userId}`,
+      );
+      const { progressStep, campaignId } = res.data;
+      updateStatus(progressStep);
+      setCampaignId(campaignId);
+      return res;
+    };
+    fetchCampaign;
   }, [deviceState]);
 
   function addDays(date: Date, days: number): Date | undefined {
