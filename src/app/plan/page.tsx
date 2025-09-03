@@ -15,6 +15,20 @@ import TemplateOne from '@/components/templates/template1';
 import Loading from '@/components/common/loading';
 import { useBusinessStore } from '@/store/useBusinessStore';
 import { useRouter } from 'next/navigation';
+import useUserStore from '@/store/useUserStore';
+
+interface IMAGES3URL {
+  immageTemplate: number;
+  imgUrl: string;
+}
+
+export interface IMAGETEMPLATESUBMIT {
+  imageTemplate: number;
+  imgUrl: string;
+  text1: string;
+  text2?: string;
+  text3?: string;
+}
 
 export default function PlanPage() {
   const [urlError, setUrlError] = useState(false);
@@ -22,13 +36,27 @@ export default function PlanPage() {
 
   //선택된 이미지
   const [imageModal, setImageModal] = useState(false);
+  const [imageFileList, setImageFileList] = useState<File[]>([]);
   const [imageErrorModal, setImageErrorModal] = useState(false);
   const [imageCurrent, setImageCurrent] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [templateFinalList, setTemplateFinalList] = useState<
+    IMAGETEMPLATESUBMIT[]
+  >([]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  const userId = useUserStore((state) => state.userId);
   //비디오 탬플릿 선택
   const [videoTemplate, setVideoTemplate] = useState<number | null>(1);
+
+  const phrases = useVideoTemplateStore((state) => state.phrases);
+  const setPhrase = useVideoTemplateStore((state) => state.setPhrases);
+
+  //업로드용 이미지
+  const imageList = useImageStore((state) => state.images);
+  const setImageList = useImageStore((state) => state.setImages);
 
   const naverUrl = useCrawledDataStore((state) => state.naverUrl);
   const setNaverUrl = useCrawledDataStore((state) => state.setNaverUrl);
@@ -63,10 +91,11 @@ export default function PlanPage() {
   };
 
   //키워드 입력
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleKeyWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.currentTarget.value);
   };
 
+  const { campaignId } = useUserStore();
   //네이버URL 입력 및 크롤링
   const handleUrlSubmit = async () => {
     setIsLoading(true);
@@ -94,33 +123,30 @@ export default function PlanPage() {
         setError('알 수 없는 오류가 발생했습니다.');
       }
     } finally {
+      await axios.post(`/proxy/api/storage/campaign/naver/${campaignId}`, {
+        naverPlaceUrl: naverUrl,
+        keyword: searchKeyword,
+        description: '',
+      });
       setIsLoading(false);
       handleNextStep();
     }
   };
 
-  const phrases = useVideoTemplateStore((state) => state.phrases);
-  const setPhrase = useVideoTemplateStore((state) => state.setPhrases);
-
-  //업로드용 이미지
-  const imageList = useImageStore((state) => state.images);
-  const setImageList = useImageStore((state) => state.setImages);
-
-  const [isDragging, setIsDragging] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
+  //이미지 업로드 로직
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
     const fileArray = Array.from(files);
-    const urls = fileArray.map((file) => URL.createObjectURL(file));
-
+    // const urls = fileArray.map((file) => URL.createObjectURL(file));
+    setImageFileList(fileArray);
     // 기존 이미지 + 새로운 이미지 합치기, 최대 5개
-    const newImages = [...imageList.filter((img) => img !== ''), ...urls].slice(
-      0,
-      5,
-    );
+    const newImages = [
+      ...imageList.filter((img): img is string => typeof img === 'string'),
+      ...fileArray,
+    ].slice(0, 5);
     setImageList(newImages);
   };
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
@@ -156,9 +182,8 @@ export default function PlanPage() {
   };
 
   const { biz_type } = useBusinessStore();
-  //광고문구 생성
+
   const generateAds = async () => {
-    // name, url, biz_type, keywords
     try {
       const res = await axios.post('/api/gpt/phraseMaker', {
         name: crawledData?.storeName,
@@ -180,13 +205,52 @@ export default function PlanPage() {
 
   const stepTwo_valid = imageList.length >= 5 && videoTemplate;
 
+  //미리보기용 영상 템플릿
   const videos = [
     'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
     'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
     'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
     'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
   ];
-  console.log(videoTemplate);
+
+  //이미지 URL 반환 API Submit
+  const handleImageSubmit = async () => {
+    const imageUrls = [
+      'baseImage/base1.png',
+      'baseImage/base2.png',
+      'baseImage/base3.png',
+      'baseImage/base4.png',
+      'baseImage/base5.png',
+    ];
+
+    const form = new FormData();
+    for (const item of imageList) {
+      let file: File;
+
+      if (item instanceof File) {
+        file = item;
+      } else {
+        const res = await fetch(item);
+        const blob = await res.blob();
+        const fileName = item.split('/').pop() ?? 'image.png';
+        file = new File([blob], fileName, { type: blob.type });
+      }
+      form.append('files', file);
+    }
+    const response = await axios.post<IMAGES3URL[]>(
+      `/proxy/api/template/image/${videoTemplate}/${userId}`,
+      form,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+    console.log('response', response);
+    const responseImgUrl = response.data.map((value) => value.imgUrl);
+    setImageList(responseImgUrl);
+  };
+
   return (
     <>
       <div className="container mt-3 mb-[165px]">
@@ -269,7 +333,7 @@ export default function PlanPage() {
                           <input
                             type="text"
                             className="bg-normal-assistive w-full rounded-xl px-6 py-3.5 ring-0"
-                            onChange={handleInputChange}
+                            onChange={handleKeyWordChange}
                             placeholder="예시)한정식, 연희동 맛집, 고급스러운 분위기"
                           />
                           <span className="text-Caption text-text-assistive">
@@ -403,6 +467,8 @@ export default function PlanPage() {
                     <section className="flex w-full flex-row items-center justify-center gap-[63px] px-4">
                       {videoTemplate == 1 && (
                         <TemplateOne
+                          templateList={templateFinalList}
+                          setTemplateList={setTemplateFinalList}
                           imageList={imageList}
                           phraseList={phrases}
                           templateNo={videoTemplate}
@@ -410,6 +476,8 @@ export default function PlanPage() {
                       )}
                       {videoTemplate == 2 && (
                         <TemplateOne
+                          templateList={templateFinalList}
+                          setTemplateList={setTemplateFinalList}
                           imageList={imageList}
                           phraseList={phrases}
                           templateNo={videoTemplate}
@@ -417,6 +485,8 @@ export default function PlanPage() {
                       )}
                       {videoTemplate == 3 && (
                         <TemplateOne
+                          templateList={templateFinalList}
+                          setTemplateList={setTemplateFinalList}
                           imageList={imageList}
                           phraseList={phrases}
                           templateNo={videoTemplate}
@@ -424,6 +494,8 @@ export default function PlanPage() {
                       )}
                       {videoTemplate == 4 && (
                         <TemplateOne
+                          templateList={templateFinalList}
+                          setTemplateList={setTemplateFinalList}
                           imageList={imageList}
                           phraseList={phrases}
                           templateNo={videoTemplate}

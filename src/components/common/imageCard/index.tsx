@@ -4,15 +4,15 @@ import Image from 'next/image';
 import ImageDeleteModal from '@/components/modal/image/delete';
 
 interface ImageCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  imgSrc: string;
+  imgSrc: string | File;
   index: number;
   className?: string;
   style?: React.CSSProperties;
   selectedId: number;
   isSorting: boolean;
   setSelect?: Dispatch<SetStateAction<number>>;
-  imageList?: string[];
-  setImageList?: (imagesList: string[]) => void;
+  imageList?: (File | string)[];
+  setImageList?: (imagesList: (File | string)[]) => void;
   setImageSrc?: Dispatch<SetStateAction<string>>;
   setModal?: Dispatch<SetStateAction<boolean>>;
 }
@@ -47,6 +47,9 @@ const ImageCard = forwardRef<HTMLDivElement, ImageCardProps>(
       }
     };
 
+    const imagePreview =
+      typeof imgSrc !== 'string' ? URL.createObjectURL(imgSrc) : imgSrc;
+
     return (
       <>
         <div
@@ -61,7 +64,7 @@ const ImageCard = forwardRef<HTMLDivElement, ImageCardProps>(
           {imgSrc !== '' && (
             <>
               <Image
-                src={imgSrc}
+                src={imagePreview}
                 fill
                 style={{ objectFit: 'contain' }}
                 alt={`image-${index}`}

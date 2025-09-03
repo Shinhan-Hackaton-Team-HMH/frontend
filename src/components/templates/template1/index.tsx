@@ -1,9 +1,15 @@
-import { useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import Image from 'next/image';
 import InputTextField from '@/components/common/textfield';
+import { IMAGETEMPLATESUBMIT } from '@/app/plan/page';
+import useUserStore from '@/store/useUserStore';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface TemplateDetail {
-  imageList: string[];
+  imageList: (File | string)[];
+  templateList: IMAGETEMPLATESUBMIT[];
+  setTemplateList: Dispatch<SetStateAction<IMAGETEMPLATESUBMIT[]>>;
   phraseList: string[]; // 초기값 또는 필요시 사용
   templateNo: number;
 }
@@ -11,6 +17,8 @@ interface TemplateDetail {
 export default function TemplateO({
   imageList,
   phraseList,
+  templateList,
+  setTemplateList,
   templateNo,
 }: TemplateDetail) {
   const textLimits = [
@@ -50,6 +58,8 @@ export default function TemplateO({
 
   const [imageStep, setImageStep] = useState(0);
 
+  const userId = useUserStore((state) => state.userId);
+
   // step별 input 개수 정의
 
   // step별 입력값 상태 (2차원 배열)
@@ -85,16 +95,54 @@ export default function TemplateO({
       return copy;
     });
   };
+  const formattedImageList = imageList.map((value) => {
+    if (typeof value !== 'string') {
+      return URL.createObjectURL(value);
+    }
+    return value;
+  });
 
   const handleNextStep = () => {
-    if (imageStep < 4) setImageStep(imageStep + 1);
+    const currentInputs = inputs[imageStep]; // 현재 step의 입력값 배열
+    if (imageStep < 4) {
+      const submitData: IMAGETEMPLATESUBMIT = {
+        imageTemplate: imageStep,
+        imgUrl: formattedImageList[imageStep],
+        text1: currentInputs[0] ?? '',
+      };
+      // text2, text3이 존재할 때만 추가
+      if (currentInputs[1]) {
+        submitData.text2 = currentInputs[1];
+      }
+      if (currentInputs[2]) {
+        submitData.text3 = currentInputs[2];
+      }
+      setTemplateList((prev) => [...prev, submitData]);
+      setImageStep((prev) => prev + 1);
+    }
+  };
+  const router = useRouter();
+  const handleFinalSubmit = async () => {
+    try {
+      const response = await axios.post(
+        `/proxy/api/template/image/text/${templateNo}/${userId}`,
+        templateList,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      router.push('/');
+      console.log('final response', response.data);
+    } catch {
+      console.log('err in making video');
+    }
   };
 
   const handlePreviousStep = () => {
     if (imageStep > 0) setImageStep(imageStep - 1);
   };
-
-  console.log(templateNo);
 
   return (
     <div className="flex h-[441px] w-full flex-row gap-9">
@@ -114,7 +162,7 @@ export default function TemplateO({
 
         <div className="border-line-assistive relative aspect-[170/227] h-[227px] w-[170px] overflow-hidden rounded-xl border bg-gray-200 bg-[url('/imageBackground.png')] bg-cover bg-center bg-no-repeat">
           <Image
-            src={imageList[imageStep]}
+            src={formattedImageList[imageStep]}
             fill
             style={{ objectFit: 'cover' }}
             alt={`image-${imageStep}`}
