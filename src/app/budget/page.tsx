@@ -306,33 +306,33 @@ export default function BudgetPage() {
   const router = useRouter();
 
   const handlePayment = async () => {
-    const res = await axios.get(
-      `/proxy/api/temporary/storage/campaign/data/${userId}`,
-    );
-    const { progressStep, campaignId } = res.data;
-    await axios.post(
-      `/proxy/api/temporary/storage/campaign/budget/${campaignId}`,
-      [
-        {
-          deviceType: deviceState[0].device,
-          deviceCount: deviceState[0].deviceCount,
-          exposureTimeSlots: deviceState[0].timeSlots,
-          exposureCount: deviceState[0].impressions,
-          campaignBudget: deviceState[0].budget,
-          premium: plan === 'PREMIUM',
-        },
-        {
-          deviceType: deviceState[1].device,
-          deviceCount: deviceState[1].deviceCount,
-          exposureTimeSlots: deviceState[1].timeSlots,
-          exposureCount: deviceState[1].impressions,
-          campaignBudget: deviceState[1].budget,
-          premium: plan === 'PREMIUM',
-        },
-      ],
-    );
-    updateStatus(progressStep);
-    setCampaignId(campaignId);
+    // const res = await axios.get(
+    //   `/proxy/api/temporary/storage/campaign/data/${userId}`,
+    // );
+    // const { progressStep, campaignId } = res.data;
+    // await axios.post(
+    //   `/proxy/api/temporary/storage/campaign/budget/${campaignId}`,
+    //   [
+    //     {
+    //       deviceType: deviceState[0].device,
+    //       deviceCount: deviceState[0].deviceCount,
+    //       exposureTimeSlots: deviceState[0].timeSlots,
+    //       exposureCount: deviceState[0].impressions,
+    //       campaignBudget: deviceState[0].budget,
+    //       premium: plan === 'PREMIUM',
+    //     },
+    //     {
+    //       deviceType: deviceState[1].device,
+    //       deviceCount: deviceState[1].deviceCount,
+    //       exposureTimeSlots: deviceState[1].timeSlots,
+    //       exposureCount: deviceState[1].impressions,
+    //       campaignBudget: deviceState[1].budget,
+    //       premium: plan === 'PREMIUM',
+    //     },
+    //   ],
+    // );
+    // updateStatus(progressStep);
+    //setCampaignId(campaignId);
     router.push('/plan');
   };
 

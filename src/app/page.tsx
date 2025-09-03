@@ -170,14 +170,14 @@ export default function MainPage() {
     'REVIEW_APPROVED',
     'AD_BROADCAST',
   ];
-  const fetchBusiness = async () => {
-    const res = await axios.get(
-      `/proxy/api/temporary/storage/business/${userId}`,
-    );
-    const { status } = res.data;
-    updateStatus(status);
-    return res;
-  };
+  // const fetchBusiness = async () => {
+  //   const res = await axios.get(
+  //     `/proxy/api/temporary/storage/business/${userId}`,
+  //   );
+  //   const { status } = res.data;
+  //   updateStatus(status);
+  //   return res;
+  // };
 
   // const fetchMedia = async () => {
   //   const res = await axios.post(
@@ -188,23 +188,23 @@ export default function MainPage() {
   //   return res;
   // };
 
-  const fetchCampaign = async () => {
-    const res = await axios.get(
-      `/proxy/api/temporary/storage/campaign/data/${userId}`,
-    );
-    const { status } = res.data;
-    updateStatus(status);
-    return res;
-  };
+  // const fetchCampaign = async () => {
+  //   const res = await axios.get(
+  //     `/proxy/api/temporary/storage/campaign/data/${userId}`,
+  //   );
+  //   const { status } = res.data;
+  //   updateStatus(status);
+  //   return res;
+  // };
 
-  const fetchBroadcast = async () => {
-    const res = await axios.get(
-      `/proxy/api/temporary/storage/campaign/broadcast/${userId}`,
-    );
-    const { status } = res.data;
-    updateStatus(status);
-    return res;
-  };
+  // const fetchBroadcast = async () => {
+  //   const res = await axios.get(
+  //     `/proxy/api/temporary/storage/campaign/broadcast/${userId}`,
+  //   );
+  //   const { status } = res.data;
+  //   updateStatus(status);
+  //   return res;
+  // };
 
   const handleRoute = () => {
     const info = getProgressInfo(status);
@@ -214,34 +214,34 @@ export default function MainPage() {
     } else router.push('/login');
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const stepActions: Record<Progress, (() => Promise<any>) | null> = {
-    NOT_STARTED: null,
-    BUSINESS_REGISTERED: fetchBusiness,
-    CAMPAIGN_SETUP: fetchCampaign,
-    BUDGET_ALLOCATED: null,
-    MEDIA_UPLOADED: null,
-    REVIEW_APPROVED: null, // 나중에 필요하면 추가
-    AD_BROADCAST: fetchBroadcast,
-  };
+  // const stepActions: Record<Progress, (() => Promise<any>) | null> = {
+  //   NOT_STARTED: null,
+  //   BUSINESS_REGISTERED: fetchBusiness,
+  //   CAMPAIGN_SETUP: fetchCampaign,
+  //   BUDGET_ALLOCATED: null,
+  //   MEDIA_UPLOADED: null,
+  //   REVIEW_APPROVED: null, // 나중에 필요하면 추가
+  //   AD_BROADCAST: fetchBroadcast,
+  // };
 
-  useEffect(() => {
-    const runStepsUpTo = async (progress: Progress) => {
-      const idx = steps.indexOf(progress);
-      if (idx === -1) return;
+  // useEffect(() => {
+  //   const runStepsUpTo = async (progress: Progress) => {
+  //     const idx = steps.indexOf(progress);
+  //     if (idx === -1) return;
 
-      for (let i = 0; i <= idx; i++) {
-        const action = stepActions[steps[i]];
-        if (action) {
-          await action(); // 순차 실행
-        }
-      }
-    };
+  //     for (let i = 0; i <= idx; i++) {
+  //       const action = stepActions[steps[i]];
+  //       if (action) {
+  //         await action(); // 순차 실행
+  //       }
+  //     }
+  //   };
 
-    const run = async () => {
-      await runStepsUpTo(status);
-    };
-    run();
-  }, [status]);
+  //   const run = async () => {
+  //     await runStepsUpTo(status);
+  //   };
+  //   run();
+  // }, [status]);
 
   const cardContent: CardDetail[] = [
     {
