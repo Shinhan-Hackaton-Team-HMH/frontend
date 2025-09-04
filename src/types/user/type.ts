@@ -25,8 +25,3 @@ const progressMap: Record<Progress, ProgressInfo> = {
 export function getProgressInfo(status: Progress): ProgressInfo {
   return progressMap[status];
 }
-
-// 사용 예시
-const info = getProgressInfo('MEDIA_UPLOADED');
-console.log(info.percent); // 75
-console.log(info.path); // "/campaign/media"

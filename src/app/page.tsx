@@ -170,41 +170,6 @@ export default function MainPage() {
     'REVIEW_APPROVED',
     'AD_BROADCAST',
   ];
-  // const fetchBusiness = async () => {
-  //   const res = await axios.get(
-  //     `/proxy/api/temporary/storage/business/${userId}`,
-  //   );
-  //   const { status } = res.data;
-  //   updateStatus(status);
-  //   return res;
-  // };
-
-  // const fetchMedia = async () => {
-  //   const res = await axios.post(
-  //     `/proxy/api/temporary/storage/campaign/naver/${campaignId}`,
-  //   );
-  //   const { status } = res.data;
-  //   updateStatus(status);
-  //   return res;
-  // };
-
-  // const fetchCampaign = async () => {
-  //   const res = await axios.get(
-  //     `/proxy/api/temporary/storage/campaign/data/${userId}`,
-  //   );
-  //   const { status } = res.data;
-  //   updateStatus(status);
-  //   return res;
-  // };
-
-  // const fetchBroadcast = async () => {
-  //   const res = await axios.get(
-  //     `/proxy/api/temporary/storage/campaign/broadcast/${userId}`,
-  //   );
-  //   const { status } = res.data;
-  //   updateStatus(status);
-  //   return res;
-  // };
 
   const handleRoute = () => {
     const info = getProgressInfo(status);
@@ -213,20 +178,9 @@ export default function MainPage() {
       else router.push(info.path);
     } else router.push('/login');
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const stepActions: Record<Progress, (() => Promise<any>) | null> = {
-  //   NOT_STARTED: null,
-  //   BUSINESS_REGISTERED: fetchBusiness,
-  //   CAMPAIGN_SETUP: fetchCampaign,
-  //   BUDGET_ALLOCATED: null,
-  //   MEDIA_UPLOADED: null,
-  //   REVIEW_APPROVED: null, // 나중에 필요하면 추가
-  //   AD_BROADCAST: fetchBroadcast,
-  // };
 
   useEffect(() => {
     const runStepsUpTo = async (progress: Progress) => {
-      // const fetchBroadcast = async () => {
       const res = await axios.get(`/proxy/api/temporary/storage/${userId}`);
       const { progressStep } = res.data;
       updateStatus(progressStep);
@@ -237,7 +191,7 @@ export default function MainPage() {
       await runStepsUpTo(status);
     };
     if (userId !== '') run();
-  }, [status]);
+  }, [status, updateStatus, userId]);
 
   const cardContent: CardDetail[] = [
     {
