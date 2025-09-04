@@ -17,8 +17,8 @@ interface UserState {
 const useUserStore = create<UserState>()(
   persist(
     (set) => ({
-      userId: 'O3VQzG0mK2',
-      biz_id: '44',
+      userId: '',
+      biz_id: null,
       status: 'NOT_STARTED',
       campaignId: 0,
       setCampaignId: (id: number) => set({ campaignId: id }),
@@ -29,7 +29,7 @@ const useUserStore = create<UserState>()(
     }),
     {
       name: 'user-storage',
-      storage: createJSONStorage(() => sessionStorage), //defaut = localstorage
+      storage: createJSONStorage(() => localStorage), //defaut = localstorage
     },
   ),
 );

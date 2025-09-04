@@ -174,7 +174,6 @@ export default function BussinessRegisterPage() {
       const res = await axios.post(
         `/proxy/api/temporary/storage/${userId}/${status}`,
       );
-
       console.log('파일 업로드 성공:', response, res);
       setRegisterStatus({ status: 'SUBMITTED' });
       router.push('/budget');
@@ -185,13 +184,6 @@ export default function BussinessRegisterPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // setBusinessInfo((info) => {
-    //   if (!info) return null;
-    //   return {
-    //     ...info,
-    //     [name]: value,
-    //   };
-    // });
     setBusinessInfo({
       ...businessInfo,
       [name]: value,
@@ -290,18 +282,6 @@ export default function BussinessRegisterPage() {
                   placeholder="사업자등록번호"
                 />
                 <div className="flex w-full flex-row gap-2">
-                  {/* <div className="flex flex-col gap-2">
-                    <div className="text-TitleSM text-text-normal">
-                      업종대분류
-                    </div>
-                    <div> {businessInfo.biz_type || '해당없음'}</div>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="text-TitleSM text-text-normal">
-                      업종소분류
-                    </div>
-                    <div>{businessInfo.biz_subtype || '해당없음'}</div>
-                  </div> */}
                   <InputTextField
                     label="업종대분류"
                     value={businessInfo.biz_type || ''}
