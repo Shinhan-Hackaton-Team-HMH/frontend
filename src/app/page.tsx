@@ -169,16 +169,19 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    const runStepsUpTo = async (progress: Progress) => {
-      const res = await axios.get(`/proxy/api/temporary/storage/${userId}`);
-      const { progressStep } = res.data;
-      updateStatus(progressStep);
-      return res;
-    };
-    const run = async () => {
-      await runStepsUpTo(status);
-    };
-    if (userId !== '') run();
+    if (userId !== '') {
+      const runStepsUpTo = async (progress: Progress) => {
+        const res = await axios.get(`/proxy/api/temporary/storage/${userId}`);
+        const { progressStep } = res.data;
+        updateStatus(progressStep);
+        console.log(progressStep);
+        return res;
+      };
+      const run = async () => {
+        await runStepsUpTo(status);
+      };
+      run();
+    }
   }, [status, updateStatus, userId]);
 
   const cardContent: CardDetail[] = [

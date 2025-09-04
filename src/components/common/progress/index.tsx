@@ -5,11 +5,11 @@ import { twMerge } from 'tailwind-merge';
 
 export default function ProgressBar({ progress }: { progress: Progress }) {
   const info = getProgressInfo(progress);
+  console.log(info);
   const router = useRouter();
   const handleRoute = () => {
-    router.push(info.path);
+    router.push(info.path || '/');
   };
-
   return (
     <div
       className={`shadow-section flex flex-col justify-between gap-[22px] rounded-[20px] bg-white p-6`}
