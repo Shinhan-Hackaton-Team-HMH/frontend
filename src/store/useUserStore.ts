@@ -29,7 +29,7 @@ const useUserStore = create<UserState>()(
     }),
     {
       name: 'user-storage',
-      storage: createJSONStorage(() => localStorage), //defaut = localstorage
+      storage: createJSONStorage(() => sessionStorage), //defaut = localstorage
     },
   ),
 );
