@@ -108,20 +108,20 @@ export default function PlanPage() {
     setIsLoading(true);
     setError(null);
     try {
-      // const response = await axios.get<CrawlResponseTypes>(
-      //   `/api/naver/crawl?searchKeyword=${naverUrl}`,
-      // );
-      // // const geminiResponse = await axios.post(
-      // //   '/api/gemini',
-      // //   response.data.hours,
-      // // );
-      // setCrawledData({ ...response.data, hours: geminiResponse.data.text });
-      // if (response.data.images) {
-      //   setAdImages(response.data.images);
-      //   setImageList(response.data.images.slice(0, 5));
-      // }
+      const response = await axios.get<CrawlResponseTypes>(
+        `/api/naver/crawl?searchKeyword=${naverUrl}`,
+      );
+      const geminiResponse = await axios.post(
+        '/api/gemini',
+        response.data.hours,
+      );
+      setCrawledData({ ...response.data, hours: geminiResponse.data.text });
+      if (response.data.images) {
+        setAdImages(response.data.images);
+        setImageList(response.data.images.slice(0, 5));
+      }
 
-      // await generateAds();
+      await generateAds();
 
       setAdImages(exampleImages);
       setImageList(exampleImages);
@@ -215,20 +215,12 @@ export default function PlanPage() {
   //미리보기용 영상 템플릿
   const videos = [
     'https://storage.googleapis.com/hackathon_hmh/sandwichTemplate.mp4',
-    'https://storage.googleapis.com/hackathon_hmh/template2.mp4',
-    'https://storage.googleapis.com/hackathon_hmh/generated_video.mp4',
+    'https://storage.googleapis.com/hackathon_hmh/template2Video.mp4',
+    'https://storage.googleapis.com/hackathon_hmh/flowerVideo.mp4',
   ];
 
   //이미지 URL 반환 API Submit
   const handleImageSubmit = async () => {
-    const imageUrls = [
-      'baseImage/base1.png',
-      'baseImage/base2.png',
-      'baseImage/base3.png',
-      'baseImage/base4.png',
-      'baseImage/base5.png',
-    ];
-
     const form = new FormData();
     for (const item of imageList) {
       if (item instanceof File) {

@@ -145,7 +145,11 @@ export default function BussinessRegisterPage() {
       console.log('파일 업로드 성공:', response);
       await delay(2000);
       setRegisterStatus({ status: 'APPLIED' });
-      setBusinessInfo(response.data.data);
+      setBusinessInfo({
+        ...response.data.data,
+        // biz_type: '도/소매업',
+        // biz_subtype: '꽃집',
+      });
       setFile(null);
       setValid(false);
       setFileName(null);
@@ -155,6 +159,7 @@ export default function BussinessRegisterPage() {
     }
   };
   const status = useUserStore((state) => state.status);
+
   const handleSubmit = async () => {
     if (!businessInfo) return;
     const { biz_id, ...restOfInfo } = businessInfo;
@@ -175,8 +180,8 @@ export default function BussinessRegisterPage() {
         `/proxy/api/temporary/storage/${userId}/${status}`,
       );
       console.log('파일 업로드 성공:', response, res);
+      await delay(2000);
       setRegisterStatus({ status: 'SUBMITTED' });
-      router.push('/budget');
     } catch (error) {
       console.error('파일 업로드 중 오류 발생:', error);
     }

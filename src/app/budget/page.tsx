@@ -164,7 +164,7 @@ export default function BudgetPage() {
   const finalPrice = (
     Number(budget) +
     subtraction +
-    (plan == 'BASIC' ? 5900 : 14900)
+    (plan == 'BASIC' ? 2900 : 9900)
   ).toLocaleString('ko-KR');
 
   // --- 디버깅 로그 ---
@@ -922,8 +922,8 @@ export default function BudgetPage() {
                           {plan === 'NO'
                             ? 0
                             : plan === 'BASIC'
-                              ? '5,900'
-                              : '14,900'}
+                              ? '2,900'
+                              : '9,900'}
                           원
                         </div>
                       </div>

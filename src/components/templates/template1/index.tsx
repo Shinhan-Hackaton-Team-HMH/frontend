@@ -38,7 +38,7 @@ export default function TemplateOne({
         ? [2, 2, 2, 2, 3]
         : templateNo == 2
           ? [2, 2, 3, 3, 2]
-          : [2, 2, 2, 2, 3],
+          : [2, 2, 1, 2, 3],
     [templateNo],
   );
 
@@ -93,7 +93,7 @@ export default function TemplateOne({
     });
   };
   const formattedImageList = imageList.map((value) => {
-    if (typeof value !== 'string') {
+    if (value instanceof File) {
       return URL.createObjectURL(value);
     }
     return value;

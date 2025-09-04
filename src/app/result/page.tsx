@@ -35,7 +35,7 @@ export default function ResultPage() {
       {/* 배경 영상 */}
       <div className="relative h-full w-full flex-1">
         <video
-          src="https://storage.googleapis.com/hackathon_hmh/sandwichTemplate.mp4"
+          src="https://storage.googleapis.com/hackathon_hmh/flowerVideo.mp4"
           autoPlay
           muted
           loop
@@ -64,7 +64,7 @@ export default function ResultPage() {
                 ref={canvas}
                 style={{ width: '60px', height: '60px' }}
                 id="qr-code-download"
-                value="http://172.30.1.56:3000/result"
+                value="https://frontend-five-sepia-55.vercel.app/result"
               />
             </div>
           </div>

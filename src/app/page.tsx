@@ -291,7 +291,7 @@ export default function MainPage() {
               </div>
             </div>
           </div>
-          <div className="absolute -bottom-8 flex flex-row gap-[1px] rounded-full border border-gray-200 bg-white p-1">
+          <div className="absolute -bottom-10 flex flex-row gap-[1px] rounded-full border border-gray-200 bg-white p-1">
             <div className="rounded-full bg-[#ECEEF0] px-6 py-2.5">
               실시간 광고 보기
             </div>

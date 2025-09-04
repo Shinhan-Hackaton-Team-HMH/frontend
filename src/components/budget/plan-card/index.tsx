@@ -16,7 +16,7 @@ export default function PlanCard({ basic, plan, setPlan }: BudgetCardProps) {
     ? {
         key: 'BASIC' as const,
         label: '베이직',
-        price: '5,900',
+        price: '2,900',
         titleClass: 'text-text-normal bg-primary-lighten',
         features: [
           '광고 스타일 선택 가능',
@@ -27,7 +27,7 @@ export default function PlanCard({ basic, plan, setPlan }: BudgetCardProps) {
     : {
         key: 'PREMIUM' as const,
         label: '프리미엄',
-        price: '14,900',
+        price: '9,900',
         titleClass: 'text-text-inverse bg-primary',
         features: [
           '최대 10회 재생성 가능',

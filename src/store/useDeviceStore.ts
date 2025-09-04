@@ -13,22 +13,21 @@ export const useDeviceStore = create<DeviceStoreState>((set) => ({
     {
       ad_type: '엘리베이터 TV',
       device: '엘리베이터 TV',
-      deviceCount: '91',
+      deviceCount: '30',
       timeSlots: ['18:00-21:00'],
       impressions: '60',
-      budget: '819,000',
-      reason:
-        '엘리베이터 중심으로 반복 노출하여 광고 인지도와 노출 효과 극대화.',
+      budget: '810,000',
+      reason: '엘리베이터 중심 반복 노출로 장기간 안정적인 인지도를 확보합니다',
     },
     {
       ad_type: '버스정류장',
       device: '버스정류장',
-      deviceCount: '10',
+      deviceCount: '3',
       timeSlots: ['18:00-21:00'],
       impressions: '60',
-      budget: '180,000',
+      budget: '160,000',
       reason:
-        '유동 인구가 많은 지역에서 출퇴근 시간대에 맞춰 효율적인 노출이 가능합니다.',
+        '퇴근 시간대 버스 정류장에서의 집중 노출로 도달 범위를 확대합니다.',
     },
   ],
   setDeviceState: (data) => set({ deviceState: data }),
