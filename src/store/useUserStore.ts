@@ -17,8 +17,8 @@ interface UserState {
 const useUserStore = create<UserState>()(
   persist(
     (set) => ({
-      userId: 'ev70b20pdB',
-      biz_id: '49',
+      userId: '',
+      biz_id: null,
       status: 'NOT_STARTED',
       campaignId: 0,
       setCampaignId: (id: number) => set({ campaignId: id }),
