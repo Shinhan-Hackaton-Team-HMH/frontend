@@ -410,7 +410,6 @@ export default function BussinessRegisterPage() {
           </section>
         </div>
       </div>
-      <Footer />
       {registerStatus.status === 'UPLOADED' && <BusinessUploadModal />}
       {registerStatus.status === 'SUBMITTED' && <BusinessConfirmModal />}
     </div>
