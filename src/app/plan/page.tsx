@@ -33,7 +33,7 @@ export interface IMAGETEMPLATESUBMIT {
 
 export default function PlanPage() {
   const [urlError, setUrlError] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 
   //선택된 이미지
   const [imageModal, setImageModal] = useState(false);

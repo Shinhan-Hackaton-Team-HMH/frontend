@@ -15,8 +15,8 @@ import { NextRequest } from 'next/server';
 // };
 
 // 허용할 최대/최소 해상도 정의
-const MAX_WIDTH = 1920;
-const MAX_HEIGHT = 1080;
+const MAX_WIDTH = 1200;
+const MAX_HEIGHT = 1600;
 const MIN_WIDTH = 640;
 const MIN_HEIGHT = 480;
 
@@ -242,12 +242,26 @@ export async function GET(req: NextRequest) {
         `[WARNING] 영상 길이 정보를 얻을 수 없거나 0입니다: ${videoUrl}`,
       );
     }
+    const videoAnalysis = {
+      videoUrl,
+      resolution: `${width}x${height}`,
+      videoCodec,
+      audioCodec: audioCodec || 'N/A',
+      frameRate: frameRate ? frameRate.toFixed(2) + ' fps' : 'N/A',
+      duration: videoDurationSeconds.toFixed(2) + ' seconds',
+      fileSize: fileSize
+        ? (fileSize / (1024 * 1024)).toFixed(2) + ' MB'
+        : 'N/A',
+    };
+
+    console.log(JSON.stringify(videoAnalysis, null, 2));
 
     // 모든 검사 통과
     return Response.json({
       message: '영상 규격 검사 통과',
       url: videoUrl,
       resolution: `${width}x${height}`,
+      detail: videoAnalysis,
     });
   } catch (error) {
     console.error('An error occurred:', error);
