@@ -224,24 +224,20 @@ export default function MainPage() {
   //   AD_BROADCAST: fetchBroadcast,
   // };
 
-  // useEffect(() => {
-  //   const runStepsUpTo = async (progress: Progress) => {
-  //     const idx = steps.indexOf(progress);
-  //     if (idx === -1) return;
+  useEffect(() => {
+    const runStepsUpTo = async (progress: Progress) => {
+      // const fetchBroadcast = async () => {
+      const res = await axios.get(`/proxy/api/temporary/storage/${userId}`);
+      const { progressStep } = res.data;
+      updateStatus(progressStep);
+      return res;
+    };
 
-  //     for (let i = 0; i <= idx; i++) {
-  //       const action = stepActions[steps[i]];
-  //       if (action) {
-  //         await action(); // 순차 실행
-  //       }
-  //     }
-  //   };
-
-  //   const run = async () => {
-  //     await runStepsUpTo(status);
-  //   };
-  //   run();
-  // }, [status]);
+    const run = async () => {
+      await runStepsUpTo(status);
+    };
+    run();
+  }, [status]);
 
   const cardContent: CardDetail[] = [
     {

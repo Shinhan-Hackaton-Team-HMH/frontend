@@ -154,7 +154,7 @@ export default function BussinessRegisterPage() {
       console.error('파일 업로드 중 오류 발생:', error);
     }
   };
-
+  const status = useUserStore((state) => state.status);
   const handleSubmit = async () => {
     if (!businessInfo) return;
     const { biz_id, ...restOfInfo } = businessInfo;
@@ -171,7 +171,11 @@ export default function BussinessRegisterPage() {
           },
         },
       );
-      console.log('파일 업로드 성공:', response);
+      const res = await axios.post(
+        `/proxy/api/temporary/storage/${userId}/${status}`,
+      );
+
+      console.log('파일 업로드 성공:', response, res);
       setRegisterStatus({ status: 'SUBMITTED' });
       router.push('/budget');
     } catch (error) {
