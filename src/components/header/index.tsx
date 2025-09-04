@@ -15,6 +15,8 @@ export default function Header() {
   const [isCSHovered, setIsCSHovered] = useState(false);
   const userId = useUserStore((state) => state.userId);
 
+  const bizId = useUserStore((state) => state.biz_id);
+
   const serviceIntroItems: DropDownDetail[] = [
     {
       text: 'KT 바로광고 소개',
@@ -100,13 +102,16 @@ export default function Header() {
           {isCSHovered && <DropDown items={customerServiceItems} />}
         </div>
         <Link href={''}>마이페이지</Link>
-        <Link href={''}>
-          {userId === '' ? (
+
+        {userId === '' ? (
+          <Link href={'/login'}>
             <div className="ring-line-assistive flex flex-row items-center justify-center gap-2 rounded-[120px] px-6 py-2.5 ring">
               <div className="text-BodyMD text-text-normal">로그인</div>
               <Image src={'/icon/enter.svg'} alt={''} width={24} height={24} />
             </div>
-          ) : (
+          </Link>
+        ) : (
+          <Link href={bizId ? '/business' : '/budget'}>
             <button className="bg-primary text-text-inverse flex flex-row items-center justify-center gap-2.5 rounded-[1.25rem] from-[#5731F0] to-[#5CFFF1] px-6 py-2 hover:bg-gradient-to-r">
               광고만들기
               <Image
@@ -116,8 +121,8 @@ export default function Header() {
                 alt={'kt-logo'}
               />
             </button>
-          )}
-        </Link>
+          </Link>
+        )}
       </div>
     </div>
   );

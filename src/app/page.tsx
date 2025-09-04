@@ -236,7 +236,7 @@ export default function MainPage() {
     const run = async () => {
       await runStepsUpTo(status);
     };
-    run();
+    if (userId !== '') run();
   }, [status]);
 
   const cardContent: CardDetail[] = [
