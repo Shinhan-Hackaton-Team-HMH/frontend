@@ -47,6 +47,7 @@ export default function ProgressBar({ progress }: { progress: Progress }) {
               `bg-primary absolute top-0 left-0 h-2 w-[20%] rounded-lg`,
               `w-[${info.percent || 0}%]`,
             )}
+            style={{ width: `${info.percent || 0}%` }}
           ></div>
         </div>
       </div>

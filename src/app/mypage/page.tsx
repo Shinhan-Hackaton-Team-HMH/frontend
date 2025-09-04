@@ -3,8 +3,8 @@ import Image from 'next/image';
 export default function MyPage() {
   return (
     <div className="container flex flex-row gap-[30px]">
-      <div className="shadow-section ring-line-assistive flex w-[180px] flex-col rounded-xl px-6.5 ring">
-        <div className="pt-4 pb-2">마이페이지</div>
+      <div className="shadow-section ring-line-assistive flex h-fit flex-col rounded-xl px-6.5 ring">
+        <div className="w-[168px] pt-4 pb-2">마이페이지</div>
         <div className="w-full py-2.5">내 광고 현황</div>
         <div className="w-full py-2.5">내 광고 영상 관리</div>
         <div className="w-full py-2.5">광고 집행 내역</div>
@@ -16,7 +16,7 @@ export default function MyPage() {
         <div className="shadow-section flex w-full flex-col rounded-[20px] p-6">
           <div className="flex w-full flex-row justify-between rounded-[120px]">
             <span className="text-Headline text-text-normal">홍길동</span>
-            <button className="ring-line-assistive flex flex-row items-center justify-center gap-2 px-6 py-2 ring">
+            <button className="ring-line-assistive flex flex-row items-center justify-center gap-2 rounded-[120px] px-6 py-2 ring">
               <span className="text-BodyMD text-text-normal">로그아웃</span>
               <Image src={'/icon/logout.svg'} alt={''} width={20} height={20} />
             </button>
@@ -156,7 +156,9 @@ export default function MyPage() {
                   </div>
                 </div>
               </div>
-              <div className="flex"></div>
+              <div className="flex flex-col">
+                <div className="flex flex-row"></div>
+              </div>
             </div>
             <div></div>
           </div>

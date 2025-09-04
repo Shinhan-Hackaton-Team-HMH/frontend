@@ -172,9 +172,9 @@ export default function MainPage() {
     if (userId !== '') {
       const runStepsUpTo = async (progress: Progress) => {
         const res = await axios.get(`/proxy/api/temporary/storage/${userId}`);
-        const { progressStep } = res.data;
+        const { progressStep } = res.data.data;
         updateStatus(progressStep);
-        console.log(progressStep);
+        console.log(progressStep, res);
         return res;
       };
       const run = async () => {
