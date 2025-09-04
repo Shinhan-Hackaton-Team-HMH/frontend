@@ -13,7 +13,7 @@ export async function POST(
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash',
-    contents: `${hours} 해당 내용은  상점의 영업시간이야 , 해당 정보를 묶을 수있으면 최대한 묶어서, 깔끔하고 정돈되게 보고 바로 알수있게 영업시간을 작성해줘 최대 2줄로 만약 이상한 내용이나 중복되는 내용있으면 빼고 처리해줘`,
+    contents: `  상점의 영업시간은 매일 아침 10시 부터 저녁 8시야  , 해당 정보를 묶을 수있으면 최대한 묶어서, 깔끔하고 정돈되게 보고 바로 알수있게 영업시간을 작성해줘 최대 2줄로 만약 이상한 내용이나 중복되는 내용있으면 빼고 처리해줘`,
     config: {
       thinkingConfig: {
         thinkingBudget: 0, // Disables thinking

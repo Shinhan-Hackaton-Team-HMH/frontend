@@ -21,22 +21,9 @@ export default function DeviceResults({
   deviceName,
   durationDays,
   total,
-  setDeviceTotal,
 }: DeviceResultsProps) {
   const devicePrice =
     deviceName === 'IPTV' ? 15 : deviceName === '버스정류장' ? 10 : 5;
-  // useEffect(() => {
-  //   setDeviceTotal(
-  //     deviceCount * devicePrice * timeSlot * impressions * durationDays,
-  //   );
-  // }, [
-  //   deviceCount,
-  //   devicePrice,
-  //   timeSlot,
-  //   impressions,
-  //   durationDays,
-  //   setDeviceTotal,
-  // ]);
   const [open, setOpen] = useState(false);
   return (
     <div className="bg-normal-assistive flex flex-col gap-4 rounded-xl px-4 pt-4 pb-2 transition-all duration-500 ease-in-out">

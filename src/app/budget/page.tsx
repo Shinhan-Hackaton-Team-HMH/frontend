@@ -80,8 +80,12 @@ export default function BudgetPage() {
   const deviceState = useDeviceStore((state) => state.deviceState);
   const setDeviceState = useDeviceStore((state) => state.setDeviceState);
   //const clearDeviceState = useDeviceStore((state) => state.clearDeviceState);
-  const [firstDeviceTotal, setFirstDeviceTotal] = useState(0);
-  const [secondDeviceTotal, setSecondDeviceTotal] = useState(0);
+  const [firstDeviceTotal, setFirstDeviceTotal] = useState(
+    Number(deviceState[0].budget.replace(/,/g, '')),
+  );
+  const [secondDeviceTotal, setSecondDeviceTotal] = useState(
+    Number(deviceState[1].budget.replace(/,/g, '')),
+  );
 
   useEffect(() => {
     if (selectedCounty) {
@@ -151,7 +155,9 @@ export default function BudgetPage() {
   };
 
   const formattedBudget = budget === '' ? '' : budget.toLocaleString('ko-KR');
-  const totalDevicePrice = firstDeviceTotal + secondDeviceTotal;
+  const totalDevicePrice =
+    Number(deviceState[0].budget.replace(/,/g, '')) +
+    Number(deviceState[1].budget.replace(/,/g, ''));
   const subtraction = totalDevicePrice - Number(budget);
   const formattedSubtraction = subtraction.toLocaleString('ko-KR');
   const formattedTotal = (Number(budget) + subtraction).toLocaleString('ko-KR');
@@ -192,9 +198,9 @@ export default function BudgetPage() {
     setIsLoading(true);
     const ok = await fetchRecommendation();
     if (ok) {
-      const res = await axios.post(
-        `/proxy/api/temporary/storage/${userId}/${'CAMPAIGN_SETUP'}`,
-      );
+      // const res = await axios.post(
+      //   `/proxy/api/temporary/storage/${userId}/${'CAMPAIGN_SETUP'}`,
+      // );
       handleNextStep();
     }
     setIsLoading(false);
@@ -215,21 +221,21 @@ export default function BudgetPage() {
         days: getDays(),
       });
 
-      // 1) 응답 데이터로 바로 계산 (상태 의존 X)
-      const first = priceCalculateBy(data, 0);
-      const second = priceCalculateBy(data, 1);
+      // // 1) 응답 데이터로 바로 계산 (상태 의존 X)
+      // const first = priceCalculateBy(data, 0);
+      // const second = priceCalculateBy(data, 1);
 
       // 2) 상태 업데이트
-      setDeviceState(data);
-      setFirstDeviceTotal(first);
-      setSecondDeviceTotal(second);
+      // setDeviceState(data);
+      // setFirstDeviceTotal(first);
+      // setSecondDeviceTotal(second);
 
       // 다음 단계 진행 여부 반환 (상태 기다릴 필요 없음)
       return data.length > 0;
     } catch (error) {
       console.error('광고 데이터 불러오기 실패:', error);
-      setFirstDeviceTotal(0);
-      setSecondDeviceTotal(0);
+      // setFirstDeviceTotal(0);
+      // setSecondDeviceTotal(0);
       return false;
     }
   };
@@ -299,9 +305,9 @@ export default function BudgetPage() {
   const router = useRouter();
 
   const handlePayment = async () => {
-    const res = await axios.post(
-      `/proxy/api/temporary/storage/${userId}/${'BUDGET_ALLOCATED'}`,
-    );
+    // const res = await axios.post(
+    //   `/proxy/api/temporary/storage/${userId}/${'BUDGET_ALLOCATED'}`,
+    // );
     // const res = await axios.get(
     //   `/proxy/api/temporary/storage/campaign/data/${userId}`,
     // );
@@ -913,7 +919,12 @@ export default function BudgetPage() {
                       <div className="flex w-full flex-row items-center justify-between">
                         <div className="text-ButtonMD">광고 생성 금액</div>
                         <div className="text-TitleMD text-text-normal">
-                          {plan === 'BASIC' ? '5,900' : '14,900'}원
+                          {plan === 'NO'
+                            ? 0
+                            : plan === 'BASIC'
+                              ? '5,900'
+                              : '14,900'}
+                          원
                         </div>
                       </div>
                       <hr className="text-line-assistive w-full" />

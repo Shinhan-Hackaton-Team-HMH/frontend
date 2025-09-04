@@ -26,7 +26,7 @@ type SortableItemProps = {
   id: string;
   src: string;
   index: number;
-  imageList: string[];
+  imageList: (File | string)[];
   setImageList: (imagesList: (File | string)[]) => void;
 };
 
@@ -72,12 +72,15 @@ export default function ImageManageModal({
   setImages,
   setImageModal,
 }: {
-  imageData: string[];
+  imageData: (string | File)[];
   setImageModal: Dispatch<SetStateAction<boolean>>;
   setImages: (imagesList: (File | string)[]) => void;
 }) {
   const [items, setItems] = useState(
-    imageData.map((src, idx) => ({ src, uniqueId: `${src}-${idx}` })),
+    imageData.map((src, idx) => ({
+      src: typeof src !== 'string' ? URL.createObjectURL(src) : src,
+      uniqueId: `${src}-${idx}`,
+    })),
   );
 
   // items가 바뀔 때만 부모에 전달

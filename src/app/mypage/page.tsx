@@ -98,7 +98,7 @@ export default function MyPage() {
         <div className="flex flex-col gap-4">
           <div className="text-Headline text-text-normal">어제의 광고 현황</div>
           <div className="ring-line-assistive shadow-section flex w-full flex-row p-6 ring">
-            <div className="flex flex-col">
+            <div className="flex w-full flex-col">
               <div className="flex flex-row gap-6">
                 <div className="flex flex-col gap-[40px]">
                   <div>광고 내 QR링크 유입자 수</div>
@@ -156,11 +156,29 @@ export default function MyPage() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col">
-                <div className="flex flex-row"></div>
+              <div className="bg-primary-lighten flex w-full flex-col gap-3 rounded-xl px-6 py-4">
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-row items-center">
+                    <Image
+                      src={'/icon/sparkle_dark.svg'}
+                      alt={''}
+                      width={20}
+                      height={20}
+                    />
+                    <span className="text-TitleSM text-text-normal">
+                      내 광고 유형은?
+                    </span>
+                  </div>
+                  <div className="text-ButtonMD text-primary">저녁 집중형</div>
+                </div>
+                <div className="text-BodySM text-text-normal w-full">
+                  어제 전체 CTR은 2.8%로, 전일 대비 +0.5%p 상승했습니다. 특히
+                  퇴근 시간대(18시~20시)에 CTR이 평균 대비 약 1.4배 높게
+                  나타났습니다.
+                </div>
               </div>
             </div>
-            <div></div>
+            <div className="flex"></div>
           </div>
         </div>
       </div>

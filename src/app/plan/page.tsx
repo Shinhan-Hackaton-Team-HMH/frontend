@@ -16,6 +16,7 @@ import Loading from '@/components/common/loading';
 import { useBusinessStore } from '@/store/useBusinessStore';
 import { useRouter } from 'next/navigation';
 import useUserStore from '@/store/useUserStore';
+import ImageManageModal from '@/components/modal/image/manage';
 
 interface IMAGES3URL {
   immageTemplate: number;
@@ -97,23 +98,33 @@ export default function PlanPage() {
 
   //네이버URL 입력 및 크롤링
   const handleUrlSubmit = async () => {
+    const exampleImages = [
+      '/baseImage/example/image1.png',
+      '/baseImage/example/image2.png',
+      '/baseImage/example/image3.png',
+      '/baseImage/example/image4.png',
+      '/baseImage/example/image5.png',
+    ];
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.get<CrawlResponseTypes>(
-        `/api/naver/crawl?searchKeyword=${naverUrl}`,
-      );
-      const geminiResponse = await axios.post(
-        '/api/gemini',
-        response.data.hours,
-      );
-      setCrawledData({ ...response.data, hours: geminiResponse.data.text });
-      if (response.data.images) {
-        setAdImages(response.data.images);
-        setImageList(response.data.images.slice(0, 5));
-      }
+      // const response = await axios.get<CrawlResponseTypes>(
+      //   `/api/naver/crawl?searchKeyword=${naverUrl}`,
+      // );
+      // // const geminiResponse = await axios.post(
+      // //   '/api/gemini',
+      // //   response.data.hours,
+      // // );
+      // setCrawledData({ ...response.data, hours: geminiResponse.data.text });
+      // if (response.data.images) {
+      //   setAdImages(response.data.images);
+      //   setImageList(response.data.images.slice(0, 5));
+      // }
 
-      await generateAds();
+      // await generateAds();
+
+      setAdImages(exampleImages);
+      setImageList(exampleImages);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -206,7 +217,6 @@ export default function PlanPage() {
     'https://storage.googleapis.com/hackathon_hmh/sandwichTemplate.mp4',
     'https://storage.googleapis.com/hackathon_hmh/template2.mp4',
     'https://storage.googleapis.com/hackathon_hmh/generated_video.mp4',
-    'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
   ];
 
   //이미지 URL 반환 API Submit
@@ -386,6 +396,16 @@ export default function PlanPage() {
                             />
                           );
                         })}
+                        <div className="relative">
+                          <Image
+                            src={'/baseImage/image21.png'}
+                            alt={''}
+                            fill
+                            className={twMerge(
+                              'h-[292px] w-full rounded-lg object-cover',
+                            )}
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="relative flex h-[644px] w-full flex-col justify-between">
@@ -515,13 +535,13 @@ export default function PlanPage() {
           )}
         </section>
       </div>
-      {/* {imageModal && (
+      {imageModal && (
         <ImageManageModal
           imageData={imageList}
           setImages={setImageList}
           setImageModal={setImageModal}
         />
-      )} */}
+      )}
       {imageErrorModal && (
         <ImageErrorModal setImageErrorModal={setImageErrorModal} />
       )}
