@@ -101,7 +101,7 @@ export default function Header() {
           <button>고객지원</button>
           {isCSHovered && <DropDown items={customerServiceItems} />}
         </div>
-        <Link href={''}>마이페이지</Link>
+        <Link href={'/mypage'}>마이페이지</Link>
 
         {userId === '' ? (
           <Link href={'/login'}>

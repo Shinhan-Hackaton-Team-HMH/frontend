@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function MyPage() {
   return (
-    <div className="container flex flex-row gap-[30px]">
+    <div className="container mb-20 flex flex-row gap-[30px]">
       <div className="shadow-section ring-line-assistive flex h-fit flex-col rounded-xl px-6.5 ring">
         <div className="w-[128px] pt-4 pb-2">마이페이지</div>
         <div className="w-full py-2.5">내 광고 현황</div>
