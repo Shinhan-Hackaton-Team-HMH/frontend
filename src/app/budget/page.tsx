@@ -192,16 +192,9 @@ export default function BudgetPage() {
     setIsLoading(true);
     const ok = await fetchRecommendation();
     if (ok) {
-      // await axios.patch(
-      //   `/proxy/api/temporary/storage/campaign/setup/${useBiz_id}`,
-      //   {
-      //     cityProvince: selectedCounty,
-      //     cityCountryDistrict: selectedCity,
-      //     startDate: startDate,
-      //     endDate: endDate,
-      //     budget: typeof budget == 'string' ? parseInt(budget) : budget,
-      //   },
-      // );
+      const res = await axios.post(
+        `/proxy/api/temporary/storage/${userId}/${'CAMPAIGN_SETUP'}`,
+      );
       handleNextStep();
     }
     setIsLoading(false);
@@ -306,6 +299,9 @@ export default function BudgetPage() {
   const router = useRouter();
 
   const handlePayment = async () => {
+    const res = await axios.post(
+      `/proxy/api/temporary/storage/${userId}/${'BUDGET_ALLOCATED'}`,
+    );
     // const res = await axios.get(
     //   `/proxy/api/temporary/storage/campaign/data/${userId}`,
     // );

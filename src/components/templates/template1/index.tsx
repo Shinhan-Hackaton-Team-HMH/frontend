@@ -42,11 +42,9 @@ export default function TemplateOne({
     [templateNo],
   );
 
-  // 현재 template에 맞는 limits 추출
   const templateTextLimits = useMemo(() => {
     const [start, end] = templateRanges[templateNo] || [0, 0];
     const sliced = textLimits.slice(start, end);
-    // sliced와 stepInputsCount를 맞춰서 2차원 배열 생성
     let idx = 0;
     return stepInputsCount.map((count) => {
       const group = sliced.slice(idx, idx + count);
@@ -103,22 +101,28 @@ export default function TemplateOne({
 
   const handleNextStep = () => {
     const currentInputs = inputs[imageStep]; // 현재 step의 입력값 배열
-    if (imageStep < 4) {
-      const submitData: IMAGETEMPLATESUBMIT = {
-        imageTemplate: imageStep,
-        imgUrl: formattedImageList[imageStep],
-        text1: currentInputs[0] ?? '',
-      };
-      // text2, text3이 존재할 때만 추가
-      if (currentInputs[1]) {
-        submitData.text2 = currentInputs[1];
-      }
-      if (currentInputs[2]) {
-        submitData.text3 = currentInputs[2];
-      }
-      setTemplateList((prev) => [...prev, submitData]);
-      setImageStep((prev) => prev + 1);
+
+    const submitData: IMAGETEMPLATESUBMIT = {
+      imageTemplate: imageStep,
+      imgUrl: formattedImageList[imageStep],
+      text1: currentInputs[0] ?? '',
+    };
+
+    // text2, text3이 존재할 때만 추가
+    if (currentInputs[1]) {
+      submitData.text2 = currentInputs[1];
     }
+    if (currentInputs[2]) {
+      submitData.text3 = currentInputs[2];
+    }
+
+    setTemplateList((prev) => {
+      const newList = [...prev];
+      newList[imageStep] = submitData; // 특정 index에 값 덮어쓰기
+      return newList;
+    });
+
+    if (imageStep < 4) setImageStep((prev) => prev + 1);
   };
 
   const router = useRouter();
@@ -129,8 +133,13 @@ export default function TemplateOne({
         `/proxy/api/template/image/text/${templateNo}/${userId}`,
         templateList,
       );
+
+      // REVIEW_APPROVED
+      const res = await axios.post(
+        `/proxy/api/temporary/storage/${userId}/${'REVIEW_APPROVED'}`,
+      );
       router.push('/');
-      console.log('final response', response.data);
+      console.log('final request', templateList, response);
     } catch {
       console.log('err in making video');
     }

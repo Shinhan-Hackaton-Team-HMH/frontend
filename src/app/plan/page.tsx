@@ -32,7 +32,7 @@ export interface IMAGETEMPLATESUBMIT {
 
 export default function PlanPage() {
   const [urlError, setUrlError] = useState(false);
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
 
   //선택된 이미지
   const [imageModal, setImageModal] = useState(false);
@@ -203,9 +203,9 @@ export default function PlanPage() {
 
   //미리보기용 영상 템플릿
   const videos = [
-    'https://storage.googleapis.com/hackathon_hmh/generated_video.mp4',
-    'https://storage.googleapis.com/hackathon_hmh/template2.mp4',
     'https://storage.googleapis.com/hackathon_hmh/sandwichTemplate.mp4',
+    'https://storage.googleapis.com/hackathon_hmh/template2.mp4',
+    'https://storage.googleapis.com/hackathon_hmh/generated_video.mp4',
     'https://storage.googleapis.com/hackathon_hmh/c012ea38-10bc-4503-91be-5157c3e8ba73-video.mp4',
   ];
 
@@ -228,7 +228,6 @@ export default function PlanPage() {
           const proxyUrl = `/api/naver/imageMod?url=${encodeURIComponent(item)}`;
           const res = await fetch(proxyUrl);
           const blob = await res.blob();
-
           const fileName = item.split('/').pop()?.split('?')[0] ?? 'image.png';
           form.append('files', new File([blob], fileName, { type: blob.type }));
         } catch (err) {
@@ -245,6 +244,10 @@ export default function PlanPage() {
           'Content-Type': 'multipart/form-data',
         },
       },
+    );
+
+    const res = await axios.post(
+      `/proxy/api/temporary/storage/${userId}/${'MEDIA_UPLOADED'}`,
     );
     const responseImgUrl = response.data.map((value) => value.imgUrl);
     console.log(responseImgUrl);

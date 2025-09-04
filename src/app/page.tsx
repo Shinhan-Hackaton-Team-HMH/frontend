@@ -159,17 +159,6 @@ export default function MainPage() {
   const bizId = useUserStore((state) => state.biz_id);
   const status = useUserStore((state) => state.status);
   const updateStatus = useUserStore((state) => state.updateStatus);
-  const campaignId = useUserStore((state) => state.campaignId);
-  const setCampaignId = useUserStore((state) => state.setCampaignId);
-  const steps: Progress[] = [
-    'NOT_STARTED',
-    'BUSINESS_REGISTERED',
-    'CAMPAIGN_SETUP',
-    'BUDGET_ALLOCATED',
-    'MEDIA_UPLOADED',
-    'REVIEW_APPROVED',
-    'AD_BROADCAST',
-  ];
 
   const handleRoute = () => {
     const info = getProgressInfo(status);
@@ -186,7 +175,6 @@ export default function MainPage() {
       updateStatus(progressStep);
       return res;
     };
-
     const run = async () => {
       await runStepsUpTo(status);
     };
