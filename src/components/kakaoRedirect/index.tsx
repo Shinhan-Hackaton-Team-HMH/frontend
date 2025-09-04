@@ -47,5 +47,5 @@ export default function KakaoRedirectClient() {
   }, [code, router, setUserId]);
 
   // 간단한 로딩 UI
-  return <></>;
+  return <div className="fixed h-screen w-screen bg-white"></div>;
 }

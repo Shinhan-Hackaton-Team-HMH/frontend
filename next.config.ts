@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'shinhan-hmh-files.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/**', // 모든 경로 허용
+      },
     ],
   },
   async rewrites() {

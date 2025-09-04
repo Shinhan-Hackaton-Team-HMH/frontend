@@ -14,7 +14,7 @@ interface TemplateDetail {
   templateNo: number;
 }
 
-export default function TemplateO({
+export default function TemplateOne({
   imageList,
   phraseList,
   templateList,
@@ -46,7 +46,6 @@ export default function TemplateO({
   const templateTextLimits = useMemo(() => {
     const [start, end] = templateRanges[templateNo] || [0, 0];
     const sliced = textLimits.slice(start, end);
-
     // sliced와 stepInputsCount를 맞춰서 2차원 배열 생성
     let idx = 0;
     return stepInputsCount.map((count) => {
@@ -121,17 +120,14 @@ export default function TemplateO({
       setImageStep((prev) => prev + 1);
     }
   };
+
   const router = useRouter();
+
   const handleFinalSubmit = async () => {
     try {
       const response = await axios.post(
         `/proxy/api/template/image/text/${templateNo}/${userId}`,
         templateList,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
       );
       router.push('/');
       console.log('final response', response.data);
@@ -183,23 +179,8 @@ export default function TemplateO({
         </div>
       </section>
 
-      {/* 텍스트 입력 영역 */}
-      {/* 텍스트 입력 영역 */}
       <section className="flex h-full w-full flex-col justify-between">
         <div className="flex flex-col gap-[13px]">
-          {/* {Array.from({ length: stepInputsCount[imageStep] }).map(
-            (_, inputIdx) => (
-              <InputTextField
-                key={inputIdx}
-                label={`본문 ${inputIdx + 1}`}
-                placeholder={`문구 ${inputIdx + 1}`}
-                value={inputs[imageStep][inputIdx]}
-                onChange={(e) =>
-                  handleChange(imageStep, inputIdx, e.target.value)
-                }
-              />
-            ),
-          )} */}
           {Array.from({ length: stepInputsCount[imageStep] }).map(
             (_, inputIdx) => (
               <InputTextField
@@ -210,7 +191,7 @@ export default function TemplateO({
                 onChange={(e) =>
                   handleChange(imageStep, inputIdx, e.target.value)
                 }
-                maxLength={templateTextLimits[imageStep][inputIdx]} // 👈 제한 적용
+                maxLength={templateTextLimits[imageStep][inputIdx]}
               />
             ),
           )}

@@ -192,16 +192,16 @@ export default function BudgetPage() {
     setIsLoading(true);
     const ok = await fetchRecommendation();
     if (ok) {
-      await axios.patch(
-        `/proxy/api/temporary/storage/campaign/setup/${useBiz_id}`,
-        {
-          cityProvince: selectedCounty,
-          cityCountryDistrict: selectedCity,
-          startDate: startDate,
-          endDate: endDate,
-          budget: typeof budget == 'string' ? parseInt(budget) : budget,
-        },
-      );
+      // await axios.patch(
+      //   `/proxy/api/temporary/storage/campaign/setup/${useBiz_id}`,
+      //   {
+      //     cityProvince: selectedCounty,
+      //     cityCountryDistrict: selectedCity,
+      //     startDate: startDate,
+      //     endDate: endDate,
+      //     budget: typeof budget == 'string' ? parseInt(budget) : budget,
+      //   },
+      // );
       handleNextStep();
     }
     setIsLoading(false);

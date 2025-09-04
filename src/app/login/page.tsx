@@ -1,8 +1,6 @@
 'use client';
 import KakaoButton from '@/components/common/button/kakaoButton';
 import InputTextField from '@/components/common/textfield';
-import Footer from '@/components/footer';
-import Header from '@/components/header';
 
 export default function LoginPage() {
   return (
@@ -20,8 +18,8 @@ export default function LoginPage() {
                   placeholder={'아이디를 입력해주세요'}
                 />
                 <InputTextField
-                  label={'아이디를 입력해주세요'}
-                  placeholder={'아이디를 입력해주세요'}
+                  label={'비밀번호를 입력해주세요'}
+                  placeholder={'비밀번호를 입력해주세요'}
                 />
                 <div className="text-text-assistive text-Caption flex h-4 w-full flex-row items-center justify-between">
                   <div className="flex flex-row gap-1">

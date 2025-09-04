@@ -95,11 +95,9 @@ export default function PlanPage() {
     setSearchKeyword(e.currentTarget.value);
   };
 
-  const { campaignId } = useUserStore();
   //네이버URL 입력 및 크롤링
   const handleUrlSubmit = async () => {
     setIsLoading(true);
-
     setError(null);
     try {
       const response = await axios.get<CrawlResponseTypes>(
@@ -140,10 +138,7 @@ export default function PlanPage() {
     // const urls = fileArray.map((file) => URL.createObjectURL(file));
     setImageFileList(fileArray);
     // 기존 이미지 + 새로운 이미지 합치기, 최대 5개
-    const newImages = [
-      ...imageList.filter((img): img is string => typeof img === 'string'),
-      ...fileArray,
-    ].slice(0, 5);
+    const newImages = [...imageList, ...fileArray].slice(0, 5);
     setImageList(newImages);
   };
 
@@ -226,18 +221,22 @@ export default function PlanPage() {
 
     const form = new FormData();
     for (const item of imageList) {
-      let file: File;
-
       if (item instanceof File) {
-        file = item;
+        form.append('files', item);
       } else {
-        const res = await fetch(item);
-        const blob = await res.blob();
-        const fileName = item.split('/').pop() ?? 'image.png';
-        file = new File([blob], fileName, { type: blob.type });
+        try {
+          const proxyUrl = `/api/naver/imageMod?url=${encodeURIComponent(item)}`;
+          const res = await fetch(proxyUrl);
+          const blob = await res.blob();
+
+          const fileName = item.split('/').pop()?.split('?')[0] ?? 'image.png';
+          form.append('files', new File([blob], fileName, { type: blob.type }));
+        } catch (err) {
+          console.log(err);
+        }
       }
-      form.append('files', file);
     }
+
     const response = await axios.post<IMAGES3URL[]>(
       `/proxy/api/template/image/${videoTemplate}/${userId}`,
       form,
@@ -247,10 +246,12 @@ export default function PlanPage() {
         },
       },
     );
-    console.log('response', response);
     const responseImgUrl = response.data.map((value) => value.imgUrl);
+    console.log(responseImgUrl);
     setImageList(responseImgUrl);
   };
+
+  console.log(imageList);
 
   return (
     <>
