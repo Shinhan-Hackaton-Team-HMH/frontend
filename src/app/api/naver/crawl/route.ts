@@ -40,6 +40,9 @@ export async function GET(
 
     browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    );
     page.setDefaultNavigationTimeout(60000);
 
     await page.goto(searchKeyword, { waitUntil: 'networkidle0' });
@@ -162,8 +165,7 @@ export async function GET(
     return new NextResponse(JSON.stringify({ error: '크롤링 실패' }), {
       status: 500,
     });
+  } finally {
+    if (browser) await browser.close();
   }
-  // finally {
-  //   if (browser) await browser.close();
-  // }
 }
