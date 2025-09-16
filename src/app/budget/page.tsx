@@ -80,12 +80,31 @@ export default function BudgetPage() {
   const deviceState = useDeviceStore((state) => state.deviceState);
   const setDeviceState = useDeviceStore((state) => state.setDeviceState);
   //const clearDeviceState = useDeviceStore((state) => state.clearDeviceState);
-  const [firstDeviceTotal, setFirstDeviceTotal] = useState(
-    Number(deviceState[0].budget.replace(/,/g, '')),
-  );
-  const [secondDeviceTotal, setSecondDeviceTotal] = useState(
-    Number(deviceState[1].budget.replace(/,/g, '')),
-  );
+
+  const priceCalculate = (deviceIndex: number) => {
+    // if (!deviceState[deviceIndex]) return;
+    const devicePrice =
+      deviceState[deviceIndex].device === 'IPTV'
+        ? 15
+        : deviceState[deviceIndex].device === '버스정류장'
+          ? 10
+          : 5;
+    // console.log('devicePrice:  ', devicePrice);
+    // console.log('device: ', deviceState[deviceIndex].device);
+    // console.log('deviceDetail: ', deviceState);
+    return (
+      devicePrice *
+      parseInt(deviceState[0].deviceCount) *
+      deviceState[deviceIndex].timeSlots.length *
+      3 *
+      parseInt(deviceState[deviceIndex].impressions)
+    );
+  };
+
+  const [firstDeviceTotal, setFirstDeviceTotal] = useState(priceCalculate(0));
+  // Number(deviceState[0].budget.replace(/,/g, '')),
+  const [secondDeviceTotal, setSecondDeviceTotal] = useState(priceCalculate(1));
+  // Number(deviceState[1].budget.replace(/,/g, '')),
 
   useEffect(() => {
     if (selectedCounty) {
@@ -258,33 +277,13 @@ export default function BudgetPage() {
     );
   };
 
-  const priceCalculate = (deviceIndex: number) => {
-    // if (!deviceState[deviceIndex]) return;
-    const devicePrice =
-      deviceState[deviceIndex].device === 'IPTV'
-        ? 15
-        : deviceState[deviceIndex].device === '버스정류장'
-          ? 10
-          : 5;
-    // console.log('devicePrice:  ', devicePrice);
-    // console.log('device: ', deviceState[deviceIndex].device);
-    // console.log('deviceDetail: ', deviceState);
-    return (
-      devicePrice *
-      parseInt(deviceState[0].deviceCount) *
-      deviceState[deviceIndex].timeSlots.length *
-      3 *
-      parseInt(deviceState[deviceIndex].impressions)
-    );
-  };
-
   const { updateStatus, setCampaignId } = useUserStore();
-  useEffect(() => {
-    if (deviceState.length > 0) {
-      console.log('price1:', priceCalculate(0));
-      console.log('price2:', priceCalculate(1));
-    }
-  }, [deviceState]);
+  // useEffect(() => {
+  //   if (deviceState.length > 0) {
+  //     console.log('price1:', priceCalculate(0));
+  //     console.log('price2:', priceCalculate(1));
+  //   }
+  // }, [deviceState]);
 
   // const fetchCampaign = async () => {
   //   const res = await axios.get(
@@ -734,15 +733,12 @@ export default function BudgetPage() {
                     />
                   </button>
                 </div>
-                <div className="bg-primary-lighten flex w-full flex-row rounded-xl py-4 pl-6">
-                  <Image
-                    src={`/icon/check_circle_selected.svg`}
-                    alt={'check_icon'}
-                    width={24}
-                    height={24}
-                  />
+                <div className="bg-primary-lighten flex w-full flex-row items-center rounded-xl py-4 pl-6">
+                  <div className="text-text-inverse text-BodyMD flex items-center justify-center rounded-lg bg-[linear-gradient(270deg,#76AFFF_0%,#6846F4_100%)] px-3 py-1">
+                    AI 추천
+                  </div>
                   <div className="text-ButtonMD text-primary ml-4">
-                    한식 일반음식점
+                    {`${biz_type},  ${biz_subtype}`}
                   </div>
                   <div className="text-BodyMD text-text-normal ml-2">
                     업종의 추천 광고 기기와 송출 시간이에요
@@ -751,6 +747,7 @@ export default function BudgetPage() {
                 <div className="flex w-full flex-row gap-6">
                   <div className="flex w-full flex-col gap-2">
                     <DeviceItem
+                      inputBudget={Number(budget)}
                       deviceName={deviceState[0].device}
                       deviceCount={deviceState[0].deviceCount}
                       timePeriod={deviceState[0].timeSlots}
@@ -783,6 +780,7 @@ export default function BudgetPage() {
                   </div>
                   <div className="flex w-full flex-col gap-2">
                     <DeviceItem
+                      inputBudget={Number(budget)}
                       deviceName={deviceState[1].device}
                       deviceCount={deviceState[1].deviceCount}
                       timePeriod={deviceState[1].timeSlots}

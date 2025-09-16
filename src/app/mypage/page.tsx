@@ -226,18 +226,16 @@ export default function MyPage() {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3.5">
-              <div className="flex w-full flex-col gap-2.5">
-                <div className="ring-line-assistive relative h-[344px] w-full rounded-xl bg-[url('/imageBackground.png')] bg-cover bg-center bg-no-repeat ring">
-                  <div className="text-primary bg-primary-lighten absolute top-2.5 right-[9px] rounded-lg px-2 py-1">
-                    Premium
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-3 py-3">
+              <div className="flex w-full flex-row gap-2.5">
+                <div className="flex flex-1 flex-col items-start justify-start gap-1">
                   <div className="flex w-full flex-row items-center justify-between">
                     <span className="text-TitleMD text-text-normal">
-                      무제 1
+                      네이버 플레이스 상호명
                     </span>
+                    <div className="text-primary bg-primary-lighten rounded-lg px-2 py-1">
+                      Premium
+                    </div>
                     <Image
                       src={'/icon/download.svg'}
                       alt={''}
@@ -246,19 +244,29 @@ export default function MyPage() {
                     />
                   </div>
                   <div className="text-BodyMD text-text-normal">2025.08.31</div>
+                  <div className="text-BodyMD text-text-normal">진행중</div>
+                  <button className="ring-line-assistive flex flex-row items-center justify-center gap-2 rounded-[120px] px-6 py-2 ring">
+                    <span className="text-BodyMD text-text-normal">자세히</span>
+                    <Image
+                      src={'/icon/enter.svg'}
+                      alt={''}
+                      width={20}
+                      height={20}
+                    />
+                  </button>
                 </div>
+                <div className="ring-line-assistive relative h-[129px] w-[119px] rounded-xl bg-[url('/imageBackground.png')] bg-cover bg-center bg-no-repeat ring" />
               </div>
-              <div className="flex w-full flex-col gap-2.5">
-                <div className="ring-line-assistive relative h-[344px] w-full rounded-xl bg-[url('/imageBackground.png')] bg-cover bg-center bg-no-repeat ring">
-                  <div className="bg-normal-assistive absolute top-2.5 right-[9px] rounded-lg px-2 py-1 text-black">
-                    Basic
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1">
+              <hr />
+              <div className="flex w-full flex-row gap-2.5">
+                <div className="flex flex-1 flex-col items-start justify-start gap-1">
                   <div className="flex w-full flex-row items-center justify-between">
                     <span className="text-TitleMD text-text-normal">
-                      무제 2
+                      네이버 플레이스 상호명
                     </span>
+                    <div className="text-primary bg-primary-lighten rounded-lg px-2 py-1">
+                      Premium
+                    </div>
                     <Image
                       src={'/icon/download.svg'}
                       alt={''}
@@ -267,7 +275,49 @@ export default function MyPage() {
                     />
                   </div>
                   <div className="text-BodyMD text-text-normal">2025.08.31</div>
+                  <div className="text-BodyMD text-text-normal">진행중</div>
+                  <button className="ring-line-assistive flex flex-row items-center justify-center gap-2 rounded-[120px] px-6 py-2 ring">
+                    <span className="text-BodyMD text-text-normal">자세히</span>
+                    <Image
+                      src={'/icon/enter.svg'}
+                      alt={''}
+                      width={20}
+                      height={20}
+                    />
+                  </button>
                 </div>
+                <div className="ring-line-assistive relative h-[129px] w-[119px] rounded-xl bg-[url('/imageBackground.png')] bg-cover bg-center bg-no-repeat ring" />
+              </div>
+              <hr />
+              <div className="flex w-full flex-row gap-2.5">
+                <div className="flex flex-1 flex-col items-start justify-start gap-1">
+                  <div className="flex w-full flex-row items-center justify-between">
+                    <span className="text-TitleMD text-text-normal">
+                      네이버 플레이스 상호명
+                    </span>
+                    <div className="text-primary bg-primary-lighten rounded-lg px-2 py-1">
+                      Premium
+                    </div>
+                    <Image
+                      src={'/icon/download.svg'}
+                      alt={''}
+                      width={24}
+                      height={24}
+                    />
+                  </div>
+                  <div className="text-BodyMD text-text-normal">2025.08.31</div>
+                  <div className="text-BodyMD text-text-normal">진행중</div>
+                  <button className="ring-line-assistive flex flex-row items-center justify-center gap-2 rounded-[120px] px-6 py-2 ring">
+                    <span className="text-BodyMD text-text-normal">자세히</span>
+                    <Image
+                      src={'/icon/enter.svg'}
+                      alt={''}
+                      width={20}
+                      height={20}
+                    />
+                  </button>
+                </div>
+                <div className="ring-line-assistive relative h-[129px] w-[119px] rounded-xl bg-[url('/imageBackground.png')] bg-cover bg-center bg-no-repeat ring" />
               </div>
             </div>
           </div>
@@ -320,7 +370,6 @@ export default function MyPage() {
                   2025.01.12 - 2025.02.11
                 </div>
               </div>
-
               <div className="flex h-[52px] w-full flex-row">
                 <div className="text-text-normal flex h-full w-[136px] items-center justify-center">
                   무제 3
@@ -332,7 +381,6 @@ export default function MyPage() {
                   2025.05.01 - 2025.06.01
                 </div>
               </div>
-
               <div className="flex h-[52px] w-full flex-row">
                 <div className="text-text-normal flex h-full w-[136px] items-center justify-center">
                   무제 15
@@ -344,7 +392,6 @@ export default function MyPage() {
                   2025.03.20 - 2025.04.20
                 </div>
               </div>
-
               <div className="flex h-[52px] w-full flex-row">
                 <div className="text-text-normal flex h-full w-[136px] items-center justify-center">
                   무제 22
@@ -356,7 +403,6 @@ export default function MyPage() {
                   2025.07.01 - 2025.07.31
                 </div>
               </div>
-
               <div className="flex h-[52px] w-full flex-row">
                 <div className="text-text-normal flex h-full w-[136px] items-center justify-center">
                   무제 9

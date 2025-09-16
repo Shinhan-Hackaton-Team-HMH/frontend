@@ -7,6 +7,8 @@ export default function ResultPage() {
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const [pngUrl, setPngUrl] = useState('');
 
+  //광고 송출 횟수
+
   useEffect(() => {
     if (canvas.current instanceof HTMLCanvasElement) {
       setPngUrl(

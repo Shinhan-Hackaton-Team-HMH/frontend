@@ -39,6 +39,7 @@ interface DeviceProps {
   timePeriod: string[];
   exposeCount: string;
   budget: string;
+  inputBudget: number;
   isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
 }
@@ -48,6 +49,7 @@ export default function DeviceItem({
   deviceCount,
   timePeriod,
   exposeCount,
+  inputBudget,
   budget,
   isEdit = true,
   setIsEdit,
@@ -57,6 +59,7 @@ export default function DeviceItem({
   const [exposeCountDropDown, setExposeCountDropDown] = useState(false);
   const [impression, setImpression] = useState(`${exposeCount}회`);
   const { deviceState, updateStore } = useDeviceStore();
+  const [validBudget, setValidBudget] = useState(false);
 
   const timeList = [
     '06:00-09:00',
@@ -66,6 +69,7 @@ export default function DeviceItem({
     '18:00-21:00',
     '21:00-24:00',
   ];
+
   const toggleTimeSlot = (value: string) => {
     setTimeSlot((prev) => {
       let newSlots;
@@ -74,25 +78,19 @@ export default function DeviceItem({
       } else {
         newSlots = [...prev, value];
       }
-      return newSlots.sort(
-        (a, b) => timePeriod.indexOf(b) - timePeriod.indexOf(a),
-      );
+      return newSlots.sort((a, b) => timeList.indexOf(a) - timeList.indexOf(b));
     });
   };
-
-  const impressionOptions = ['30회', '40회', '50회', '60회'];
 
   useEffect(() => {
     updateStore(deviceName, { timeSlots: timeSlot, impressions: impression });
   }, [deviceName, impression, timeSlot, updateStore]);
 
-  console.log(timeSlot);
-
   const TimeTag = (time: string, index: number) =>
     isEdit && timeDropDown ? (
       <div
         key={index}
-        className="text-BodyMD text-primary bg-primary-lighten flex h-8 w-fit flex-none flex-row items-center justify-between rounded-lg px-2 py-1"
+        className="text-BodyMD text-primary bg-primary-lighten flex h-8 max-h-8 w-fit flex-none flex-row items-center justify-between rounded-lg px-2 py-1"
       >
         {time}
         <Image
@@ -108,15 +106,15 @@ export default function DeviceItem({
     ) : (
       <div
         key={index}
-        className="text-BodyMD text-primary bg-primary-lighten h-8 w-fit rounded-lg px-2 py-1"
+        className="text-BodyMD text-primary bg-primary-lighten flex max-h-8 w-fit flex-none rounded-lg px-2 py-1"
       >
         {time}
       </div>
     );
 
   const devicePrice = {
-    '엘리베이터 TV': '1시간 당/1회 당 15초',
-    버스정류장: '1시간 당/1회 당 15초',
+    '엘리베이터 TV': '1시간 당/1회 당 5초',
+    버스정류장: '1시간 당/1회 당 10초',
     IPTV: '1시간 당/1회 당 15초',
   };
   const timeDropDownRef = useRef<HTMLDivElement>(null!);
@@ -126,15 +124,23 @@ export default function DeviceItem({
     setExposeCountDropDown(false),
   );
 
+  const handleComplete = () => {
+    setIsEdit(false);
+  };
+
   return (
     <div className="text-text-normal shadow-section ring-line-assistive w-full rounded-xl bg-white px-5 pt-[17px] pb-4 ring">
       <div className="mb-[19px] flex flex-row items-center justify-between">
         <div className="text-TitleSM text-text-strong">{deviceName}</div>
         <div className="flex flex-row gap-4">
           {isEdit ? (
-            <div className="ring-line-assistive text-BodyMD rounded-[120px] px-6 py-2.5 ring">
+            <button
+              className="ring-line-assistive text-BodyMD rounded-[120px] px-6 py-2.5 ring"
+              disabled={validBudget}
+              onClick={() => setIsEdit(false)}
+            >
               완료
-            </div>
+            </button>
           ) : (
             <>
               <div
@@ -216,12 +222,12 @@ export default function DeviceItem({
               )}
             </div>
           ) : (
-            <div className="flex flex-row gap-1.5">
+            <div className="flex max-w-72 flex-row gap-1.5 overflow-x-scroll overflow-y-hidden">
               {timePeriod.map((value, index) => TimeTag(value, index))}
             </div>
           )}
         </div>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row items-center justify-between">
           <div className="text-BodyMD">광고 송출횟수</div>
           {isEdit ? (
             <div
@@ -244,7 +250,7 @@ export default function DeviceItem({
               </div>
               {exposeCountDropDown && (
                 <OptionList
-                  options={['30회', '40회', '50회', '60회']}
+                  options={['10회', '20회', '30회', '40회', '50회']}
                   onSelect={(val) => setImpression(val)}
                 />
               )}
@@ -260,6 +266,12 @@ export default function DeviceItem({
             </div>
           )}
         </div>
+        {isEdit && validBudget && (
+          <div className="text-Caption text-status-error flex w-full flex-row items-center justify-end gap-1">
+            <Image src={'/icon/error.svg'} alt={''} width={18} height={18} />
+            <div> 예산을 초과한 횟수입니다.</div>
+          </div>
+        )}
         <hr className="text-line-assistive" />
         <div className="text-text-strong flex flex-row items-center justify-between">
           <div className="text-BodyMD">집행 예산</div>
