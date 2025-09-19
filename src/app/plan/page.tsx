@@ -184,8 +184,8 @@ export default function PlanPage() {
     if (imageList.length < 5) {
       setImageErrorModal(true);
     }
-    await handleImageSubmit();
     handleNextStep();
+    await handleImageSubmit();
   };
 
   const { biz_type } = useBusinessStore();

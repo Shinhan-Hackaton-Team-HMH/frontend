@@ -150,6 +150,7 @@ import { useRouter } from 'next/navigation';
 import ProgressBar from '@/components/common/progress';
 import axios from 'axios';
 import { getProgressInfo, Progress } from '@/types/user/type';
+import HeroCards from '@/components/common/heroCard';
 
 export default function MainPage() {
   const [mapModal, setMapModal] = useState(false);
@@ -186,34 +187,35 @@ export default function MainPage() {
 
   const cardContent: CardDetail[] = [
     {
-      client: '전국 동시 광고',
-      title: '광고 예산 책정 바로가기',
-      small_business: false,
+      title: '광고 영상이 없어요',
+      with_video: false,
+      key_feature: [
+        '소상공인 광고주에게 추천해요',
+        'AI로 간편하게 광고 영상 제작',
+        '엘리베이터,  버스정류장,  IPTV 광고',
+      ],
       handleRoute: handleRoute,
     },
     {
-      client: '우리 동네 광고',
-      title: '소상공인에게 추천해요',
-      small_business: true,
+      title: '광고 영상이 있어요',
+      with_video: true,
+      key_feature: [
+        '기업 광고주에게 추천해요',
+        '전국패키지와 다양한 매체 보유',
+        '대형 미디어 패널 보유',
+      ],
       handleRoute: handleRoute,
     },
   ];
 
   return (
     <>
-      <div className="container flex flex-col items-center justify-center">
+      <div className="container flex w-full flex-col items-center justify-center px-4 sm:px-0">
         <section
-          className={`relative mt-3 flex h-[468px] w-full flex-row ${mapModal ? 'gap-0' : 'gap-3'}`}
+          className={`relative mt-3 flex h-fit w-full flex-col sm:h-[540px] sm:flex-row ${mapModal ? 'gap-0' : 'gap-3'}`}
         >
           <div
-            className={`rounded-[20px] bg-white transition-all duration-500 ${
-              mapModal ? 'flex-1' : 'flex-1/2'
-            }`}
-          >
-            <MapInteraction mapModal={mapModal} setMapModal={setMapModal} />
-          </div>
-          <div
-            className={`flex h-full w-full flex-col gap-3 transition-all duration-500 ${
+            className={`flex h-full w-full flex-col gap-6 transition-all duration-500 ${
               mapModal
                 ? 'pointer-events-none w-0 flex-0 overflow-hidden opacity-0'
                 : 'flex-1/2 opacity-100'
@@ -250,57 +252,99 @@ export default function MainPage() {
                 </button>
               </div>
             )}
-            <div className="grid h-full grid-cols-2 gap-2">
+            <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2">
               {cardContent.map((value, index) => (
                 <Card
                   key={index}
                   handleRoute={handleRoute}
-                  client={value.client}
                   title={value.title}
-                  small_business={value.small_business}
+                  key_feature={value.key_feature}
+                  with_video={value.with_video}
                 />
               ))}
             </div>
           </div>
+          <div
+            className={`rounded-[20px] bg-white transition-all duration-500 ${
+              mapModal ? 'flex-1' : 'flex-1/2'
+            }`}
+          >
+            <MapInteraction mapModal={mapModal} setMapModal={setMapModal} />
+          </div>
         </section>
-        <section className="relative mt-[23px] mb-[101px] flex w-full flex-col items-center justify-center">
-          <div className="shadow-section flex w-full items-center justify-center rounded-[20px] bg-[#FFF] py-[3px]">
-            <div className="flex h-[160px] w-[400px] flex-col items-center justify-center gap-5">
-              <div className="text-text-strong text-TitleMD text-center">
-                일일 광고 재생시간
-              </div>
-              <div className="text-StatsLG text-text-dark-primary">
-                <GlitchyNumber target={566314} duration={1000} />
-                <span className="text-TitleMD text-text-primary">시간</span>
-              </div>
+        <section className="relative mt-12 mb-20 flex w-full flex-col items-center justify-center gap-6 sm:mb-0">
+          <div className="flex w-full flex-row justify-between">
+            <div className="flex flex-col gap-2">
+              <span className="text-Headline">
+                국내 유일 프로그래매틱 옥외광고 플랫폼
+              </span>
+              <span className="text-BodyMD">
+                IPTV, 디지털 옥외광고는KT바로광고에서 신청하세요!
+              </span>
             </div>
-            <div className="flex h-[160px] w-[400px] flex-col items-center justify-center gap-5">
-              <div className="text-text-strong text-Headline text-center">
-                일일 광고 재생시간
+            <div className="hidden flex-row items-center gap-[1px] rounded-full border border-gray-200 bg-white p-1 sm:flex">
+              <div className="hover:bg-primary-lighten hover:text-primary px-6 py-2.5 hover:rounded-full">
+                통합 이용 가이드
               </div>
-              <div className="text-text-primary text-StatsXL">
-                <GlitchyNumber target={20403097} duration={1000} />명
+              <div className="hover:bg-primary-lighten hover:text-primary px-6 py-2.5 hover:rounded-full">
+                유의사항
               </div>
-            </div>
-            <div className="flex h-[160px] w-[400px] flex-col items-center justify-center gap-5">
-              <div className="text-text-strong text-TitleMD text-center">
-                일일 광고 재생시간
+              <div className="hover:bg-primary-lighten hover:text-primary px-6 py-2.5 hover:rounded-full">
+                자주하는 질문
               </div>
-              <div className="text-StatsLG text-text-dark-primary">
-                <GlitchyNumber target={13031310} duration={1000} />개
+              <div className="hover:bg-primary-lighten hover:text-primary px-6 py-2.5 hover:rounded-full">
+                회원가입 안내
               </div>
             </div>
           </div>
-          <div className="absolute -bottom-10 flex flex-row gap-[1px] rounded-full border border-gray-200 bg-white p-1">
-            <div className="rounded-full bg-[#ECEEF0] px-6 py-2.5">
-              실시간 광고 보기
-            </div>
-            <div className="px-6 py-2.5">통합 이용 가이드</div>
-            <div className="px-6 py-2.5">유의사항</div>
-            <div className="px-6 py-2.5">자주하는 질문</div>
-            <div className="px-6 py-2.5">회원가입 안내</div>
+          <div className="flex w-full flex-col gap-2 sm:flex-row">
+            <HeroCards
+              title={'일일 이용(시청)자 수'}
+              count={20403097}
+              unit="명"
+              description={'국내 최대 도달인원,  최대의 광고효과'}
+            />
+            <HeroCards
+              title={'일일 광고 재생시간'}
+              count={566314}
+              unit="시간"
+              description={'이용자의 행동,동선,생활에  맞춰진 광고'}
+            />
+            <HeroCards
+              title={'연동된 총 디스플레이 수'}
+              count={13031310}
+              unit="개"
+              description={'IPTV부터 옥외광고 TV까지  다양한 광고 송출 기기'}
+            />
           </div>
         </section>
+        <section className="mt-[80px] mb-[40px] hidden w-full sm:flex">
+          <div className="text-center text-[26px] leading-[32px] font-medium tracking-[-1.04px] text-[color:var(--Text-Primary,#6846F4)]">
+            디지털 옥외광고 One-Stop솔루션
+          </div>
+        </section>
+      </div>
+      <div className="relative mb-[40px] hidden w-screen bg-black/30 sm:flex">
+        <div className="absolute top-0 left-0 flex w-full flex-col gap-4 bg-gradient-to-b from-[rgba(104,70,244,0.60)] to-[rgba(104,70,244,0.00)] pt-10 pl-[120px]">
+          <div className="text-text-inverse text-Headline">
+            KT 바로광고 실시간 영상 보기
+          </div>
+          <button className="flew-row bg-primary flex w-fit items-center gap-2 rounded-[120px] px-6 py-2.5">
+            <div className="text-BodyMD text-text-inverse">자세히보기</div>
+            <Image
+              src={'/icon/enter_inverse.svg'}
+              alt={''}
+              width={24}
+              height={24}
+            />
+          </button>
+        </div>
+        <video
+          src="/video/heroVideo.mp4"
+          muted
+          autoPlay
+          className="w-screen"
+        ></video>
       </div>
     </>
   );

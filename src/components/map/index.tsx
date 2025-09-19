@@ -7,8 +7,8 @@ import {
   SetStateAction,
   Dispatch,
 } from 'react';
-import { Map } from 'lucide-react';
 import Image from 'next/image';
+import MapMarkers from '@/components/map/markers';
 
 interface MapInteractionDetail {
   mapModal: boolean;
@@ -102,7 +102,7 @@ export default function MapInteraction({
         className="relative h-full w-full cursor-grab overflow-hidden rounded-2xl bg-black shadow-lg active:cursor-grabbing"
       >
         <Image
-          src="/map3.png"
+          src="/mapBase.png"
           alt="map"
           draggable={false}
           onDragStart={(e) => e.preventDefault()}
@@ -134,13 +134,19 @@ export default function MapInteraction({
             />
           </button>
         </div>
+        <MapMarkers device={'ELE'} className={'absolute top-10 left-20'} />
+        <MapMarkers device={'ELE'} className={'absolute top-20 left-32'} />
+        <MapMarkers device={'ELE'} className={'absolute bottom-10 left-20'} />
+        <MapMarkers device={'BUS'} className={'absolute bottom-20 left-40'} />
+        <MapMarkers device={'BUS'} className={'absolute right-20 bottom-30'} />
+
         <div className="absolute bottom-4 flex w-full justify-center">
           <button
             className="z-10 flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3"
             onClick={() => setMapModal((prev) => !prev)}
           >
             {mapModal ? '돌아가기' : '지도 전체보기'}
-            <Map />
+            <Image src={'/icon/map.svg'} alt={''} width={24} height={24} />
           </button>
         </div>
       </div>

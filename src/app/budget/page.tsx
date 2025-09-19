@@ -439,7 +439,7 @@ export default function BudgetPage() {
                         </button>
                       </div>
                     </div>
-                    <MapInteraction mapModal={true} setMapModal={() => {}} />
+                    <MapInteraction mapModal={false} setMapModal={() => {}} />
                   </section>
                   <section>
                     <div className="text-TitleMD text-text-normal mb-2">
