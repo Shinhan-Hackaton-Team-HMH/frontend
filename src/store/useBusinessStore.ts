@@ -14,7 +14,7 @@ export const useBusinessStore = create<BusinessStoreState>((set) => ({
   biz_name: '',
   owner_name: '',
   address: '',
-  biz_type: '',
+  biz_type: '화초 및 식물 소매업',
   biz_subtype: '',
   setBusinessInfo: (data) =>
     set((state) => ({

@@ -6,6 +6,7 @@ export interface BusinessAdMapping {
 
 export const businessAdMapping: BusinessAdMapping = {
   '한식 음식점업': '엘리베이터 TV',
+  '화초 및 식물 소매업': '엘리베이터 TV',
   '치킨 전문점업': 'IPTV',
   '카페/커피 전문점업': '엘리베이터 TV',
   '소프트웨어 개발업': 'IPTV',

@@ -2,7 +2,7 @@
 import useCurrentAdStore, { VideoStatus } from '@/store/useMockVideoStore';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function MyPage() {
   const currentAd = useCurrentAdStore();

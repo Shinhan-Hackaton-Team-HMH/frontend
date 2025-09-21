@@ -76,10 +76,10 @@ export default function BudgetPage() {
 
   //DISPLAY-Details
   const displayMachine = ['엘리베이터', ' 버스정류장', 'IPTV'];
-  const { biz_type, biz_subtype, biz_id } = useBusinessStore();
+  const { biz_subtype, biz_id } = useBusinessStore();
   const { userId } = useUserStore();
   const useBiz_id = useUserStore((state) => state.biz_id);
-  // const biz_type = '한식 일반음식점';
+  const biz_type = '화초 및 식물 소매업';
   const recommendAd: DeviceType = businessAdMapping[biz_type] || '엘리베이터';
   //TODO  기기 추천 데이터 뽑아오기
   const deviceState = useDeviceStore((state) => state.deviceState);

@@ -256,8 +256,6 @@ export default function PlanPage() {
     setImageList(responseImgUrl);
   };
 
-  console.log(imageList);
-
   return (
     <>
       <div className="container mt-3 mb-[165px]">

@@ -159,7 +159,7 @@ export default function BussinessRegisterPage() {
     }
   };
   const status = useUserStore((state) => state.status);
-
+  const userBiz = useUserStore((state) => state.setBizId);
   const handleSubmit = async () => {
     if (!businessInfo) return;
     const { biz_id, ...restOfInfo } = businessInfo;
@@ -180,7 +180,8 @@ export default function BussinessRegisterPage() {
         `/proxy/api/temporary/storage/${userId}/${status}`,
       );
       console.log('파일 업로드 성공:', response, res);
-      await delay(2000);
+      userBiz(biz_id.toString());
+      await delay(1000);
       setRegisterStatus({ status: 'SUBMITTED' });
     } catch (error) {
       console.error('파일 업로드 중 오류 발생:', error);
