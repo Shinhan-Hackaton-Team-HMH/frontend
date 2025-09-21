@@ -1,7 +1,12 @@
 import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 // Define a reusable type for statuses
-type VideoStatus = 'Generating' | 'Reviewing' | 'Confirmed' | 'BroadCasting';
+export type VideoStatus =
+  | 'Generating'
+  | 'Reviewing'
+  | 'Confirmed'
+  | 'BroadCasting';
 
 // State shape
 interface VideoState {
@@ -13,14 +18,23 @@ interface VideoState {
   updateVideoStatus: (status: VideoStatus) => void;
 }
 
-const useCurrentAdStore = create<VideoState>()((set) => ({
-  status: 'Generating',
-  updateVideoStatus: (status: VideoStatus) => set({ status }),
-  regenerateCount: 0,
-  backOffice: 'Review',
-  updateBackOffice: (status: 'Review' | 'Confirm') =>
-    set({ backOffice: status }),
-  useRegenerate: () => set({}),
-}));
+const useCurrentAdStore = create<VideoState>()(
+  persist(
+    (set) => ({
+      status: 'Generating',
+      backOffice: 'Review',
+      regenerateCount: 0,
+      updateVideoStatus: (status: VideoStatus) => set({ status }),
+      updateBackOffice: (status: 'Review' | 'Confirm') =>
+        set({ backOffice: status }),
+      useRegenerate: () =>
+        set((state) => ({ regenerateCount: state.regenerateCount + 1 })),
+    }),
+    {
+      name: 'current-ad-store',
+      storage: createJSONStorage(() => sessionStorage), // 👈 clears when tab is closed
+    },
+  ),
+);
 
 export default useCurrentAdStore;

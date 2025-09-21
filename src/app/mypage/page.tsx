@@ -1,5 +1,5 @@
 'use client';
-import useCurrentAdStore from '@/store/useMockVideoStore';
+import useCurrentAdStore, { VideoStatus } from '@/store/useMockVideoStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -18,6 +18,13 @@ export default function MyPage() {
     };
     run();
   }, []);
+
+  const statusLabel: Record<VideoStatus, string> = {
+    Generating: '제작중',
+    Reviewing: '심사중',
+    BroadCasting: '광고 진행 중',
+    Confirmed: '광고 제작 완료',
+  };
 
   return (
     <div className="container mb-20 flex flex-row gap-[30px]">
@@ -264,7 +271,17 @@ export default function MyPage() {
               </Link>
             </div>
             <div className="flex flex-col gap-3 py-3">
-              <Link href="/mypage/my-ads">
+              <Link
+                href={
+                  currentAd.status == 'Generating'
+                    ? '/mypage'
+                    : currentAd.status == 'Confirmed'
+                      ? '/mypage/my-ads'
+                      : currentAd.status == 'BroadCasting'
+                        ? '/result'
+                        : '/mypage'
+                }
+              >
                 <div className="flex w-full flex-row justify-between">
                   <div className="flex flex-col items-start justify-start gap-2">
                     <div className="flex w-full flex-row items-center justify-between gap-2">
@@ -272,13 +289,7 @@ export default function MyPage() {
                         꽃사계
                       </span>
                       <div className="text-primary bg-primary-lighten rounded-lg px-2 py-1">
-                        {currentAd.status == 'Generating'
-                          ? '제작중'
-                          : currentAd.status == 'Reviewing'
-                            ? '심사중'
-                            : currentAd.status === 'BroadCasting'
-                              ? '광고 진행 중'
-                              : '광고 제작 완료'}
+                        {statusLabel[currentAd.status]}
                       </div>
                     </div>
                     <div className="text-BodyMD flex flex-row gap-4">
@@ -297,15 +308,6 @@ export default function MyPage() {
                       <div className="text-text-assistive">결제일</div>
                       <div className="text-text-normal">2025.08.31</div>
                     </div>
-                    {/* <button className="ring-line-assistive flex flex-row items-center justify-center gap-2 rounded-[120px] px-6 py-2 ring">
-                    <span className="text-BodyMD text-text-normal">자세히</span>
-                    <Image
-                      src={'/icon/enter.svg'}
-                      alt={''}
-                      width={20}
-                      height={20}
-                    />
-                  </button> */}
                   </div>
                   <div className="ring-line-assistive relative h-[129px] w-[119px] rounded-xl bg-[url('/imageBackground.png')] bg-cover bg-center bg-no-repeat ring">
                     <video

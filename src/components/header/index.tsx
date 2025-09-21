@@ -75,12 +75,14 @@ export default function Header() {
 
   return (
     <div className="container flex w-full items-center justify-between px-4 py-3.5 sm:px-0 sm:py-2">
-      <Image
-        src={'/logo/kt_logo.svg'}
-        width={120}
-        height={120}
-        alt={'kt-logo'}
-      />
+      <Link href="/">
+        <Image
+          src={'/logo/kt_logo.svg'}
+          width={120}
+          height={120}
+          alt={'kt-logo'}
+        />
+      </Link>
       {pathname !== '/analyze' &&
         pathname !== '/backOffice' &&
         pathname !== '/result/12' && (

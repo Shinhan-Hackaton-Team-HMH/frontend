@@ -263,7 +263,7 @@ export default function PlanPage() {
       <div className="container mt-3 mb-[165px]">
         <section className="shadow-section mb-[72px] flex w-[1192px] flex-col items-center justify-center rounded-[20px] bg-white px-[60px] pt-3 pb-[60px]">
           <Stepper
-            label={'광고 송출 기기 안내'}
+            label={'광고 만들기'}
             step={step}
             handlePreviousStep={handlePreviousStep}
           />

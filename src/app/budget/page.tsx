@@ -29,7 +29,7 @@ interface Province {
 
 export default function BudgetPage() {
   //STEPPER
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [isLoading, setIsLoading] = useState(false);
   //LOCATION
   const [cityFocus, setCityFocus] = useState(false);
@@ -68,6 +68,11 @@ export default function BudgetPage() {
   const [secondDeviceEdit, setSecondDeviceEdit] = useState(false);
   //Plan
   const [plan, setPlan] = useState<'NO' | 'BASIC' | 'PREMIUM'>('NO');
+
+  //PAYMENT
+  const [payment, setPayment] = useState<
+    'TOSS' | 'KAKAO' | 'PAYCO' | 'APPLE' | 'NAVER'
+  >('TOSS');
 
   //DISPLAY-Details
   const displayMachine = ['엘리베이터', ' 버스정류장', 'IPTV'];
@@ -880,15 +885,6 @@ export default function BudgetPage() {
                 <div className="flex w-full flex-row justify-between gap-9">
                   <div className="flex w-full flex-col gap-6">
                     <div className="text-TitleMD text-text-normal">
-                      광고 지역을 선택해 주세요.
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <PlanCard basic={true} plan={plan} setPlan={setPlan} />
-                      <PlanCard basic={false} plan={plan} setPlan={setPlan} />
-                    </div>
-                  </div>
-                  <div className="flex w-full flex-col gap-6">
-                    <div className="text-TitleMD text-text-normal">
                       광고 청약 금액이에요.
                     </div>
                     <div className="ring-line-assistive shadow-section flex flex-col gap-4 rounded-xl bg-white p-5 ring">
@@ -932,6 +928,131 @@ export default function BudgetPage() {
                           {finalPrice}원
                         </div>
                       </div>
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-col gap-6">
+                    <div className="text-TitleMD text-text-normal">
+                      결제수단을 선택해 주세요.
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-row items-center gap-1">
+                        <button onClick={() => setPayment('TOSS')}>
+                          <Image
+                            src={
+                              payment == 'TOSS'
+                                ? '/icon/radio_button.svg'
+                                : '/icon/radio_button_inactive.svg'
+                            }
+                            alt={'won_icon'}
+                            width={24}
+                            height={24}
+                          />
+                        </button>
+                        <div className="ring-line-assistive relative flex h-8 w-[82px] items-center justify-center rounded-[120px]">
+                          <Image
+                            src={'/pays/tosspay.svg'}
+                            alt={'won_icon'}
+                            fill
+                            objectFit="contain"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row items-center gap-1">
+                        <button onClick={() => setPayment('KAKAO')}>
+                          <Image
+                            src={
+                              payment == 'KAKAO'
+                                ? '/icon/radio_button.svg'
+                                : '/icon/radio_button_inactive.svg'
+                            }
+                            alt={'won_icon'}
+                            width={24}
+                            height={24}
+                          />
+                        </button>
+                        <div className="ring-line-assistive relative flex h-8 w-[82px] items-center justify-center rounded-[120px] ring">
+                          <Image
+                            src={'/pays/kakaoPay.svg'}
+                            alt={'won_icon'}
+                            width={48.865}
+                            height={10.875}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row items-center gap-1">
+                        <button onClick={() => setPayment('PAYCO')}>
+                          <Image
+                            src={
+                              payment == 'PAYCO'
+                                ? '/icon/radio_button.svg'
+                                : '/icon/radio_button_inactive.svg'
+                            }
+                            alt={'won_icon'}
+                            width={24}
+                            height={24}
+                          />
+                        </button>
+                        <div className="ring-line-assistive relative flex h-8 w-[82px] items-center justify-center rounded-[120px] ring">
+                          <Image
+                            src={'/pays/payco.svg'}
+                            alt={'won_icon'}
+                            width={48.865}
+                            height={10.875}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row items-center gap-1">
+                        <button onClick={() => setPayment('APPLE')}>
+                          <Image
+                            src={
+                              payment == 'APPLE'
+                                ? '/icon/radio_button.svg'
+                                : '/icon/radio_button_inactive.svg'
+                            }
+                            alt={'won_icon'}
+                            width={24}
+                            height={24}
+                          />
+                        </button>
+                        <div className="ring-line-assistive relative flex h-8 w-[82px] items-center justify-center rounded-[120px] ring">
+                          <Image
+                            src={'/pays/apple.svg'}
+                            alt={'won_icon'}
+                            width={31.865}
+                            height={13.875}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row items-center gap-1">
+                        <button onClick={() => setPayment('NAVER')}>
+                          <Image
+                            src={
+                              payment == 'NAVER'
+                                ? '/icon/radio_button.svg'
+                                : '/icon/radio_button_inactive.svg'
+                            }
+                            alt={'won_icon'}
+                            width={24}
+                            height={24}
+                          />
+                        </button>
+                        <div className="ring-line-assistive relative flex h-8 w-[82px] items-center justify-center rounded-[120px] ring">
+                          <Image
+                            src={'/pays/npay.svg'}
+                            alt={'won_icon'}
+                            width={40.865}
+                            height={14.875}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex w-full flex-row gap-2">
+                      <button className="text-ButtonMD text-text-normal ring-line-assistive w-full rounded-xl bg-white py-[13px] ring">
+                        가상결제
+                      </button>
+                      <button className="text-ButtonMD text-text-normal ring-line-assistive w-full rounded-xl bg-white py-[13px] ring">
+                        카드결제
+                      </button>
                     </div>
                     <button
                       className="text-ButtonMD text-text-inverse bg-primary w-full rounded-xl py-[13px]"

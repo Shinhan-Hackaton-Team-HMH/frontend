@@ -18,6 +18,7 @@ export default function ReportPage() {
   const [step, setStep] = useState(2);
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const [pngUrl, setPngUrl] = useState('');
+  const [validButton, setValidButton] = useState(false);
 
   const [checkItems, setCheckItems] = useState<CheckItem[]>([
     {
@@ -79,6 +80,12 @@ export default function ReportPage() {
             } else {
               newItems[itemIndex].isCompleted = true;
               clearInterval(interval);
+
+              // ✅ 모든 아이템이 완료되었는지 확인
+              const allDone = newItems.every((item) => item.isCompleted);
+              if (allDone) {
+                setValidButton(true);
+              }
             }
             return newItems;
           });
@@ -87,9 +94,9 @@ export default function ReportPage() {
     };
 
     // Start animations with different delays
-    animateProgress(0, 500); // Format check starts after 0.5s
-    animateProgress(1, 2000); // Harmful check starts after 2s
-    animateProgress(2, 4000); // Text check starts after 4s
+    animateProgress(0, 500); // Format check
+    animateProgress(1, 2000); // Harmful check
+    animateProgress(2, 4000); // Text check
   }, []);
 
   const handleNextStep = () => {
@@ -217,7 +224,8 @@ export default function ReportPage() {
               </button>
               <button
                 onClick={handleConfirm}
-                className="text-ButtonMD bg-primary w-full rounded-xl py-[13px] text-white"
+                disabled={!validButton}
+                className={`text-ButtonMD w-full rounded-xl py-[13px] ${validButton ? 'bg-primary text-white' : 'bg-inactive text-text-assistive'}`}
               >
                 광고 진행하기
               </button>

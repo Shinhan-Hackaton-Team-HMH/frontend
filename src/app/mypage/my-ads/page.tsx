@@ -1,7 +1,16 @@
+'use client';
+import useCurrentAdStore, { VideoStatus } from '@/store/useMockVideoStore';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function MyAdPage() {
+  const currentAd = useCurrentAdStore();
+  const statusLabel: Record<VideoStatus, string> = {
+    Generating: '제작중',
+    Reviewing: '심사중',
+    BroadCasting: '광고 진행 중',
+    Confirmed: '광고 제작 완료',
+  };
   return (
     <div className="container mb-20 flex flex-row gap-[30px]">
       <div className="shadow-section ring-line-assistive text-BodyMD flex h-fit w-[180px] flex-col rounded-xl px-1.5 ring">
@@ -31,7 +40,7 @@ export default function MyAdPage() {
                         꽃사계
                       </span>
                       <div className="text-primary bg-primary-lighten rounded-lg px-2 py-1">
-                        진행중
+                        {statusLabel[currentAd.status]}
                       </div>
                     </div>
                     <div className="text-BodyMD flex flex-row gap-4">
