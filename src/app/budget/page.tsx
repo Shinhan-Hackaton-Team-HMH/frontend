@@ -29,7 +29,7 @@ interface Province {
 
 export default function BudgetPage() {
   //STEPPER
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   //LOCATION
   const [cityFocus, setCityFocus] = useState(false);
