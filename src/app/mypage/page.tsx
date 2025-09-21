@@ -2,22 +2,30 @@
 import useCurrentAdStore, { VideoStatus } from '@/store/useMockVideoStore';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function MyPage() {
   const currentAd = useCurrentAdStore();
-
+  const [tick, setTick] = useState(0);
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
   useEffect(() => {
     const run = async () => {
-      await delay(3000);
+      await delay(2000);
       if (currentAd.status === 'Generating') {
         currentAd.updateVideoStatus('Confirmed');
       }
     };
     run();
-  }, []);
+  }, [currentAd.status]); // ✅ status 변화 감지만 담당
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick((t) => t + 1); // ✅ 강제로 리렌더
+    }, 500); // 2초마다 리렌더
+
+    return () => clearInterval(interval); // cleanup
+  }, [currentAd.status]);
 
   const statusLabel: Record<VideoStatus, string> = {
     Generating: '제작중',
@@ -42,7 +50,10 @@ export default function MyPage() {
         <div className="shadow-section flex w-full flex-col rounded-[20px] p-6">
           <div className="flex w-full flex-row justify-between rounded-[120px]">
             <span className="text-Headline text-text-normal">홍길동</span>
-            <button className="ring-line-assistive flex flex-row items-center justify-center gap-2 rounded-[120px] px-6 py-2 ring">
+            <button
+              onClick={() => currentAd.reset()}
+              className="ring-line-assistive flex flex-row items-center justify-center gap-2 rounded-[120px] px-6 py-2 ring"
+            >
               <span className="text-BodyMD text-text-normal">로그아웃</span>
               <Image src={'/icon/logout.svg'} alt={''} width={20} height={20} />
             </button>

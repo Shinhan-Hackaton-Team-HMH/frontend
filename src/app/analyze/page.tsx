@@ -177,6 +177,7 @@ export default function VideoAnalysisReport() {
   );
   const currentAd = useCurrentAdStore();
   const router = useRouter();
+
   const handleApprove = async () => {
     currentAd.updateBackOffice('Confirm');
     currentAd.updateVideoStatus('BroadCasting');

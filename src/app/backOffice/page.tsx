@@ -132,7 +132,9 @@ const Tag = ({ label }: { label: string }) => {
 };
 
 export default function BackPage() {
-  const currentAD = useCurrentAdStore();
+  const currentAd = useCurrentAdStore();
+
+  console.log(currentAd.status);
   return (
     <div className="container mb-20 flex flex-row gap-[30px]">
       {/* 사이드바 */}
@@ -411,7 +413,7 @@ export default function BackPage() {
                   <div className="text-text-normal flex h-[52px] items-center justify-center">
                     {item.status == '검토요청' ? (
                       <>
-                        {currentAD.backOffice == 'Review' ? (
+                        {currentAd.backOffice == 'Review' ? (
                           <>
                             <Tag label={'검토요청'} />
                             <Image

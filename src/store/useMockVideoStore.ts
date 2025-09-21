@@ -16,6 +16,7 @@ interface VideoState {
   regenerateCount: number;
   useRegenerate: () => void;
   updateVideoStatus: (status: VideoStatus) => void;
+  reset: () => void;
 }
 
 const useCurrentAdStore = create<VideoState>()(
@@ -29,10 +30,16 @@ const useCurrentAdStore = create<VideoState>()(
         set({ backOffice: status }),
       useRegenerate: () =>
         set((state) => ({ regenerateCount: state.regenerateCount + 1 })),
+      reset: () =>
+        set({
+          status: 'Generating',
+          backOffice: 'Review',
+          regenerateCount: 0,
+        }),
     }),
     {
       name: 'current-ad-store',
-      storage: createJSONStorage(() => sessionStorage), // 👈 clears when tab is closed
+      storage: createJSONStorage(() => localStorage),
     },
   ),
 );
