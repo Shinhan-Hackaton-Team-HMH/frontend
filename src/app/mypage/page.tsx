@@ -6,26 +6,18 @@ import { useEffect, useState } from 'react';
 
 export default function MyPage() {
   const currentAd = useCurrentAdStore();
-  const [tick, setTick] = useState(0);
+  const status = useCurrentAdStore((state) => state.status);
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
   useEffect(() => {
     const run = async () => {
       await delay(2000);
-      if (currentAd.status === 'Generating') {
+      if (status === 'Generating') {
         currentAd.updateVideoStatus('Confirmed');
       }
     };
     run();
-  }, [currentAd.status]); // ✅ status 변화 감지만 담당
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTick((t) => t + 1); // ✅ 강제로 리렌더
-    }, 500); // 2초마다 리렌더
-
-    return () => clearInterval(interval); // cleanup
-  }, [currentAd.status]);
+  }, [status]); // ✅ status 변화 감지만 담당
 
   const statusLabel: Record<VideoStatus, string> = {
     Generating: '제작중',
@@ -284,11 +276,11 @@ export default function MyPage() {
             <div className="flex flex-col gap-3 py-3">
               <Link
                 href={
-                  currentAd.status == 'Generating'
+                  status == 'Generating'
                     ? '/mypage'
-                    : currentAd.status == 'Confirmed'
+                    : status == 'Confirmed'
                       ? '/mypage/my-ads'
-                      : currentAd.status == 'BroadCasting'
+                      : status == 'BroadCasting'
                         ? '/result'
                         : '/mypage'
                 }
@@ -300,7 +292,7 @@ export default function MyPage() {
                         꽃사계
                       </span>
                       <div className="text-primary bg-primary-lighten rounded-lg px-2 py-1">
-                        {statusLabel[currentAd.status]}
+                        {statusLabel[status]}
                       </div>
                     </div>
                     <div className="text-BodyMD flex flex-row gap-4">
