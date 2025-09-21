@@ -15,9 +15,10 @@ export default function MyPage() {
       if (status === 'Generating') {
         currentAd.updateVideoStatus('Confirmed');
       }
+      return;
     };
     run();
-  }, [status]); // ✅ status 변화 감지만 담당
+  }, []);
 
   const statusLabel: Record<VideoStatus, string> = {
     Generating: '제작중',

@@ -210,7 +210,7 @@ export default function MainPage() {
 
   return (
     <>
-      <div className="container flex w-full flex-col items-center justify-center px-4 sm:px-0">
+      <div className="container mb-0 flex w-full flex-col items-center justify-center px-4 sm:mb-40 sm:px-0">
         <section
           className={`relative mt-3 flex h-fit w-full flex-col sm:h-[540px] sm:flex-row ${mapModal ? 'gap-0' : 'gap-3'}`}
         >
@@ -318,13 +318,13 @@ export default function MainPage() {
             />
           </div>
         </section>
-        <section className="mt-[80px] mb-[40px] hidden w-full sm:flex">
+        {/* <section className="mt-[80px] mb-[40px] hidden w-full sm:flex">
           <div className="text-center text-[26px] leading-[32px] font-medium tracking-[-1.04px] text-[color:var(--Text-Primary,#6846F4)]">
             디지털 옥외광고 One-Stop솔루션
           </div>
-        </section>
+        </section> */}
       </div>
-      <div className="relative mb-[40px] hidden w-screen bg-black/30 sm:flex">
+      {/* <div className="relative mb-[40px] hidden w-screen bg-black/30 sm:flex">
         <div className="absolute top-0 left-0 flex w-full flex-col gap-4 bg-gradient-to-b from-[rgba(104,70,244,0.60)] to-[rgba(104,70,244,0.00)] pt-10 pl-[120px]">
           <div className="text-text-inverse text-Headline">
             KT 바로광고 실시간 영상 보기
@@ -345,7 +345,7 @@ export default function MainPage() {
           autoPlay
           className="w-screen"
         ></video>
-      </div>
+      </div> */}
     </>
   );
 }
