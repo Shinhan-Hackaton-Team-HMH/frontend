@@ -198,7 +198,7 @@ export default function ReportPage() {
                               key={detailIndex}
                               className={`border-l-2 pl-4 text-sm text-gray-600 transition-all duration-300 ${
                                 item.progress > (detailIndex + 1) * 25
-                                  ? 'text-status-success border-status-success'
+                                  ? 'border-[#007C63] text-[#007C63]'
                                   : 'border-gray-300'
                               }`}
                               style={{

@@ -142,7 +142,7 @@ export default function MapInteraction({
 
         <div className="absolute bottom-4 flex w-full justify-center">
           <button
-            className="z-10 flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3"
+            className="text-text-normal z-10 flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3"
             onClick={() => setMapModal((prev) => !prev)}
           >
             {mapModal ? '돌아가기' : '지도 전체보기'}
