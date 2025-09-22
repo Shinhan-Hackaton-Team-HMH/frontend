@@ -252,7 +252,7 @@ export default function PlanPage() {
       `/proxy/api/temporary/storage/${userId}/${'MEDIA_UPLOADED'}`,
     );
     const responseImgUrl = response.data.map((value) => value.imgUrl);
-    console.log(responseImgUrl);
+    console.log('responseImage', responseImgUrl);
     setImageList(responseImgUrl);
   };
 
@@ -480,16 +480,14 @@ export default function PlanPage() {
                   </div>
                   <div className="flex flex-row gap-9">
                     <section className="flex w-full flex-row items-center justify-center gap-[63px] px-4">
-                      {videoTemplate == 1 && (
-                        <TemplateOne
-                          templateList={templateFinalList}
-                          setTemplateList={setTemplateFinalList}
-                          imageList={imageList}
-                          phraseList={phrases}
-                          templateNo={videoTemplate}
-                        />
-                      )}
-                      {videoTemplate == 2 && (
+                      <TemplateOne
+                        templateList={templateFinalList}
+                        setTemplateList={setTemplateFinalList}
+                        imageList={imageList}
+                        phraseList={phrases}
+                        templateNo={videoTemplate || 2}
+                      />
+                      {/* {videoTemplate == 2 && (
                         <TemplateOne
                           templateList={templateFinalList}
                           setTemplateList={setTemplateFinalList}
@@ -515,7 +513,7 @@ export default function PlanPage() {
                           phraseList={phrases}
                           templateNo={videoTemplate}
                         />
-                      )}
+                      )} */}
                     </section>
                     <section className="flex flex-col"></section>
                   </div>
