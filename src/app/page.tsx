@@ -46,21 +46,21 @@ export default function MainPage() {
 
   const cardContent: CardDetail[] = [
     {
-      title: '광고 영상이 없어요',
+      title: '우리동네 바로광고',
       with_video: false,
       key_feature: [
         '소상공인 광고주에게 추천해요',
         'AI로 간편하게 광고 영상 제작',
-        '엘리베이터,  버스정류장,  IPTV 광고',
+        '엘리베이터, 버스정류장, IPTV 광고',
       ],
       handleRoute: handleRoute,
     },
     {
-      title: '광고 영상이 있어요',
+      title: '프리미엄 바로광고',
       with_video: true,
       key_feature: [
         '기업 광고주에게 추천해요',
-        '전국패키지와 다양한 매체 보유',
+        '전략적 광고 설계 및 데이터 리포트',
         '대형 미디어 패널 보유',
       ],
       handleRoute: handleRoute,
@@ -74,7 +74,7 @@ export default function MainPage() {
           className={`relative mt-3 flex h-fit w-full flex-col sm:h-[540px] sm:flex-row ${mapModal ? 'gap-0' : 'gap-3'}`}
         >
           <div
-            className={`flex h-full w-full flex-col gap-6 transition-all duration-500 ${
+            className={`flex h-full w-full flex-col gap-3 transition-all duration-500 ${
               mapModal
                 ? 'pointer-events-none w-0 flex-0 overflow-hidden opacity-0'
                 : 'flex-1/2 opacity-100'
@@ -111,7 +111,7 @@ export default function MainPage() {
                 </button>
               </div>
             )}
-            <div className="grid h-full grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="grid h-full grid-cols-1 gap-3 sm:grid-cols-2">
               {cardContent.map((value, index) => (
                 <Card
                   key={index}
@@ -131,7 +131,7 @@ export default function MainPage() {
             <MapInteraction mapModal={mapModal} setMapModal={setMapModal} />
           </div>
         </section>
-        <section className="relative mt-12 mb-20 flex w-full flex-col items-center justify-center gap-6 sm:mb-0">
+        <section className="relative mt-18 mb-20 flex w-full flex-col justify-center gap-6 sm:mb-0">
           <div className="flex w-full flex-row justify-between">
             <div className="flex flex-col gap-2">
               <span className="text-Headline">
@@ -141,7 +141,7 @@ export default function MainPage() {
                 IPTV, 디지털 옥외광고는KT바로광고에서 신청하세요!
               </span>
             </div>
-            <div className="hidden flex-row items-center gap-[1px] rounded-full border border-gray-200 bg-white p-1 sm:flex">
+            <div className="border-line-assistive text-BodyMD mt-[1px] hidden h-fit flex-row items-center gap-[1px] rounded-full border-1 bg-white p-1 sm:flex">
               <div className="hover:bg-primary-lighten hover:text-primary px-6 py-2.5 hover:rounded-full">
                 통합 이용 가이드
               </div>

@@ -311,7 +311,6 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-weight: 500;
   font-family: 'Spoqa Han Sans Neo', Arial, sans-serif;
 }
 
