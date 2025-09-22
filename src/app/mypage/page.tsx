@@ -11,7 +11,7 @@ export default function MyPage() {
     new Promise((resolve) => setTimeout(resolve, ms));
   useEffect(() => {
     const run = async () => {
-      await delay(30000);
+      await delay(40000);
       if (status === 'Generating') {
         currentAd.updateVideoStatus('Confirmed');
       }
@@ -203,12 +203,13 @@ export default function MyPage() {
               </div>
               <div className="bg-primary-lighten flex w-full flex-col gap-3 rounded-xl px-6 py-4">
                 <div className="flex flex-col gap-2">
-                  <div className="flex flex-row items-center">
+                  <div className="flex flex-row items-center gap-1">
                     <Image
                       src={'/icon/sparkle_dark.svg'}
                       alt={''}
                       width={20}
                       height={20}
+                      className="p-0.5"
                     />
                     <span className="text-TitleSM text-text-normal">
                       내 광고 유형은?
