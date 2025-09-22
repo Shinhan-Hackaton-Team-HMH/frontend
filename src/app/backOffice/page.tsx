@@ -409,7 +409,11 @@ export default function BackPage() {
             {/* Data Rows */}
             {CAMPAIGN_DATA.map((item, idx) => (
               <Fragment key={idx}>
-                <Link href="/analyze">
+                <Link
+                  href={
+                    currentAd.backOffice !== 'Review' ? '/result' : '/analyze'
+                  }
+                >
                   <div className="text-text-normal flex h-[52px] items-center justify-center">
                     {item.status == '검토요청' ? (
                       <>

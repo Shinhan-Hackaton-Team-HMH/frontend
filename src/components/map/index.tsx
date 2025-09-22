@@ -134,11 +134,11 @@ export default function MapInteraction({
             />
           </button>
         </div>
-        <MapMarkers device={'ELE'} className={'absolute top-10 left-20'} />
+        {/* <MapMarkers device={'ELE'} className={'absolute top-10 left-20'} />
         <MapMarkers device={'ELE'} className={'absolute top-20 left-32'} />
         <MapMarkers device={'ELE'} className={'absolute bottom-10 left-20'} />
         <MapMarkers device={'BUS'} className={'absolute bottom-20 left-40'} />
-        <MapMarkers device={'BUS'} className={'absolute right-20 bottom-30'} />
+        <MapMarkers device={'BUS'} className={'absolute right-20 bottom-30'} /> */}
 
         <div className="absolute bottom-4 flex w-full justify-center">
           <button
