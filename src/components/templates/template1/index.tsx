@@ -138,9 +138,10 @@ export default function TemplateOne({
       const res = await axios.post(
         `/proxy/api/temporary/storage/${userId}/${'REVIEW_APPROVED'}`,
       );
-      router.push('/');
+      router.push('/mypage');
       console.log('final request', templateList, response);
     } catch {
+      router.push('/mypage');
       console.log('err in making video');
     }
   };

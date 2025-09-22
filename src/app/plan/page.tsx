@@ -102,8 +102,8 @@ export default function PlanPage() {
       '/baseImage/example/image1.png',
       '/baseImage/example/image2.png',
       '/baseImage/example/image3.png',
-      '/baseImage/example/image4.png',
-      '/baseImage/example/image5.png',
+      // '/baseImage/example/image4.png',
+      // '/baseImage/example/image5.png',
     ];
     setIsLoading(true);
     setError(null);
@@ -225,35 +225,35 @@ export default function PlanPage() {
     for (const item of imageList) {
       if (item instanceof File) {
         form.append('files', item);
-      } else {
-        try {
-          const proxyUrl = `/api/naver/imageMod?url=${encodeURIComponent(item)}`;
-          const res = await fetch(proxyUrl);
-          const blob = await res.blob();
-          const fileName = item.split('/').pop()?.split('?')[0] ?? 'image.png';
-          form.append('files', new File([blob], fileName, { type: blob.type }));
-        } catch (err) {
-          console.log(err);
-        }
       }
+      // else {
+      //   try {
+      //     const proxyUrl = `/api/naver/imageMod?url=${encodeURIComponent(item)}`;
+      //     const res = await fetch(proxyUrl);
+      //     const blob = await res.blob();
+      //     const fileName = item.split('/').pop()?.split('?')[0] ?? 'image.png';
+      //     form.append('files', new File([blob], fileName, { type: blob.type }));
+      //   } catch (err) {
+      //     console.log(err);
+      //   }
+      // }
     }
+    // const response = await axios.post<IMAGES3URL[]>(
+    //   `/proxy/api/template/image/${videoTemplate}/${userId}`,
+    //   form,
+    //   {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   },
+    // );
 
-    const response = await axios.post<IMAGES3URL[]>(
-      `/proxy/api/template/image/${videoTemplate}/${userId}`,
-      form,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
-    );
-
-    const res = await axios.post(
-      `/proxy/api/temporary/storage/${userId}/${'MEDIA_UPLOADED'}`,
-    );
-    const responseImgUrl = response.data.map((value) => value.imgUrl);
-    console.log('responseImage', responseImgUrl);
-    setImageList(responseImgUrl);
+    // const res = await axios.post(
+    //   `/proxy/api/temporary/storage/${userId}/${'MEDIA_UPLOADED'}`,
+    // );
+    // const responseImgUrl = response.data.map((value) => value.imgUrl);
+    // console.log('responseImage', responseImgUrl);
+    // setImageList(responseImgUrl);
   };
 
   return (

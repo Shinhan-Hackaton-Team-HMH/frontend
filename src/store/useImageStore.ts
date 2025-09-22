@@ -9,9 +9,9 @@ interface ImageStoreState {
 const useImageStore = create<ImageStoreState>()((set) => ({
   // images: new Array(5).fill(''),
   images: [
-    // '/baseImage/example/image1.png',
-    // '/baseImage/example/image2.png',
-    // '/baseImage/example/image3.png',
+    '/baseImage/example/image1.png',
+    '/baseImage/example/image2.png',
+    '/baseImage/example/image3.png',
     // '/baseImage/example/image4.png',
     // '/baseImage/example/image5.png',
   ],

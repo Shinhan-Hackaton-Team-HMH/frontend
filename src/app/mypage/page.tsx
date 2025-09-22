@@ -11,7 +11,7 @@ export default function MyPage() {
     new Promise((resolve) => setTimeout(resolve, ms));
   useEffect(() => {
     const run = async () => {
-      await delay(2000);
+      await delay(30000);
       if (status === 'Generating') {
         currentAd.updateVideoStatus('Confirmed');
       }
