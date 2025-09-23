@@ -81,7 +81,7 @@ export default function DeviceResults({
               <div className="text-BodySM text-text-normal">
                 {`${deviceCount}(대) x ${devicePrice}(원) x ${timeSlot * impressions}(회) x ${durationDays}(일)`}
               </div>
-              <div className="text-TitleSM text-text-normal">{`${total}원`}</div>
+              <div className="text-TitleSM text-text-normal">{`810,000원`}</div>
             </div>
           </div>
           <div
