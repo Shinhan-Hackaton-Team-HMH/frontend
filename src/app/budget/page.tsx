@@ -896,7 +896,8 @@ export default function BudgetPage() {
                       </div>
                       <div className="flex w-full flex-row items-center justify-between">
                         <div className="text-BodyMD text-text-assistive">
-                          {firstDisplay}
+                          {/* {firstDisplay} */}
+                          엘리베이터
                         </div>
                         <div className="text-BodyMD text-text-normal">
                           {firstDeviceTotal}원
@@ -904,7 +905,8 @@ export default function BudgetPage() {
                       </div>
                       <div className="flex w-full flex-row items-center justify-between">
                         <div className="text-BodyMD text-text-assistive">
-                          {secondDisplay}
+                          {/* {secondDisplay} */}
+                          버스정류장
                         </div>
                         <div className="text-BodyMD text-text-normal">
                           {secondDeviceTotal}원
@@ -925,7 +927,7 @@ export default function BudgetPage() {
                       <div className="flex w-full flex-row items-center justify-between">
                         <div>총 결제 금액</div>
                         <div className="text-Headline text-text-normal">
-                          {finalPrice}원
+                          970,000원
                         </div>
                       </div>
                     </div>
