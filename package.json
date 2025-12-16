@@ -30,7 +30,7 @@
     "formidable": "^3.5.4",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.540.0",
-    "next": "15.4.5",
+    "next": "15.4.10",
     "openai": "^5.16.0",
     "puppeteer": "^24.16.1",
     "qrcode.react": "^4.2.0",
